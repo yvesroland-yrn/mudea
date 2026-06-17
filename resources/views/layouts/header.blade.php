@@ -24,7 +24,7 @@
                     <a href="{{ route('chefferie') }}" class="nav-link">Vie &amp; Coutumes</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('education') }}" class="nav-link">Éducation</a>
+                    <a href="{{ route('education') }}" class="nav-link">Éducation & Excellence</a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('jeunesse') }}" class="nav-link">Espace Communautaire</a>

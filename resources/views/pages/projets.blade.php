@@ -250,7 +250,6 @@
   }
 </style>
 
-
 {{-- ══ HERO ══ --}}
 <section class="hero-split">
   <div class="hero-left">
@@ -265,7 +264,6 @@
     <div class="hero-right-overlay"></div>
   </div>
 </section>
-
 
 <div class="pj-wrap">
 
@@ -456,7 +454,6 @@
   </div>
 
 </div>
-
 
 {{-- ══ CTA FOOTER ══ --}}
 <div class="cta-footer">

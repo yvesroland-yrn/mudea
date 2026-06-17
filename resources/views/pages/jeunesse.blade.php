@@ -26,6 +26,9 @@
     --blue-light:   #e3f2fd;
     --purple:       #6a1b9a;
     --purple-light: #f3e5f5;
+    --orange:       #f57c00;
+    --red:          #e53935;
+    --teal:         #00897b;
     --white:        #ffffff;
     --cream:        #f4f6f8;
     --border:       #e0e8e4;
@@ -156,7 +159,53 @@
   .btn-full--gold   { background: var(--gold-light);  color: var(--gold-dark); border: 1.5px solid #ffe082; }
   .btn-full--purple { background: var(--purple-light); color: var(--purple); border: 1.5px solid #ce93d8; }
 
- 
+  /* ─── RESSOURCES & COMPÉTENCES ─── */
+  .comp-search {
+    display: grid; grid-template-columns: 1.6fr 1fr 1fr auto; gap: 8px;
+  }
+  .comp-search-input, .comp-search-select {
+    width: 100%; padding: 9px 12px; border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm); font-size: .78rem; font-family: 'Nunito', sans-serif;
+    color: var(--text); background: var(--white); appearance: none;
+  }
+  .comp-search-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237a9585' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 10px center; background-size: 14px;
+    padding-right: 28px; color: var(--text-light); cursor: pointer;
+  }
+  .comp-search-input::placeholder { color: var(--text-light); }
+  .comp-search-input:focus, .comp-search-select:focus { outline: none; border-color: var(--green-mid); }
+  .comp-search-btn {
+    padding: 9px 18px; border-radius: var(--radius-sm); border: none;
+    background: var(--green); color: white; font-size: .73rem; font-weight: 800;
+    text-transform: uppercase; letter-spacing: .04em; cursor: pointer;
+    font-family: 'Nunito', sans-serif; white-space: nowrap; transition: opacity .2s;
+  }
+  .comp-search-btn:hover { opacity: .85; }
+
+  .competences-label { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .competences-label span { font-size: .85rem; font-weight: 800; color: var(--text); }
+
+  .competences-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .comp-item {
+    display: flex; align-items: center; gap: 10px; padding: 12px;
+    background: var(--cream); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  }
+  .comp-icon {
+    width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0; color: white;
+    display: flex; align-items: center; justify-content: center; font-size: .95rem;
+  }
+  .comp-icon--orange { background: var(--orange); }
+  .comp-icon--leaf   { background: var(--green-mid); }
+  .comp-icon--laptop { background: var(--blue); }
+  .comp-icon--red    { background: var(--red); }
+  .comp-icon--cap    { background: var(--teal); }
+  .comp-name  { font-size: .74rem; font-weight: 800; color: var(--text); line-height: 1.25; }
+  .comp-count { font-size: .68rem; color: var(--text-light); font-weight: 600; margin-top: 2px; }
+  .comp-more {
+    width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+    text-align: center; font-size: .76rem; font-weight: 800; color: var(--green); line-height: 1.3;
+  }
 
   /* ─── PARTAGE D'EXPÉRIENCES ─── */
   .temoignage-card {
@@ -220,7 +269,6 @@
   /* ─── RESPONSIVE ─── */
   @media (max-width: 1000px) {
     .main-grid { grid-template-columns: 1fr; }
-    .competences-grid { grid-template-columns: repeat(2, 1fr); }
     .bottom-right { grid-template-columns: 1fr; }
     .stats-row { flex-wrap: wrap; }
   }
@@ -231,9 +279,10 @@
     .com-wrap { padding: 0 16px; }
     .bottom-inner { grid-template-columns: 1fr; padding: 0 16px; }
     .entraide-cols { grid-template-columns: 1fr; }
+    .competences-grid { grid-template-columns: repeat(2, 1fr); }
+    .comp-search { grid-template-columns: 1fr; }
   }
 </style>
-
 
 {{-- ══ HERO ══ --}}
 <section class="hero-split">
@@ -249,7 +298,6 @@
     <div class="hero-right-overlay"></div>
   </div>
 </section>
-
 
 {{-- ══ MAIN GRID ══ --}}
 <div class="com-wrap">
@@ -277,9 +325,9 @@
       <div class="sujet-list">
         @php
           $sujets = [
-            ['titre' => 'Amélioration de l\'accès à l\'eau potable', 'par' => 'J. Zoma', 'temps' => '2 h il y a 1 heure', 'count' => 12, 'img' => '2.png'],
-            ['titre' => 'Organisation de la fête des jeunes 2024',   'par' => 'A. N\'koué', 'temps' => '1 j il y a 3 heures', 'count' => 18, 'img' => '3.png'],
-            ['titre' => 'Transport scolaire : vos suggestions',      'par' => 'Y. Konan', 'temps' => '2 j il y a 1 jour', 'count' => 8, 'img' => '4.png'],
+            ['titre' => 'Amélioration de l\'accès à l\'eau potable', 'par' => 'K. Jean',  'temps' => 'Il y a 2 heures', 'count' => 12, 'img' => '2.png'],
+            ['titre' => 'Organisation de la fête des ignames 2024', 'par' => 'A. Marie', 'temps' => 'Il y a 5 heures', 'count' => 8,  'img' => '3.png'],
+            ['titre' => 'Transport scolaire : vos suggestions',     'par' => 'Y. Konan',  'temps' => 'Il y a 1 jour',    'count' => 15, 'img' => '4.png'],
           ];
         @endphp
         @foreach($sujets as $s)
@@ -315,6 +363,24 @@
       </div>
       <p class="com-card-desc">Découvrez les talents de la communauté et proposez vos compétences.</p>
 
+      <form class="comp-search" action="#" method="GET">
+        <input type="text" name="q" class="comp-search-input" placeholder="Rechercher une compétence...">
+        <select name="domaine" class="comp-search-select">
+          <option value="">Domaine</option>
+          <option value="batiment">Bâtiment &amp; Construction</option>
+          <option value="agriculture">Agriculture &amp; Élevage</option>
+          <option value="informatique">Informatique &amp; Digital</option>
+          <option value="sante">Santé &amp; Bien-Être</option>
+          <option value="education">Éducation &amp; Formation</option>
+        </select>
+        <select name="localisation" class="comp-search-select">
+          <option value="">Localisation</option>
+          <option value="ande-centre">Andé Centre</option>
+          <option value="ande-nord">Andé Nord</option>
+          <option value="ande-sud">Andé Sud</option>
+        </select>
+        <button type="submit" class="comp-search-btn"><i class="fas fa-magnifying-glass"></i> Rechercher</button>
+      </form>
 
       <div class="competences-label">
         <span>Compétences disponibles</span>
@@ -340,7 +406,7 @@
           <div class="comp-icon comp-icon--laptop"><i class="fas fa-laptop-code"></i></div>
           <div>
             <div class="comp-name">Informatique &amp;<br>Digital</div>
-            <div class="comp-count">18 membres</div>
+            <div class="comp-count">15 membres</div>
           </div>
         </div>
         <div class="comp-item">
@@ -357,12 +423,12 @@
             <div class="comp-count">20 membres</div>
           </div>
         </div>
-        <div class="comp-item" style="cursor:pointer;">
+        <a href="#" class="comp-item" style="text-decoration:none; cursor:pointer;">
           <div class="comp-more">Voir plus<br>de domaines &rarr;</div>
-        </div>
+        </a>
       </div>
 
-      <a href="#" class="btn-full btn-full--green" style="margin-top:12px;">Découvrir les compétences &rarr;</a>
+      <a href="#" class="btn-full btn-full--green" style="margin-top:4px;">Découvrir les compétences &rarr;</a>
     </div>
 
     {{-- ══ PARTAGE D'EXPÉRIENCES ══ --}}
@@ -386,13 +452,13 @@
 
       <div class="temoignage-card">
         <div class="temoignage-img">
-          <img src="{{ asset('images/communaute/5.png') }}" alt="Déo Gbato"
+          <img src="{{ asset('images/communaute/5.png') }}" alt="Coulibaly S."
             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
           <div class="temoignage-img-placeholder" style="display:none;"><i class="fas fa-user"></i></div>
         </div>
         <div class="temoignage-body">
           <div class="temoignage-title">Mon expérience dans l'entrepreneuriat agricole</div>
-          <div class="temoignage-by">Par Déo Gbato · 3 j il y a 2 jours</div>
+          <div class="temoignage-by">Par Coulibaly S. · Il y a 3 jours</div>
           <div class="temoignage-excerpt">Comment j'ai démarré une activité agricole et surmonté les défis pour réussir. Mon parcours peut aider les jeunes qui veulent se lancer.</div>
           <div class="temo-dots">
             <div class="dot active"></div>
@@ -431,9 +497,9 @@
           <div class="entraide-list">
             @php
               $demandes = [
-                ['titre' => 'Aide pour frais médicaux',   'par' => 'M. Koffi',  'temps' => '2 h il y a 1 heure', 'img' => '2.png'],
-                ['titre' => 'Soutien scolaire en maths',  'par' => 'L. Tra',    'temps' => '1 j il y a 1 jour',  'img' => '3.png'],
-                ['titre' => 'Matériel pour activité agricole', 'par' => 'S. Koné', 'temps' => '2 j il y a 2 jours', 'img' => '4.png'],
+                ['titre' => 'Aide pour frais médicaux',        'par' => 'K. Koffi', 'temps' => 'Il y a 4 heures', 'img' => '2.png'],
+                ['titre' => 'Soutien scolaire en maths',       'par' => 'B. Yao',   'temps' => 'Il y a 1 jour',   'img' => '3.png'],
+                ['titre' => 'Matériel pour activité agricole', 'par' => 'D. Assi',  'temps' => 'Il y a 2 jours',  'img' => '4.png'],
               ];
             @endphp
             @foreach($demandes as $d)
@@ -450,6 +516,7 @@
             </div>
             @endforeach
           </div>
+          <a href="#" class="voir-tous-link voir-tous-link--purple" style="font-size:.72rem; margin-top:10px;">Voir toutes les demandes &rarr;</a>
         </div>
 
         {{-- Offres d'aide récentes --}}
@@ -461,9 +528,9 @@
           <div class="entraide-list">
             @php
               $offres = [
-                ['titre' => 'Don de livres scolaires',  'par' => 'Y. Coulibaly', 'temps' => '1 j il y a 1 heure', 'img' => '6.JPG'],
-                ['titre' => 'Cours de soutien gratuit', 'par' => 'A. Sané',      'temps' => '2 j il y a 1 jour',  'img' => '1.png'],
-                ['titre' => 'Offre de stages étudiants','par' => 'P. Dago',      'temps' => '2 j il y a 3 jours', 'img' => '5.png'],
+                ['titre' => 'Don de livres scolaires',   'par' => 'K. Marie',   'temps' => 'Il y a 6 heures', 'img' => '6.JPG'],
+                ['titre' => 'Cours de soutien gratuit',  'par' => 'A. Sané',    'temps' => 'Il y a 1 jour',   'img' => '1.png'],
+                ['titre' => 'Offre de stages étudiants', 'par' => 'N. Konaté',  'temps' => 'Il y a 3 jours',  'img' => '5.png'],
               ];
             @endphp
             @foreach($offres as $o)
@@ -480,16 +547,16 @@
             </div>
             @endforeach
           </div>
+          <a href="#" class="voir-tous-link voir-tous-link--purple" style="font-size:.72rem; margin-top:10px;">Voir toutes les offres &rarr;</a>
         </div>
 
       </div>
 
-      <a href="#" class="btn-full btn-full--purple" style="margin-top:8px;">Voir toutes les annonces &rarr;</a>
+      <a href="#" class="btn-full btn-full--purple" style="margin-top:4px;">Voir toutes les annonces &rarr;</a>
     </div>
 
   </div>
 </div>
-
 
 {{-- ══ BOTTOM STRIP ══ --}}
 <section class="bottom-strip">

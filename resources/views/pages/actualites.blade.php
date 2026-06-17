@@ -413,7 +413,6 @@
   </div>
 </section>
 
-
 <!-- ======== CONTENU PRINCIPAL ======== -->
 <div class="page-actualites">
 

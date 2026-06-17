@@ -24,6 +24,10 @@
     {{-- CONTENU PRINCIPAL --}}
     <main id="main-content">
         @yield('content')
+
+     {{-- Chatbot --}}
+     @include('layouts.chatbot')
+
     </main>
 
     {{-- FOOTER --}}
