@@ -1,8 +1,10 @@
 <?php
+
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\admin\AuthController as Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,13 +35,9 @@ Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 |--------------------------------------------------------------------------
 */
 
-Route::match(['get', 'post'], '/connexion', function () {
-    if (request()->isMethod('post')) {
-        return redirect()->back()->with('status', 'Connexion en cours...');
-    }
-
-    return view('auth.login');
-})->name('login');
+Route::get('/connexion', [Auth::class, 'login'])->name('login');
+Route::post('/connexion', [Auth::class, 'login_store'])->name('login.store');
+Route::post('/deconnexion', [Auth::class, 'logout'])->name('logout');
 
 
 
@@ -49,45 +47,42 @@ Route::match(['get', 'post'], '/connexion', function () {
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
 
     // Tableau de bord
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])  ->name('dashboard');
-      
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+
 
     // Actualités
-    Route::get('/actualites', [AdminController::class, 'actualites']) ->name('actualites');
-       
+    Route::get('/actualites', [AdminController::class, 'actualites'])->name('actualites');
+
 
     // Pages
-    Route::get('/pages', [AdminController::class, 'pages'])   ->name('pages');
-     
+    Route::get('/pages', [AdminController::class, 'pages'])->name('pages');
+
 
     // Vie & Coutumes
-    Route::get('/vie-coutumes', [AdminController::class, 'vieCoutumes'])   ->name('vie-coutumes');
-     
+    Route::get('/vie-coutumes', [AdminController::class, 'vieCoutumes'])->name('vie-coutumes');
+
     // Education & Excellence
-    Route::get('/education', [AdminController::class, 'education']) ->name('education');
-       
+    Route::get('/education', [AdminController::class, 'education'])->name('education');
+
     // Espace communautaire
-    Route::get('/communaute', [AdminController::class, 'communaute'])  ->name('communaute');
-      
+    Route::get('/communaute', [AdminController::class, 'communaute'])->name('communaute');
+
     // Projets
-    Route::get('/projets', [AdminController::class, 'projets'])    ->name('projets');
-    
+    Route::get('/projets', [AdminController::class, 'projets'])->name('projets');
+
     // Messages
-    Route::get('/messages', [AdminController::class, 'messages'])  ->name('messages');
- 
+    Route::get('/messages', [AdminController::class, 'messages'])->name('messages');
+
     // Utilisateurs
-    Route::get('/utilisateurs', [AdminController::class, 'utilisateurs'])  ->name('utilisateurs');
+    Route::get('/utilisateurs', [AdminController::class, 'utilisateurs'])->name('utilisateurs');
 
     // Paramètres
-    Route::get('/parametres', [AdminController::class, 'parametres'])   ->name('parametres');
-     
+    Route::get('/parametres', [AdminController::class, 'parametres'])->name('parametres');
+
     // Statistiques
-    Route::get('/statistiques', [AdminController::class, 'statistiques'])   ->name('statistiques');
-     
-    // Déconnexion
-    Route::get('/deconnexion', [AdminController::class, 'logout']) ->name('logout');
-       
+    Route::get('/statistiques', [AdminController::class, 'statistiques'])->name('statistiques');
+
 });
