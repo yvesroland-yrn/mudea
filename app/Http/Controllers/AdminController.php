@@ -58,9 +58,4 @@ class AdminController extends Controller
     {
         return view('admin.statistiques');
     }
-
-    public function logout()
-    {
-        return redirect()->route('login');
-    }
 }
