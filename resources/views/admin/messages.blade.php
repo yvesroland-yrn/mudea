@@ -33,6 +33,23 @@
 .btn-primary:hover{background:var(--green-dark);}
 .status-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;font-size:.7rem;font-weight:800;}
 .status--non-lu{background:#ffebee;color:#e53935;} .status--lu{background:var(--green-light);color:var(--green);} .status--repondu{background:var(--blue-light);color:var(--blue);}
+
+@media(max-width:1100px){
+  .msg-layout{grid-template-columns:1fr;}
+  .msg-sidebar{border-right:none;border-bottom:1px solid var(--border);max-height:280px;}
+}
+
+@media(max-width:768px){
+  .page-toolbar{flex-direction:column;align-items:flex-start;gap:12px;}
+  .msg-main{padding:20px 18px;}
+  .msg-main-meta{gap:10px;}
+  .msg-item{padding:12px 14px;}
+}
+
+@media(max-width:520px){
+  .msg-main-meta{flex-direction:column;align-items:flex-start;}
+  .reply-box .btn-primary{width:100%;justify-content:center;}
+}
 </style>
 @endpush
 @section('content')

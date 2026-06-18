@@ -42,7 +42,7 @@
     --radius-lg:    20px;
   }
 
-  body { font-family: 'Nunito', sans-serif; background: var(--cream); color: var(--text); line-height: 1.6; }
+  body { font-family: 'Nunito', sans-serif; background: var(--cream); color: var(--text); line-height: 1.6; overflow-x: hidden; }
 
   /* ─── HERO ─── */
   .hero-split {
@@ -50,7 +50,7 @@
     min-height: 360px; background: var(--green-dark);
   }
   .hero-left {
-    padding: 56px 52px 56px max(28px, calc((100vw - 1280px) / 2));
+    padding: 56px 52px 56px clamp(24px, 5vw, 72px);
     display: flex; flex-direction: column; justify-content: center;
     background: linear-gradient(135deg, #071f0b 0%, #1b5e20 100%);
     position: relative; z-index: 2;

@@ -54,7 +54,7 @@
 
         <div id="mudea-chatbox-quickreplies" class="mudea-chatbox-quickreplies"></div>
 
-        <form id="mudea-chat-form" class="mudea-chatbox-input-area" action="{{ route('contact.store') }}" method="POST">
+        <form id="mudea-chat-form" class="mudea-chatbox-input-area" action="" method="POST">
             @csrf
             <input type="text" id="mudea-chat-input" class="mudea-chatbox-input" placeholder="L'assistant arrive..." autocomplete="off" disabled>
             <button type="submit" class="mudea-chatbox-send" aria-label="Envoyer">
@@ -86,7 +86,7 @@
         position: fixed;
         bottom: 24px;
         right: 24px;
-        z-index: 999;
+        z-index: 5000;
     }
 
     /* ---------- Bulle flottante ---------- */

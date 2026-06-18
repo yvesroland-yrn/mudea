@@ -40,8 +40,8 @@
       --radius-md:    14px;
       --radius-lg:    20px;
     }
-    html, body { height: 100%; }
-    body { font-family: 'Nunito', sans-serif; background: var(--cream); color: var(--text); display: flex; }
+    html, body { height: 100%; max-width: 100%; overflow-x: hidden; }
+    body { font-family: 'Nunito', sans-serif; background: var(--cream); color: var(--text); display: flex; min-width: 0; }
 
     /* ─── SIDEBAR ─── */
     .sidebar {
@@ -100,6 +100,18 @@
       margin-left: var(--sidebar-w);
       flex: 1; min-height: 100vh;
       display: flex; flex-direction: column;
+      min-width: 0;
+    }
+
+    .sidebar-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 29, 17, .48);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity .24s ease, visibility .24s ease;
+      z-index: 180;
     }
 
     /* ─── TOPBAR ─── */
@@ -168,6 +180,80 @@
     body.sidebar-collapsed .main-area { margin-left: 64px; }
     body.sidebar-collapsed .nav-item { justify-content: center; padding: 11px; }
     body.sidebar-collapsed .nav-item .nav-badge { position: absolute; top: 6px; right: 6px; }
+
+    @media (max-width: 1024px) {
+      body { display: block; }
+      .sidebar {
+        width: 280px;
+        max-width: 86vw;
+        transform: translateX(-100%);
+        transition: transform .28s ease;
+        box-shadow: var(--shadow-md);
+      }
+      .main-area {
+        margin-left: 0;
+        min-height: 100vh;
+      }
+      .topbar {
+        padding: 0 16px;
+        gap: 12px;
+      }
+      .topbar-right { gap: 10px; }
+      .topbar-user-info { display: none; }
+      .page-content, .admin-footer {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+      body.sidebar-open .sidebar {
+        transform: translateX(0);
+      }
+      body.sidebar-open .sidebar-backdrop {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
+      body.sidebar-open {
+        overflow: hidden;
+      }
+      body.sidebar-collapsed .sidebar,
+      body.sidebar-collapsed .main-area {
+        width: auto;
+        margin-left: 0;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .topbar {
+        min-height: var(--topbar-h);
+        height: auto;
+        flex-wrap: wrap;
+        padding-top: 12px;
+        padding-bottom: 12px;
+      }
+      .topbar-left,
+      .topbar-right {
+        width: 100%;
+      }
+      .topbar-left {
+        justify-content: space-between;
+      }
+      .topbar-page-title strong {
+        font-size: 1rem;
+      }
+      .topbar-page-title span {
+        display: none;
+      }
+      .topbar-right {
+        justify-content: flex-end;
+      }
+      .page-content {
+        padding-top: 20px;
+        padding-bottom: 20px;
+      }
+      .admin-footer {
+        font-size: .72rem;
+      }
+    }
   </style>
   @stack('styles')
 </head>
@@ -248,13 +334,15 @@
   </div>
 </aside>
 
+<div class="sidebar-backdrop" aria-hidden="true"></div>
+
 {{-- ── MAIN AREA ── --}}
 <div class="main-area">
 
   {{-- Topbar --}}
   <header class="topbar">
     <div class="topbar-left">
-      <button class="topbar-menu-btn" onclick="document.body.classList.toggle('sidebar-collapsed')">
+      <button class="topbar-menu-btn" id="adminSidebarToggle" type="button" aria-label="Afficher le menu">
         <i class="fas fa-bars"></i>
       </button>
       <div class="topbar-page-title">
@@ -291,6 +379,45 @@
     &copy; {{ date('Y') }} MUDEA – Mutuelle de Développement Durable. Tous droits réservés.
   </footer>
 </div>
+
+<script>
+(function () {
+  const body = document.body;
+  const toggle = document.getElementById('adminSidebarToggle');
+  const backdrop = document.querySelector('.sidebar-backdrop');
+  const mq = window.matchMedia('(max-width: 1024px)');
+
+  function closeMobileSidebar() {
+    body.classList.remove('sidebar-open');
+  }
+
+  function handleToggle() {
+    if (mq.matches) {
+      body.classList.toggle('sidebar-open');
+      body.classList.remove('sidebar-collapsed');
+      return;
+    }
+
+    body.classList.toggle('sidebar-collapsed');
+  }
+
+  if (toggle) {
+    toggle.addEventListener('click', handleToggle);
+  }
+
+  if (backdrop) {
+    backdrop.addEventListener('click', closeMobileSidebar);
+  }
+
+  window.addEventListener('resize', () => {
+    if (!mq.matches) {
+      body.classList.remove('sidebar-open');
+    } else {
+      body.classList.remove('sidebar-collapsed');
+    }
+  });
+})();
+</script>
 
 @stack('scripts')
 </body>

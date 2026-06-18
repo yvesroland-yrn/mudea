@@ -20,6 +20,20 @@
     --transition: 0.22s ease;
 }
 
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    width: 100%;
+    min-width: 0;
+}
+
+img, svg {
+    max-width: 100%;
+}
+
 /* =============================================
    HEADER
    ============================================= */
@@ -36,11 +50,13 @@
 .header-inner {
     display: flex;
     align-items: center;
-    max-width: 1320px;
+    justify-content: space-between;
+    width: min(100%, 1320px);
     margin: 0 auto;
-    padding: 0 24px;
-    height: 82px;
+    padding: 12px 24px;
+    min-height: 82px;
     gap: 24px;
+    flex-wrap: wrap;
 }
 
 /* --- Logo --- */
@@ -85,6 +101,7 @@
     flex: 1;
     display: flex;
     align-items: center;
+    min-width: 0;
 }
 
 .nav-list {
@@ -94,7 +111,7 @@
     margin: 0;
     padding: 0;
     gap: 2px;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
 }
 
 .nav-item {
@@ -506,7 +523,7 @@
     .btn { padding: 7px 12px; font-size: 0.75rem; }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1180px) {
     .header-nav { display: none; }
     .header-nav.open { display: flex; }
     .burger-btn { display: flex; }
@@ -536,6 +553,14 @@
 }
 
 @media (max-width: 640px) {
+    .header-inner { padding: 10px 16px; gap: 12px; }
+    .header-logo { gap: 8px; }
+    .logo-img { height: 48px; }
+    .logo-name { font-size: 1.05rem; }
+    .logo-subtitle { display: none; }
+    .header-actions { gap: 8px; margin-left: auto; }
+    .btn-search { padding: 6px; }
+
     .footer-inner { flex-direction: column; gap: 28px; }
     .footer-col, .footer-col--brand, .footer-col--contact, .footer-col--social {
         min-width: 100%; flex: unset;

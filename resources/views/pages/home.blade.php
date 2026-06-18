@@ -42,6 +42,7 @@
             color: var(--text);
             background: var(--white);
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
         a { text-decoration: none; color: inherit; }
@@ -69,11 +70,13 @@
         .header-inner {
             display: flex;
             align-items: center;
-            height: 82px;
+            min-height: 82px;
+            height: auto;
             gap: 24px;
-            max-width: 1320px;
+            width: min(100%, 1320px);
             margin: 0 auto;
-            padding: 0 24px;
+            padding: 12px 24px;
+            flex-wrap: wrap;
         }
 
         /* Logo */
@@ -108,13 +111,13 @@
         }
 
         /* Nav */
-        .header-nav { flex: 1; }
+        .header-nav { flex: 1; min-width: 0; }
 
         .nav-list {
             display: flex;
             align-items: center;
             gap: 0;
-            flex-wrap: nowrap;
+            flex-wrap: wrap;
         }
 
         .nav-item { position: relative; }
@@ -317,7 +320,7 @@
             z-index: 2;
             padding: 80px 24px;
             max-width: 640px;
-            margin-left: max(24px, calc((100vw - 1320px) / 2 + 24px));
+            margin-left: clamp(24px, 5vw, 72px);
         }
 
         .hero-badge {
@@ -409,6 +412,7 @@
             flex-direction: column;
             padding: 28px 24px;
             border-right: 1px solid var(--border);
+            border-bottom: 1px solid transparent;
             transition: background var(--transition);
         }
         .stat-item:last-child { border-right: none; }
@@ -481,6 +485,7 @@
             justify-content: space-between;
             margin-bottom: 36px;
             gap: 16px;
+            flex-wrap: wrap;
         }
 
         .section-title {
@@ -646,7 +651,7 @@
             display: flex; align-items: center; justify-content: center; font-size: 1.8rem;
         }
 
-        .news-body { flex: 1; }
+        .news-body { flex: 1; min-width: 0; }
 
         .news-title {
             font-size: 1.05rem;
@@ -679,72 +684,80 @@
         ============================================================ */
         .duo-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
             max-width: 1240px;
             margin: 0 auto;
         }
 
         .duo-card {
+            display: flex;
+            align-items: center;
+            background: var(--white);
             border-radius: var(--radius);
-            padding: 40px 36px;
-            display: flex;
-            align-items: center;
-            gap: 28px;
             overflow: hidden;
-            position: relative;
+            box-shadow: var(--shadow-sm);
+            transition: transform var(--transition), box-shadow var(--transition);
         }
+        .duo-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
 
-        .duo-card--educ {
-            background: linear-gradient(135deg, #fff9e6 0%, #fffde0 100%);
-            border: 1px solid #f0d860;
-        }
-
-        .duo-card--community {
-            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8f2 100%);
-            border: 1px solid #b8deba;
-        }
-
-        .duo-card-icon {
-            width: 80px; height: 80px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .duo-card-image {
             flex-shrink: 0;
+            width: 38%;
+            height: 180px;
+            overflow: hidden;
         }
 
-        .duo-card--educ    .duo-card-icon { background: var(--gold); }
-        .duo-card--community .duo-card-icon { background: var(--green); }
-        .duo-card-icon svg { width: 38px; height: 38px; fill: white; }
+        .duo-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
 
-        .duo-card-content { flex: 1; }
+        .duo-card-content {
+            flex: 1;
+            padding: 24px;
+        }
 
         .duo-card-title {
             font-size: 1.1rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-weight: 800;
             margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: .4px;
         }
 
-        .duo-card--educ    .duo-card-title { color: var(--gold-dark); }
+        .duo-card--educ      .duo-card-title { color: var(--gold-dark); }
         .duo-card--community .duo-card-title { color: var(--green); }
 
         .duo-card-desc {
-            font-size: .87rem;
-            color: var(--muted);
+            font-size: .88rem;
             line-height: 1.6;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
+            color: var(--muted);
         }
 
-        .duo-card-img {
-            position: absolute;
-            right: -10px; bottom: -10px;
-            width: 160px;
-            opacity: .12;
-            pointer-events: none;
+        .btn-duo-gold,
+        .btn-duo-green {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 20px;
+            border-radius: var(--radius-sm);
+            font-size: .82rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            color: var(--white);
+            transition: background var(--transition), transform var(--transition);
         }
+
+        .btn-duo-gold  { background: var(--gold); }
+        .btn-duo-gold:hover  { background: var(--gold-dark); transform: translateY(-2px); }
+
+        .btn-duo-green { background: var(--green); }
+        .btn-duo-green:hover { background: var(--green-mid); transform: translateY(-2px); }
 
         /* ============================================================
            CTA BANNER
@@ -796,6 +809,7 @@
         .btn-cta-primary {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
             padding: 14px 28px;
             border-radius: 50px;
@@ -813,6 +827,7 @@
         .btn-cta-outline {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
             padding: 14px 28px;
             border-radius: 50px;
@@ -854,8 +869,11 @@
 
         .footer-logo-img {
             height: 50px;
-            filter: brightness(0) invert(1);
-            opacity: .8;
+            width: auto;
+            object-fit: contain;
+            display: block;
+            filter: none;
+            opacity: 1;
         }
 
         .footer-logo-name {
@@ -942,13 +960,15 @@
 
         /* ============================================================
            RESPONSIVE
+           Repères : 1024px (tablette paysage) · 900px (tablette/menu burger)
+                     640px (mobile) · 480px (petit mobile)
         ============================================================ */
         @media (max-width: 1024px) {
             .projects-grid { grid-template-columns: 1fr 1fr; }
             .footer-main   { grid-template-columns: 1fr 1fr; }
         }
 
-        @media (max-width: 900px) {
+        @media (max-width: 1180px) {
             .header-nav  { display: none; }
             .header-nav.open { display: flex; }
             .burger-btn  { display: flex; }
@@ -971,100 +991,72 @@
             .nav-item.has-dropdown.open .dropdown { display: block; }
             .btn-adherer, .btn-contribuer { display: none; }
 
+            .hero { min-height: 560px; }
+
             .stats-bar   { grid-template-columns: 1fr 1fr; }
-            .duo-grid    { grid-template-columns: 1fr; }
+            .stat-item   { border-right: none; border-bottom: 1px solid var(--border); }
+            .stat-item:nth-child(2n) { border-right: none; }
+            .stat-item:nth-last-child(-n+2) { border-bottom: none; }
+
+            .duo-grid    { grid-template-columns: 1fr; max-width: 640px; }
             .news-grid   { grid-template-columns: 1fr; }
             .home-stats-wrap { margin-top: -28px; }
         }
 
         @media (max-width: 640px) {
-            .projects-grid { grid-template-columns: 1fr; }
-            .stats-bar     { grid-template-columns: 1fr 1fr; }
-            .footer-main   { grid-template-columns: 1fr; }
-            .hero-content  { margin-left: 0; }
+            .section { padding: 56px 20px; }
+
+            .header-inner { padding: 10px 16px; gap: 12px; }
+            .header-logo { gap: 8px; }
+            .logo-img { height: 48px; }
+            .logo-name { font-size: 1.08rem; }
+            .logo-subtitle { display: none; }
+            .header-actions { gap: 8px; margin-left: auto; }
+
+            .hero-content { margin-left: 0; padding: 64px 20px; }
+            .hero-btns .btn-outline-white,
+            .hero-btns .btn-gold-solid { flex: 1 1 auto; justify-content: center; }
+
+            .stats-bar { border-radius: var(--radius-sm); }
+            .stat-item { padding: 22px 18px; }
+
+            .section-header { margin-bottom: 24px; }
+
+            .projects-grid { grid-template-columns: 1fr; gap: 20px; }
+            .news-grid     { gap: 20px; }
+            .duo-grid      { gap: 20px; max-width: 100%; }
+
+            /* Les cartes éduc/communauté passent en colonne : image au-dessus, texte en dessous */
+            .duo-card { flex-direction: column; align-items: stretch; }
+            .duo-card-image   { width: 100%; height: 200px; }
+            .duo-card-content { width: 100%; padding: 22px; }
+
+            /* La carte actu garde date + photo sur une ligne, le texte passe en dessous */
+            .news-card { flex-wrap: wrap; padding: 18px; gap: 14px 16px; }
+            .news-body { flex: 1 1 100%; }
+
+            .cta-banner { padding: 36px 20px; text-align: center; }
+            .cta-banner-left { flex-direction: column; min-width: 0; }
+            .cta-btns { width: 100%; justify-content: center; }
         }
 
+        @media (max-width: 480px) {
+            .hero-title { font-size: 1.9rem; }
+            .hero-desc  { font-size: .95rem; }
 
-                .duo-grid{
-            display:grid;
-            grid-template-columns:repeat(2,1fr);
-            gap:25px;
+            .stats-bar { grid-template-columns: 1fr; }
+            .stat-item { border-right: none !important; border-bottom: 1px solid var(--border) !important; }
+            .stat-item:last-child { border-bottom: none !important; }
+
+            .news-img      { width: 64px; height: 64px; }
+            .news-date-box { width: 52px; padding: 8px 4px; }
+            .news-day      { font-size: 1.25rem; }
+
+            .footer-links--cols { grid-template-columns: 1fr; }
+
+            .cta-btns { flex-direction: column; width: 100%; }
+            .btn-cta-primary, .btn-cta-outline { width: 100%; }
         }
-
-        .duo-card{
-            display:flex;
-            align-items:center;
-            background:#fff;
-            border-radius:14px;
-            overflow:hidden;
-            box-shadow:0 5px 20px rgba(0,0,0,.08);
-        }
-
-        .duo-card-image{
-            width:38%;
-            height:180px;
-            overflow:hidden;
-        }
-
-        .duo-card-image img{
-            width:100%;
-            height:100%;
-            object-fit:cover;
-            display:block;
-        }
-
-        .duo-card-content{
-            width:62%;
-            padding:20px;
-        }
-
-        .duo-card-title{
-            font-size:1.2rem;
-            font-weight:800;
-            margin-bottom:10px;
-            text-transform:uppercase;
-        }
-
-        .duo-card-desc{
-            font-size:.92rem;
-            line-height:1.6;
-            margin-bottom:15px;
-            color:#666;
-        }
-
-        .btn-gold-solid,
-        .btn-outline-white{
-            display:inline-block;
-            padding:10px 18px;
-            border-radius:8px;
-            text-decoration:none;
-            font-weight:700;
-            color:#fff;
-        }
-
-        .btn-gold-solid{
-            background:#d9a21b;
-        }
-
-        .btn-outline-white{
-            background:#1e8e3e;
-        }
-
-        @media(max-width:768px){
-            .duo-grid{
-                grid-template-columns:1fr;
-            }
-
-            .duo-card{
-                flex-direction:column;
-            }
-
-            .duo-card-image,
-            .duo-card-content{
-                width:100%;
-            }
-        }
-
     </style>
 @endpush
 
@@ -1217,7 +1209,7 @@
 
             <!-- EDUCATION -->
             <div class="duo-card duo-card--educ">
-                
+
                 <div class="duo-card-image">
                     <img src="{{ asset('images/actualites/eleve.JPG') }}" alt="Education">
                 </div>
@@ -1231,7 +1223,7 @@
                     </p>
 
                     <a href="{{ url('/education') }}"
-                       class="btn-gold-solid">
+                       class="btn-duo-gold">
                         Découvrir l'espace éducation
                     </a>
                 </div>
@@ -1253,7 +1245,7 @@
                     </p>
 
                     <a href="{{ url('/communaute') }}"
-                       class="btn-outline-white">
+                       class="btn-duo-green">
                         Rejoindre les échanges
                     </a>
                 </div>

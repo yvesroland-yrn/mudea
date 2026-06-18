@@ -20,7 +20,7 @@
         --blanc:       #ffffff;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--texte); background: var(--blanc); }
+    body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--texte); background: var(--blanc); overflow-x: hidden; }
     a { text-decoration: none; color: inherit; }
     img { display: block; max-width: 100%; }
 
@@ -30,7 +30,7 @@
         min-height: 340px; background: var(--green-dark);
     }
     .hero-left {
-        padding: 56px 52px 56px max(28px, calc((100vw - 1280px) / 2));
+        padding: 56px 52px 56px clamp(24px, 5vw, 72px);
         display: flex; flex-direction: column; justify-content: center;
         background: linear-gradient(135deg, #071f0b 0%, #1b5e20 100%);
         position: relative; z-index: 2;
