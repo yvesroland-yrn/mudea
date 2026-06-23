@@ -41,7 +41,7 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body { font-family: var(--font-body); color: var(--text); background: var(--white); -webkit-font-smoothing: antialiased; }
+    body { font-family: var(--font-body); color: var(--text); background: var(--white); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
     a { text-decoration: none; color: inherit; }
     ul { list-style: none; }
     img { max-width: 100%; display: block; }
@@ -55,7 +55,7 @@
     min-height: 360px; background: var(--green-dark);
   }
   .hero-left {
-    padding: 56px 52px 56px max(28px, calc((100vw - 1280px) / 2));
+    padding: 56px 52px 56px clamp(24px, 5vw, 72px);
     display: flex; flex-direction: column; justify-content: center;
     background: linear-gradient(135deg, #071f0b 0%, #1b5e20 100%);
     position: relative; z-index: 2;
