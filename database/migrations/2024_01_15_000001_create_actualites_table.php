@@ -14,17 +14,14 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->enum('categorie', ['projets', 'education', 'communaute', 'culture', 'sante', 'actualite'])->default('actualite');
             $table->enum('statut', ['publie', 'brouillon', 'archive'])->default('brouillon');
-            $table->string('auteur')->default('Admin MUDEA');
+            $table->string('auteur');
             $table->date('date_publication')->nullable();
             $table->string('resume', 300);
             $table->text('contenu');
             $table->string('image')->nullable();
             $table->json('tags')->nullable();
             $table->unsignedInteger('vues')->default(0);
-            $table->boolean('notifier')->default(true);
-            $table->boolean('partager_reseaux')->default(false);
             $table->boolean('epingle')->default(false);
-            $table->boolean('commentaires')->default(true);
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
             $table->softDeletes();
