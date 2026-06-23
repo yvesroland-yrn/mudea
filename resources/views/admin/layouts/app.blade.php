@@ -2,52 +2,9 @@
 <html lang="fr">
 
 <head>
-<<<<<<< HEAD
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>@yield('title', 'Admin') – MUDEA</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"/>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --green:        #1b5e20;
-      --green-dark:   #0a3d14;
-      --green-mid:    #2e7d32;
-      --green-light:  #e8f5e9;
-      --green-soft:   #c8e6c9;
-      --gold:         #f5a623;
-      --gold-light:   #fff8e1;
-      --blue:         #1565c0;
-      --blue-light:   #e3f2fd;
-      --purple:       #6a1b9a;
-      --purple-light: #f3e5f5;
-      --orange:       #e65100;
-      --orange-light: #fff3e0;
-      --white:        #ffffff;
-      --cream:        #f4f6f8;
-      --border:       #e0e8e4;
-      --text:         #1a2e25;
-      --text-mid:     #455d4f;
-      --text-light:   #7a9585;
-      --sidebar-w:    260px;
-      --topbar-h:     64px;
-      --shadow-sm:    0 2px 10px rgba(0,0,0,.07);
-      --shadow-md:    0 6px 24px rgba(0,0,0,.11);
-      --radius-sm:    8px;
-      --radius-md:    14px;
-      --radius-lg:    20px;
-    }
-    html, body { height: 100%; max-width: 100%; overflow-x: hidden; }
-    body { font-family: 'Nunito', sans-serif; background: var(--cream); color: var(--text); display: flex; min-width: 0; }
-=======
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Admin') – MUDEA</title>
+    <title>@yield('title', 'Admin') - MUDEA</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -63,7 +20,6 @@
             margin: 0;
             padding: 0;
         }
->>>>>>> 6fb37ddf8d0102fa6e43fb835ef81d3001d9a548
 
         :root {
             --green: #1b5e20;
@@ -125,31 +81,10 @@
             width: 4px;
         }
 
-<<<<<<< HEAD
-    /* ─── MAIN AREA ─── */
-    .main-area {
-      margin-left: var(--sidebar-w);
-      flex: 1; min-height: 100vh;
-      display: flex; flex-direction: column;
-      min-width: 0;
-    }
-
-    .sidebar-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(10, 29, 17, .48);
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-      transition: opacity .24s ease, visibility .24s ease;
-      z-index: 180;
-    }
-=======
         .sidebar::-webkit-scrollbar-thumb {
             background: rgba(255, 255, 255, .15);
             border-radius: 2px;
         }
->>>>>>> 6fb37ddf8d0102fa6e43fb835ef81d3001d9a548
 
         .sidebar-logo {
             background: white;
@@ -181,93 +116,6 @@
             flex-shrink: 0;
         }
 
-<<<<<<< HEAD
-    /* ─── SIDEBAR COLLAPSE (JS) ─── */
-    body.sidebar-collapsed .sidebar { width: 64px; }
-    body.sidebar-collapsed .sidebar-logo-text,
-    body.sidebar-collapsed .nav-item span:not(.nav-badge),
-    body.sidebar-collapsed .nav-separator { display: none; }
-    body.sidebar-collapsed .sidebar-logo { justify-content: center; }
-    body.sidebar-collapsed .main-area { margin-left: 64px; }
-    body.sidebar-collapsed .nav-item { justify-content: center; padding: 11px; }
-    body.sidebar-collapsed .nav-item .nav-badge { position: absolute; top: 6px; right: 6px; }
-
-    @media (max-width: 1024px) {
-      body { display: block; }
-      .sidebar {
-        width: 280px;
-        max-width: 86vw;
-        transform: translateX(-100%);
-        transition: transform .28s ease;
-        box-shadow: var(--shadow-md);
-      }
-      .main-area {
-        margin-left: 0;
-        min-height: 100vh;
-      }
-      .topbar {
-        padding: 0 16px;
-        gap: 12px;
-      }
-      .topbar-right { gap: 10px; }
-      .topbar-user-info { display: none; }
-      .page-content, .admin-footer {
-        padding-left: 16px;
-        padding-right: 16px;
-      }
-      body.sidebar-open .sidebar {
-        transform: translateX(0);
-      }
-      body.sidebar-open .sidebar-backdrop {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-      }
-      body.sidebar-open {
-        overflow: hidden;
-      }
-      body.sidebar-collapsed .sidebar,
-      body.sidebar-collapsed .main-area {
-        width: auto;
-        margin-left: 0;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .topbar {
-        min-height: var(--topbar-h);
-        height: auto;
-        flex-wrap: wrap;
-        padding-top: 12px;
-        padding-bottom: 12px;
-      }
-      .topbar-left,
-      .topbar-right {
-        width: 100%;
-      }
-      .topbar-left {
-        justify-content: space-between;
-      }
-      .topbar-page-title strong {
-        font-size: 1rem;
-      }
-      .topbar-page-title span {
-        display: none;
-      }
-      .topbar-right {
-        justify-content: flex-end;
-      }
-      .page-content {
-        padding-top: 20px;
-        padding-bottom: 20px;
-      }
-      .admin-footer {
-        font-size: .72rem;
-      }
-    }
-  </style>
-  @stack('styles')
-=======
         .sidebar-logo-text strong {
             display: block;
             font-size: .95rem;
@@ -558,114 +406,10 @@
         }
     </style>
     @stack('styles')
->>>>>>> 6fb37ddf8d0102fa6e43fb835ef81d3001d9a548
 </head>
 
 <body>
 
-<<<<<<< HEAD
-{{-- ── SIDEBAR ── --}}
-<aside class="sidebar">
-  <div class="sidebar-logo">
-    <img src="{{ asset('images/logo.png') }}" alt="MUDEA"
-      onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-    <div class="sidebar-logo-placeholder" style="display:none;">M</div>
-    <div class="sidebar-logo-text">
-      <strong>MUDEA</strong>
-      <span>Mutuelle de Développement<br>Durable</span>
-    </div>
-  </div>
-
-  <nav class="sidebar-nav">
-    <a href="{{ route('admin.dashboard') }}" class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-      <span class="nav-icon"><i class="fas fa-house"></i></span>
-      <span>Dashboard</span>
-    </a>
-    <a href="{{ route('admin.actualites') }}" class="nav-item {{ request()->routeIs('admin.actualites*') ? 'active' : '' }}">
-      <span class="nav-icon"><i class="fas fa-newspaper"></i></span>
-      <span>Actualités</span>
-    </a>
-    <a href="{{ route('admin.pages') }}" class="nav-item {{ request()->routeIs('admin.pages*') ? 'active' : '' }}">
-      <span class="nav-icon"><i class="fas fa-file-lines"></i></span>
-      <span>Pages</span>
-    </a>
-    <a href="{{ route('admin.vie-coutumes') }}" class="nav-item {{ request()->routeIs('admin.vie-coutumes*') ? 'active' : '' }}">
-      <span class="nav-icon"><i class="fas fa-masks-theater"></i></span>
-      <span>Vie &amp; Coutumes</span>
-    </a>
-    <a href="{{ route('admin.education') }}" class="nav-item {{ request()->routeIs('admin.education*') ? 'active' : '' }}">
-      <span class="nav-icon"><i class="fas fa-graduation-cap"></i></span>
-      <span>Éducation &amp; Excellence</span>
-    </a>
-    <a href="{{ route('admin.communaute') }}" class="nav-item {{ request()->routeIs('admin.communaute*') ? 'active' : '' }}">
-      <span class="nav-icon"><i class="fas fa-people-group"></i></span>
-      <span>Espace Communautaire</span>
-    </a>
-    <a href="{{ route('admin.projets') }}" class="nav-item {{ request()->routeIs('admin.projets*') ? 'active' : '' }}">
-      <span class="nav-icon"><i class="fas fa-diagram-project"></i></span>
-      <span>Projets</span>
-    </a>
-    <a href="{{ route('admin.messages') }}" class="nav-item {{ request()->routeIs('admin.messages*') ? 'active' : '' }}">
-      <span class="nav-icon"><i class="fas fa-envelope"></i></span>
-      <span>Messages</span>
-      <span class="nav-badge">46</span>
-    </a>
-
-    <div class="nav-separator"></div>
-
-    <a href="{{ route('admin.utilisateurs') }}" class="nav-item {{ request()->routeIs('admin.utilisateurs*') ? 'active' : '' }}">
-      <span class="nav-icon"><i class="fas fa-users"></i></span>
-      <span>Utilisateurs</span>
-    </a>
-    <a href="{{ route('admin.parametres') }}" class="nav-item {{ request()->routeIs('admin.parametres*') ? 'active' : '' }}">
-      <span class="nav-icon"><i class="fas fa-gear"></i></span>
-      <span>Paramètres</span>
-    </a>
-    <a href="{{ route('admin.statistiques') }}" class="nav-item {{ request()->routeIs('admin.statistiques*') ? 'active' : '' }}">
-      <span class="nav-icon"><i class="fas fa-chart-line"></i></span>
-      <span>Statistiques</span>
-    </a>
-  </nav>
-
-  <div class="sidebar-bottom">
-    <a href="{{ route('admin.logout') }}" class="nav-item nav-item--logout"
-       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-      <span class="nav-icon"><i class="fas fa-right-from-bracket"></i></span>
-      <span>Déconnexion</span>
-    </a>
-    <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display:none;">
-      @csrf
-    </form>
-  </div>
-</aside>
-
-<div class="sidebar-backdrop" aria-hidden="true"></div>
-
-{{-- ── MAIN AREA ── --}}
-<div class="main-area">
-
-  {{-- Topbar --}}
-  <header class="topbar">
-    <div class="topbar-left">
-      <button class="topbar-menu-btn" id="adminSidebarToggle" type="button" aria-label="Afficher le menu">
-        <i class="fas fa-bars"></i>
-      </button>
-      <div class="topbar-page-title">
-        <strong>@yield('page-title', 'Dashboard')</strong>
-        <span>@yield('page-subtitle', 'Bienvenue dans l\'administration MUDEA')</span>
-      </div>
-    </div>
-    <div class="topbar-right">
-      <div class="topbar-notif">
-        <i class="fas fa-bell"></i>
-        <div class="topbar-notif-badge">2</div>
-      </div>
-      <div class="topbar-user">
-        <div class="topbar-avatar">
-          <img src="{{ asset('images/admin/avatar-admin.jpg') }}" alt="Admin"
-            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-          <div class="topbar-avatar-placeholder" style="display:none;"><i class="fas fa-user"></i></div>
-=======
     {{-- ── SIDEBAR ── --}}
     <aside class="sidebar">
         <div class="sidebar-logo">
@@ -676,7 +420,6 @@
                 <strong>MUDEA</strong>
                 <span>Mutuelle de Développement<br>Durable</span>
             </div>
->>>>>>> 6fb37ddf8d0102fa6e43fb835ef81d3001d9a548
         </div>
 
         <nav class="sidebar-nav">
@@ -690,11 +433,11 @@
                 <span class="nav-icon"><i class="fas fa-newspaper"></i></span>
                 <span>Actualités</span>
             </a>
-            <a href="{{ route('admin.pages') }}"
+            <!-- <a href="{{ route('admin.pages') }}"
                 class="nav-item {{ request()->routeIs('admin.pages*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-file-lines"></i></span>
                 <span>Pages</span>
-            </a>
+            </a> -->
             <a href="{{ route('admin.vie-coutumes') }}"
                 class="nav-item {{ request()->routeIs('admin.vie-coutumes*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-masks-theater"></i></span>
@@ -793,65 +536,11 @@
         </main>
 
         <footer class="admin-footer">
-            &copy; {{ date('Y') }} MUDEA – Mutuelle de Développement Durable. Tous droits réservés.
+            &copy; {{ date('Y') }} MUDEA - Mutuelle de Développement Durable. Tous droits réservés.
         </footer>
     </div>
 
-<<<<<<< HEAD
-  {{-- Page Content --}}
-  <main class="page-content">
-    @yield('content')
-  </main>
-
-  <footer class="admin-footer">
-    &copy; {{ date('Y') }} MUDEA – Mutuelle de Développement Durable. Tous droits réservés.
-  </footer>
-</div>
-
-<script>
-(function () {
-  const body = document.body;
-  const toggle = document.getElementById('adminSidebarToggle');
-  const backdrop = document.querySelector('.sidebar-backdrop');
-  const mq = window.matchMedia('(max-width: 1024px)');
-
-  function closeMobileSidebar() {
-    body.classList.remove('sidebar-open');
-  }
-
-  function handleToggle() {
-    if (mq.matches) {
-      body.classList.toggle('sidebar-open');
-      body.classList.remove('sidebar-collapsed');
-      return;
-    }
-
-    body.classList.toggle('sidebar-collapsed');
-  }
-
-  if (toggle) {
-    toggle.addEventListener('click', handleToggle);
-  }
-
-  if (backdrop) {
-    backdrop.addEventListener('click', closeMobileSidebar);
-  }
-
-  window.addEventListener('resize', () => {
-    if (!mq.matches) {
-      body.classList.remove('sidebar-open');
-    } else {
-      body.classList.remove('sidebar-collapsed');
-    }
-  });
-})();
-</script>
-
-@stack('scripts')
-</body>
-=======
     @stack('scripts')
 </body>
 
->>>>>>> 6fb37ddf8d0102fa6e43fb835ef81d3001d9a548
 </html>

@@ -51,6 +51,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
 
     // Tableau de bord
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::post('/logout', [Auth::class, 'logout'])->name('logout');
 
 
     // Actualités

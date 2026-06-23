@@ -4,15 +4,17 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class AdminSeeder extends Seeder
 {
     public function run(): void
     {
-        User::updateOrCreate(
+        DB::table('users')->updateOrInsert(
             ['email' => 'admin@mudea.com'],
             [
+                'name' => 'Admin MUDEA',
                 'nom' => 'Admin',
                 'prenom' => 'MUDEA',
                 'email' => 'admin@mudea.com',
@@ -20,7 +22,14 @@ class AdminSeeder extends Seeder
                 'password' => Hash::make('12345'),
                 'role' => 'admin',
                 'statut' => 'actif',
+                'photo' => null,
                 'adresse' => 'Abidjan, Côte d\'Ivoire',
+                'email_verified_at' => now(),
+                'remember_token' => null,
+                'last_login_at' => null,
+                'deleted_at' => null,
+                'updated_at' => now(),
+                'created_at' => now(),
             ]
         );
 
