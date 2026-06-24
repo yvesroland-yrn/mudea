@@ -836,7 +836,7 @@
                 <div>
                     <h3 class="engage-card-title">Notre Engagement<br>pour la Transparence</h3>
                     <p class="engage-card-desc">La MUDEA s'engage à gérer de façon transparente les ressources qui lui sont confiées et à rendre compte régulièrement à tous ses membres.</p>
-                    <a href="#" class="btn-engage btn-engage--blue">
+                    <a href="{{ url('/contact') }}" class="btn-engage btn-engage--blue">
                         En savoir plus
                         <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
                     </a>
@@ -850,7 +850,7 @@
                 <div>
                     <h3 class="engage-card-title">Votre Participation<br>est Essentielle</h3>
                     <p class="engage-card-desc">Votre implication et vos idées contribuent à la bonne gouvernance et au développement durable de notre village.</p>
-                    <a href="#" class="btn-engage btn-engage--gold">
+                    <a href="{{ url('/contact') }}" class="btn-engage btn-engage--gold">
                         Participer aux activités
                         <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
                     </a>

@@ -665,7 +665,7 @@
             <div class="cta-soutien-icon"><i class="fas fa-hands-holding-heart"></i></div>
             <h4>Soutenez l'éducation à Andé</h4>
             <p>Votre contribution peut changer la vie d'un enfant et construire l'avenir de notre village.</p>
-            <a href="#" class="btn-contribuer" style="margin-top:14px;display:inline-block;">
+            <a href="{{ url('/contact') }}" class="btn-contribuer" style="margin-top:14px;display:inline-block;">
               Contribuer maintenant
             </a>
           </div>

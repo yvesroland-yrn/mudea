@@ -531,7 +531,7 @@
                 </div>
             </div>
 
-            <a href="/evenements" class="btn-events">
+            <a href="{{ url('/actualites') }}" class="btn-events">
                 Voir tous les événements
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </a>
@@ -543,7 +543,7 @@
         <!-- Icône journal SVG -->
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f5c518" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M8 4v16"/><line x1="12" y1="8" x2="18" y2="8"/><line x1="12" y1="12" x2="18" y2="12"/><line x1="12" y1="16" x2="18" y2="16"/></svg>
         Dernières actualités
-        <a href="/actualites">Voir toutes les actualités →</a>
+        <a href="{{ url('/actualites') }}">Voir toutes les actualités →</a>
     </div>
 
     <div class="news-grid">
@@ -560,7 +560,7 @@
                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                         08 Mai 2024
                     </span>
-                    <a href="/actualites/avancement-travaux-chateau-eau">Lire la suite →</a>
+                    <a href="{{ url('/actualites/avancement-travaux-chateau-eau') }}">Lire la suite →</a>
                 </div>
             </div>
         </div>
@@ -577,7 +577,7 @@
                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                         05 Mai 2024
                     </span>
-                    <a href="/actualites/cours-soutien-examens">Lire la suite →</a>
+                    <a href="{{ url('/actualites/cours-soutien-examens') }}">Lire la suite →</a>
                 </div>
             </div>
         </div>
