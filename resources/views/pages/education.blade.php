@@ -272,7 +272,9 @@
     background: var(--white); border: 1px solid var(--border);
     border-radius: var(--radius-lg); padding: 24px;
     box-shadow: var(--shadow-sm);
+    transition: opacity .35s ease, transform .35s ease;
   }
+  .temoignage-card.is-updating { opacity: .4; transform: translateY(4px); }
   .temoignage-top { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
   .temoignage-avatar {
     width: 60px; height: 60px; border-radius: 50%;
@@ -290,7 +292,13 @@
     padding-left: 14px;
   }
   .temoignage-dots { display: flex; gap: 8px; align-items: center; justify-content: center; margin-top: 4px; }
-  .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); cursor: pointer; transition: background .2s; }
+  .dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--border); cursor: pointer;
+    transition: background .2s, transform .2s;
+    border: 0; padding: 0;
+  }
+  .dot:hover { transform: scale(1.08); }
   .dot.active { background: var(--green); }
 
   /* CTA soutien */
@@ -376,7 +384,7 @@
     <div class="rubriques-grid">
 
       {{-- 1. Élèves Méritants --}}
-      <div class="rubrique-card">
+      <div class="rubrique-card" id="eleves-meritants">
         <div class="rubrique-top">
           <div class="rubrique-icon-row">
             <div class="rubrique-icon rubrique-icon--green">
@@ -385,7 +393,7 @@
             <div class="rubrique-title rubrique-title--green">Élèves<br>Méritants</div>
           </div>
           <p class="rubrique-desc">Nous récompensons le mérite et encourageons l'excellence dès le primaire et le secondaire.</p>
-          <a href="#" class="rubrique-btn rubrique-btn--green">Voir plus</a>
+          <a href="{{ route('education.detail', 'eleves-meritants') }}" class="rubrique-btn rubrique-btn--green">Voir plus</a>
         </div>
         <div class="rubrique-photo">
           <img src="{{ asset('images/education/2.JPG') }}" alt="Élève méritant"
@@ -395,7 +403,7 @@
       </div>
 
       {{-- 2. Étudiants --}}
-      <div class="rubrique-card">
+      <div class="rubrique-card" id="etudiants">
         <div class="rubrique-top">
           <div class="rubrique-icon-row">
             <div class="rubrique-icon rubrique-icon--gold">
@@ -404,7 +412,7 @@
             <div class="rubrique-title rubrique-title--gold">Étudiants</div>
           </div>
           <p class="rubrique-desc">Un espace dédié aux étudiants d'Andé pour s'informer, échanger et se soutenir mutuellement.</p>
-          <a href="#" class="rubrique-btn rubrique-btn--gold">Voir plus</a>
+          <a href="{{ route('education.detail', 'etudiants') }}" class="rubrique-btn rubrique-btn--gold">Voir plus</a>
         </div>
         <div class="rubrique-photo">
           <img src="{{ asset('images/education/3.JPG') }}" alt="Étudiants"
@@ -414,7 +422,7 @@
       </div>
 
       {{-- 3. Bourses --}}
-      <div class="rubrique-card">
+      <div class="rubrique-card" id="bourses">
         <div class="rubrique-top">
           <div class="rubrique-icon-row">
             <div class="rubrique-icon rubrique-icon--blue">
@@ -423,7 +431,7 @@
             <div class="rubrique-title rubrique-title--blue">Bourses</div>
           </div>
           <p class="rubrique-desc">Des opportunités de bourses pour soutenir les parcours académiques et ouvrir de nouvelles perspectives.</p>
-          <a href="#" class="rubrique-btn rubrique-btn--blue">Voir plus</a>
+          <a href="{{ route('education.detail', 'bourses') }}" class="rubrique-btn rubrique-btn--blue">Voir plus</a>
         </div>
         <div class="rubrique-photo">
           <img src="{{ asset('images/education/4.JPG') }}" alt="Bourses"
@@ -433,7 +441,7 @@
       </div>
 
       {{-- 4. Académie Numérique --}}
-      <div class="rubrique-card">
+      <div class="rubrique-card" id="academie-numerique">
         <div class="rubrique-top">
           <div class="rubrique-icon-row">
             <div class="rubrique-icon rubrique-icon--purple">
@@ -442,7 +450,7 @@
             <div class="rubrique-title rubrique-title--purple">Académie<br>Numérique</div>
           </div>
           <p class="rubrique-desc">Des ressources numériques, des cours en ligne et des formations pour renforcer les compétences.</p>
-          <a href="#" class="rubrique-btn rubrique-btn--purple">Voir plus</a>
+          <a href="{{ route('education.detail', 'academie-numerique') }}" class="rubrique-btn rubrique-btn--purple">Voir plus</a>
         </div>
         <div class="rubrique-photo">
           <img src="{{ asset('images/education/5.JPG') }}" alt="Académie numérique"
@@ -452,7 +460,7 @@
       </div>
 
       {{-- 5. Forum Éducation --}}
-      <div class="rubrique-card">
+      <div class="rubrique-card" id="forum-education">
         <div class="rubrique-top">
           <div class="rubrique-icon-row">
             <div class="rubrique-icon rubrique-icon--dark">
@@ -461,7 +469,7 @@
             <div class="rubrique-title rubrique-title--dark">Forum<br>Éducation</div>
           </div>
           <p class="rubrique-desc">Posez vos questions, partagez vos expériences et trouvez des réponses de la communauté.</p>
-          <a href="#" class="rubrique-btn rubrique-btn--dark">Accéder au forum</a>
+          <a href="{{ route('education.detail', 'forum-education') }}" class="rubrique-btn rubrique-btn--dark">Accéder au forum</a>
         </div>
         <div class="rubrique-photo">
           <img src="{{ asset('images/education/6.JPG') }}" alt="Forum éducation"
@@ -501,7 +509,7 @@
           <li>Conseils d'orientation</li>
           <li>Métiers à découvrir</li>
         </ul>
-        <a href="#" class="forum-link forum-link--green">Voir les discussions &rarr;</a>
+        <a href="{{ route('education.detail', 'forum-education') }}" class="forum-link forum-link--green">Voir les discussions &rarr;</a>
       </div>
 
       {{-- Mentorat --}}
@@ -516,7 +524,7 @@
           <li>Devenir mentor</li>
           <li>Sessions de mentoring</li>
         </ul>
-        <a href="#" class="forum-link forum-link--gold">Voir les discussions &rarr;</a>
+        <a href="{{ route('education.detail', 'forum-education') }}" class="forum-link forum-link--gold">Voir les discussions &rarr;</a>
       </div>
 
       {{-- Réussite Académique --}}
@@ -531,7 +539,7 @@
           <li>Gestion du temps</li>
           <li>Préparation aux examens</li>
         </ul>
-        <a href="#" class="forum-link forum-link--blue">Voir les discussions &rarr;</a>
+        <a href="{{ route('education.detail', 'forum-education') }}" class="forum-link forum-link--blue">Voir les discussions &rarr;</a>
       </div>
 
       {{-- Études à l'Étranger --}}
@@ -546,7 +554,7 @@
           <li>Procédures &amp; visas</li>
           <li>Témoignages</li>
         </ul>
-        <a href="#" class="forum-link forum-link--purple">Voir les discussions &rarr;</a>
+        <a href="{{ route('education.detail', 'forum-education') }}" class="forum-link forum-link--purple">Voir les discussions &rarr;</a>
       </div>
 
       {{-- Emploi & Insertion --}}
@@ -561,7 +569,7 @@
           <li>Rédaction de CV</li>
           <li>Entrepreneuriat jeune</li>
         </ul>
-        <a href="#" class="forum-link forum-link--dark">Voir les discussions &rarr;</a>
+        <a href="{{ route('education.detail', 'forum-education') }}" class="forum-link forum-link--dark">Voir les discussions &rarr;</a>
       </div>
 
     </div>
@@ -580,7 +588,7 @@
       <div>
         <div class="actu-header">
           <h2>Actualités Éducation</h2>
-          <a href="#" class="see-all-link">Voir toutes &rarr;</a>
+          <a href="{{ route('actualites') }}#dernieres-actualites" class="see-all-link">Voir toutes &rarr;</a>
         </div>
 
         <div class="actu-list">
@@ -626,36 +634,35 @@
 
         </div>
 
-        <a href="#" class="btn-voir-actu">Voir toutes les actualités &nbsp;<i class="fas fa-arrow-right"></i></a>
+        <a href="{{ route('actualites') }}#dernieres-actualites" class="btn-voir-actu">Voir toutes les actualités &nbsp;<i class="fas fa-arrow-right"></i></a>
       </div>
 
       {{-- ── TÉMOIGNAGES ── --}}
       <div class="temoignages-col">
         <div class="temoignages-header">
           <h2>Témoignages</h2>
-          <a href="#" class="see-all-link">Voir tous &rarr;</a>
         </div>
 
-        <div class="temoignage-card">
+        <div class="temoignage-card" id="temoignages-education" aria-live="polite">
           <div class="temoignage-top">
             <div class="temoignage-avatar">
-              <img src="{{ asset('images/education/10.JPG') }}" alt="Aïssatou KOUASSI"
+              <img id="temoignage-avatar-img" src="{{ asset('images/education/10.JPG') }}" alt="Aïssatou KOUASSI"
                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
               <div class="temoignage-avatar-placeholder" style="display:none;"><i class="fas fa-user"></i></div>
             </div>
             <div>
-              <div class="temoignage-name">Aïssatou KOUASSI</div>
-              <div class="temoignage-role">Étudiante en Médecine – Abidjan</div>
+              <div class="temoignage-name" id="temoignage-name">Aïssatou KOUASSI</div>
+              <div class="temoignage-role" id="temoignage-role">Étudiante en Médecine – Abidjan</div>
             </div>
           </div>
-          <p class="temoignage-quote">
+          <p class="temoignage-quote" id="temoignage-quote">
             « Grâce au soutien de la MUDEA, j'ai pu bénéficier d'une bourse qui a chargé la poursuite de mes études dans de meilleures conditions. Je suis fière de mon village et je veux redonner à la communauté. »
           </p>
           <div class="temoignage-dots" style="margin-top:16px;">
-            <div class="dot active"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
+            <button type="button" class="dot active" aria-label="Témoignage 1" data-temoignage-dot="0"></button>
+            <button type="button" class="dot" aria-label="Témoignage 2" data-temoignage-dot="1"></button>
+            <button type="button" class="dot" aria-label="Témoignage 3" data-temoignage-dot="2"></button>
+            <button type="button" class="dot" aria-label="Témoignage 4" data-temoignage-dot="3"></button>
           </div>
         </div>
 
@@ -665,7 +672,7 @@
             <div class="cta-soutien-icon"><i class="fas fa-hands-holding-heart"></i></div>
             <h4>Soutenez l'éducation à Andé</h4>
             <p>Votre contribution peut changer la vie d'un enfant et construire l'avenir de notre village.</p>
-            <a href="#" class="btn-contribuer" style="margin-top:14px;display:inline-block;">
+            <a href="{{ url('/contact') }}" class="btn-contribuer" style="margin-top:14px;display:inline-block;">
               Contribuer maintenant
             </a>
           </div>
@@ -676,8 +683,92 @@
         </div>
 
       </div>
+      
     </div>
   </div>
 </section>
+
+<script>
+  (function () {
+    const card = document.getElementById('temoignages-education');
+    const avatar = document.getElementById('temoignage-avatar-img');
+    const nameEl = document.getElementById('temoignage-name');
+    const roleEl = document.getElementById('temoignage-role');
+    const quoteEl = document.getElementById('temoignage-quote');
+    const dots = Array.from(card ? card.querySelectorAll('[data-temoignage-dot]') : []);
+
+    if (!card || !avatar || !nameEl || !roleEl || !quoteEl || dots.length === 0) return;
+
+    const temoignages = [
+      {
+        name: 'Aïssatou KOUASSI',
+        role: 'Étudiante en Médecine – Abidjan',
+        quote: '« Grâce au soutien de la MUDEA, j\'ai pu bénéficier d\'une bourse qui a changé la poursuite de mes études dans de meilleures conditions. Je suis fière de mon village et je veux redonner à la communauté. »',
+        image: "{{ asset('images/education/10.JPG') }}",
+        alt: 'Aïssatou KOUASSI'
+      },
+      {
+        name: 'Koffi Kouamé',
+        role: 'Élève en Terminale – Andé',
+        quote: '« Les appuis scolaires et l\'encadrement nous donnent confiance. On sent vraiment que la communauté croit en nous et en notre avenir. »',
+        image: "{{ asset('images/education/11.JPG') }}",
+        alt: 'Koffi Kouamé'
+      },
+      {
+        name: 'N\'Guessan Marie',
+        role: 'Étudiante en Informatique – Yamoussoukro',
+        quote: '« La commission Éducation m\'a accompagnée dans mes démarches et m\'a motivée à poursuivre mes études malgré les difficultés. C\'est un vrai soutien. »',
+        image: "{{ asset('images/education/12.JPG') }}",
+        alt: 'N\'Guessan Marie'
+      },
+      {
+        name: 'Kouadio Jean',
+        role: 'Parent d\'élève – Andé',
+        quote: '« Voir les jeunes réussir grâce aux actions de la MUDEA est une grande fierté. L\'éducation est vraiment placée au cœur du développement du village. »',
+        image: "{{ asset('images/education/13.JPG') }}",
+        alt: 'Kouadio Jean'
+      }
+    ];
+
+    let currentIndex = 0;
+    let timer = null;
+
+    const setActive = (index) => {
+      const item = temoignages[index];
+      if (!item) return;
+
+      card.classList.add('is-updating');
+
+      window.setTimeout(() => {
+        avatar.src = item.image;
+        avatar.alt = item.alt;
+        nameEl.textContent = item.name;
+        roleEl.textContent = item.role;
+        quoteEl.textContent = item.quote;
+
+        dots.forEach((dot, dotIndex) => {
+          dot.classList.toggle('active', dotIndex === index);
+          dot.setAttribute('aria-pressed', dotIndex === index ? 'true' : 'false');
+        });
+
+        card.classList.remove('is-updating');
+      }, 180);
+
+      currentIndex = index;
+    };
+
+    const next = () => setActive((currentIndex + 1) % temoignages.length);
+
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        window.clearInterval(timer);
+        setActive(Number(dot.dataset.temoignageDot));
+        timer = window.setInterval(next, 5500);
+      });
+    });
+
+    timer = window.setInterval(next, 5500);
+  })();
+</script>
 
 @endsection

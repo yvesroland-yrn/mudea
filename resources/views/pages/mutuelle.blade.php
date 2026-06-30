@@ -3,10 +3,10 @@
 @section('title', 'La Mutuelle - MUDEA')
 
 @push('styles')
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 @endpush
 
 @section('content')
@@ -708,8 +708,8 @@
     </div>
 
     <div style="text-align:center;margin-top:8px;">
-      <a href="#" class="btn-voir-tous">
-        Voir tous les membres du bureau &nbsp;<i class="fas fa-arrow-right"></i>
+      <a  class="btn-voir-tous">
+         Les membres du bureau &nbsp;<i"></i>
       </a>
     </div>
   </div>

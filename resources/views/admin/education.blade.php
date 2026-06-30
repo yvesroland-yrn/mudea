@@ -466,7 +466,7 @@ textarea.form-control {
     @endphp
 
     @foreach($items as $item)
-    <tr>
+    <tr data-record='@json($item)'>
       <td style="font-weight:800;color:var(--text);">{{ $item['titre'] }}</td>
       <td style="font-size:.78rem;color:var(--text-light);">{{ $item['type'] }}</td>
       <td>
@@ -477,8 +477,8 @@ textarea.form-control {
       <td style="font-size:.78rem;color:var(--text-light);">{{ $item['date'] }}</td>
       <td>
         <div class="action-btns">
-          <a href="#" class="btn-icon btn-icon--view"  title="Voir">     <i class="fas fa-eye"></i>    </a>
-          <a href="#" class="btn-icon btn-icon--edit"  title="Modifier"> <i class="fas fa-pen"></i>    </a>
+          <a href="#" class="btn-icon btn-icon--view"  title="Voir" onclick="openEducationRecordModal('view', this); return false;">     <i class="fas fa-eye"></i>    </a>
+          <a href="#" class="btn-icon btn-icon--edit"  title="Modifier" onclick="openEducationRecordModal('edit', this); return false;"> <i class="fas fa-pen"></i>    </a>
           <a href="#" class="btn-icon btn-icon--del"   title="Supprimer"><i class="fas fa-trash"></i>  </a>
         </div>
       </td>
@@ -628,6 +628,41 @@ function selectStatus(val) {
   document.getElementById('rc-' + val).classList.add('selected');
   document.querySelector('input[name="statut"][value="' + val + '"]').checked = true;
 }
+
+function fillEducationForm(record) {
+  document.getElementById('f-titre').value = record.titre || '';
+  document.getElementById('f-type').value = (record.type || '').toLowerCase();
+  document.getElementById('f-categorie').value = record.categorie || '';
+  document.getElementById('f-date').value = record.date_iso || '';
+  selectStatus(record.statut || 'publie');
+}
+
+function setEducationFormMode(isView) {
+  document.querySelectorAll('#modalBox input, #modalBox select, #modalBox textarea').forEach(function (field) {
+    if (field.type === 'file') {
+      field.disabled = isView;
+    } else if (field.tagName === 'SELECT' || field.type === 'checkbox' || field.type === 'radio') {
+      field.disabled = isView;
+    } else {
+      field.readOnly = isView;
+    }
+  });
+}
+
+window.openEducationRecordModal = function (mode, trigger) {
+  var row = trigger.closest('tr');
+  var record = row && row.dataset.record ? JSON.parse(row.dataset.record) : {};
+
+  fillEducationForm(record);
+  setEducationFormMode(mode === 'view');
+  document.getElementById('modalTitle').textContent = mode === 'view' ? 'Voir le contenu' : 'Modifier le contenu';
+  document.querySelector('#modalBox .modal-subtitle').textContent = mode === 'view'
+    ? 'Aperçu des informations éducatives'
+    : 'Ajustez les informations avant enregistrement';
+  document.querySelector('#modalBox .modal-icon i').className = mode === 'view' ? 'fas fa-eye' : 'fas fa-pen';
+  document.getElementById('modalOverlay').classList.add('open');
+  document.getElementById('f-titre').focus();
+};
 
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeModal();

@@ -2,9 +2,10 @@
     Widget Chatbox Flottant - MUDEA
     Comportement : bulle flottante (bas-droite) -> clic -> ouverture d'une
     fenêtre de chat façon messagerie. L'assistant propose d'abord un menu
-    de réponses rapides (adhésion, projets, message à l'équipe), puis
-    collecte nom / contact / sujet / message si l'utilisateur souhaite
-    écrire à l'équipe, et transmet la demande au contrôleur de contact.
+    de réponses rapides (Adhésion, Contribution, Projet, Éducation,
+    Information générale, Assistance), puis collecte nom / contact / sujet /
+    message si l'utilisateur souhaite écrire à l'équipe, et transmet la
+    demande au contrôleur de contact.
 
     A inclure UNE SEULE FOIS dans resources/views/layouts/app.blade.php,
     juste avant la fermeture de </body> :
@@ -19,8 +20,9 @@
     ⚠️ A adapter à ton projet :
     - route('contact.store') ci-dessous : remplace par le nom réel de ta
       route de contact si elle s'appelle différemment.
-    - Les textes des réponses rapides (adhésion, projets) sont des
-      exemples : remplace-les par tes informations officielles exactes.
+    - Les textes FAQ (Adhésion, Contribution, Projet, Éducation,
+      Information générale) sont des exemples : remplace-les par tes
+      informations officielles exactes.
 --}}
 
 <div id="mudea-chatbox" class="mudea-chatbox">
@@ -54,7 +56,7 @@
 
         <div id="mudea-chatbox-quickreplies" class="mudea-chatbox-quickreplies"></div>
 
-        <form id="mudea-chat-form" class="mudea-chatbox-input-area" action="" method="POST">
+        <form id="mudea-chat-form" class="mudea-chatbox-input-area" action="{{ route('contact.store') }}" method="POST">
             @csrf
             <input type="text" id="mudea-chat-input" class="mudea-chatbox-input" placeholder="L'assistant arrive..." autocomplete="off" disabled>
             <button type="submit" class="mudea-chatbox-send" aria-label="Envoyer">
@@ -433,20 +435,28 @@
         // Réponses informatives du menu principal. A adapter avec tes textes officiels.
         const FAQ = {
             adhesion: "Pour adhérer à la MUDEA, il suffit de retirer un dossier d'adhésion auprès du secrétariat ou via la page \"La Mutuelle\" du site. La cotisation annuelle donne accès aux services de solidarité, d'éducation et d'accompagnement de la communauté d'Andé.",
-            projets:  "Plusieurs projets sont en cours : la réhabilitation du château d'eau du village, la construction du complexe scolaire d'excellence et des actions de reboisement communautaire. Le détail de chaque projet est disponible dans la rubrique \"Projets\" du site."
+            contribution: "Les membres de la MUDEA participent par une cotisation annuelle ainsi que des contributions ponctuelles aux projets communautaires. Le montant et les modalités de versement sont précisés dans le règlement intérieur, disponible auprès du secrétariat ou sur la page \"La Mutuelle\".",
+            projet: "Plusieurs projets sont en cours : la réhabilitation du château d'eau du village, la construction du complexe scolaire d'excellence et des actions de reboisement communautaire. Le détail de chaque projet est disponible dans la rubrique \"Projets\" du site.",
+            education: "La MUDEA accompagne l'éducation des enfants d'Andé à travers des bourses scolaires, du soutien pédagogique et la construction d'infrastructures éducatives. Retrouvez le détail de ces actions dans la rubrique \"Éducation\" du site.",
+            general: "La MUDEA (Mutuelle de Développement d'Andé) est une association de solidarité communautaire qui accompagne ses membres dans les domaines de l'entraide, de l'éducation et du développement local. Parcourez les rubriques du site pour en savoir plus, ou posez-moi une question précise."
         };
 
         const MENU_OPTIONS = [
-            { value: 'adhesion', label: "Comment adhérer ?" },
-            { value: 'projets',  label: "Nos projets en cours" },
-            { value: 'message',  label: "Envoyer un message à l'équipe" },
+            { value: 'adhesion',     label: 'Adhésion' },
+            { value: 'contribution', label: 'Contribution' },
+            { value: 'projet',       label: 'Projet' },
+            { value: 'education',    label: 'Éducation' },
+            { value: 'general',      label: 'Information générale' },
+            { value: 'assistance',   label: 'Assistance' },
         ];
 
         const SUBJECTS = [
-            { value: 'general',  label: 'Question générale' },
-            { value: 'adhesion', label: 'Adhésion à la mutuelle' },
-            { value: 'projet',   label: 'Un projet en cours' },
-            { value: 'autre',    label: 'Autre' },
+            { value: 'adhesion',     label: 'Adhésion' },
+            { value: 'contribution', label: 'Contribution' },
+            { value: 'projet',       label: 'Projet' },
+            { value: 'education',    label: 'Éducation' },
+            { value: 'general',      label: 'Information générale' },
+            { value: 'autre',        label: 'Autre' },
         ];
 
         let started = false;
@@ -562,9 +572,11 @@
             clearQuickReplies();
             addMessage(opt.label, 'user');
 
-            if (opt.value === 'message') {
+            // "Assistance" ne renvoie pas un texte FAQ : elle ouvre directement
+            // le formulaire de prise en charge (nom -> contact -> sujet -> message).
+            if (opt.value === 'assistance') {
                 step = 'name';
-                botSay("Très bien. Comment puis-je vous appeler ?", () => enableInput('Votre nom...'));
+                botSay("Très bien, je vous mets en relation avec notre équipe. Comment puis-je vous appeler ?", () => enableInput('Votre nom...'));
                 return;
             }
 
@@ -572,7 +584,7 @@
                 botSay("Souhaitez-vous autre chose ?", () => {
                     clearQuickReplies();
                     addQuickReply('Poser une autre question', showMenu);
-                    addQuickReply("Envoyer un message à l'équipe", () => handleMenuChoice({ value: 'message', label: "Envoyer un message à l'équipe" }));
+                    addQuickReply("Demander de l'assistance", () => handleMenuChoice({ value: 'assistance', label: 'Assistance' }));
                     addQuickReply('Terminer la discussion', endConversation, 'ghost');
                 });
             });

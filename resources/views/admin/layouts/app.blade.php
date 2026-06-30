@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Admin') – MUDEA</title>
+    <title>@yield('title', 'Admin') - MUDEA</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -433,11 +433,11 @@
                 <span class="nav-icon"><i class="fas fa-newspaper"></i></span>
                 <span>Actualités</span>
             </a>
-            <a href="{{ route('admin.pages') }}"
+            <!-- <a href="{{ route('admin.pages') }}"
                 class="nav-item {{ request()->routeIs('admin.pages*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-file-lines"></i></span>
                 <span>Pages</span>
-            </a>
+            </a> -->
             <a href="{{ route('admin.vie-coutumes') }}"
                 class="nav-item {{ request()->routeIs('admin.vie-coutumes*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-masks-theater"></i></span>
@@ -536,7 +536,7 @@
         </main>
 
         <footer class="admin-footer">
-            &copy; {{ date('Y') }} MUDEA – Mutuelle de Développement Durable. Tous droits réservés.
+            &copy; {{ date('Y') }} MUDEA - Mutuelle de Développement Durable. Tous droits réservés.
         </footer>
     </div>
 

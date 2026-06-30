@@ -381,6 +381,29 @@
     .btn-all-docs--purple { background: var(--purple); }
     .btn-all-docs svg { width: 16px; height: 16px; fill: white; }
 
+    .doc-item--extra {
+        display: none;
+    }
+    .docs-box.is-expanded .doc-item--extra {
+        display: flex;
+    }
+    .docs-box > div.doc-item:nth-of-type(n+4) {
+        display: none;
+    }
+    .docs-box.is-expanded > div.doc-item:nth-of-type(n+4) {
+        display: flex;
+    }
+
+    .docs-toggle-label--expanded {
+        display: none;
+    }
+    .docs-box.is-expanded .docs-toggle-label--collapsed {
+        display: none;
+    }
+    .docs-box.is-expanded .docs-toggle-label--expanded {
+        display: inline;
+    }
+
     /* ============================================================
        CALENDRIER
     ============================================================ */
@@ -602,7 +625,7 @@
 {{-- ============================================================
      NOTRE ORGANISATION
 ============================================================ --}}
-<section class="gov-section">
+<section class="gov-section" id="organisation">
     <div class="gov-section-inner">
 
         <div class="gov-section-head">
@@ -677,13 +700,13 @@
 {{-- ============================================================
      DOCUMENTS OFFICIELS + RAPPORTS D'ACTIVITÉS
 ============================================================ --}}
-<section class="gov-section gov-section--gray">
+<section class="gov-section gov-section--gray" id="documents-officiels">/
     <div class="gov-section-inner">
 
         <div class="docs-rapports-grid">
 
             {{-- Documents Officiels --}}
-            <div class="docs-box">
+            <div class="docs-box" id="documents-officiels-box">
                 <div class="docs-box-head">
                     <div class="docs-box-icon docs-box-icon--blue">
                         <svg viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
@@ -707,17 +730,18 @@
                         <div class="doc-name">{{ $doc['name'] }}</div>
                         <div class="doc-meta">{{ $doc['size'] }}</div>
                     </div>
-                    <a href="#" class="btn-download">
+                    <a href="{{ route('gouvernance.download', ['type' => 'document', 'slug' => 'statuts-reglement-interieur']) }}" class="btn-download">
                         <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
                         Télécharger
                     </a>
                 </div>
                 @endforeach
 
-                <a href="#" class="btn-all-docs btn-all-docs--blue">
-                    Voir tous les documents
+                <button type="button" class="btn-all-docs btn-all-docs--blue" data-toggle-docs="documents">
+                    <span class="docs-toggle-label--collapsed">Voir tous les documents</span>
+                    <span class="docs-toggle-label--expanded">Replier les documents</span>
                     <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
-                </a>
+                </button>
             </div>
 
             {{-- Rapports d'activités --}}
@@ -745,17 +769,18 @@
                         <div class="doc-name">{{ $rapport['name'] }}</div>
                         <div class="doc-meta">{{ $rapport['size'] }}</div>
                     </div>
-                    <a href="#" class="btn-download">
+                    <a href="{{ route('gouvernance.download', ['type' => 'rapport', 'slug' => 'rapport-activites-2023']) }}" class="btn-download">
                         <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
                         Télécharger
                     </a>
                 </div>
                 @endforeach
 
-                <a href="#" class="btn-all-docs btn-all-docs--purple">
-                    Voir tous les rapports
+                <button type="button" class="btn-all-docs btn-all-docs--purple" data-toggle-docs="reports">
+                    <span class="docs-toggle-label--collapsed">Voir tous les rapports</span>
+                    <span class="docs-toggle-label--expanded">Replier les rapports</span>
                     <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
-                </a>
+                </button>
             </div>
 
         </div>
@@ -765,7 +790,7 @@
 {{-- ============================================================
      CALENDRIER DES ACTIVITÉS
 ============================================================ --}}
-<section class="gov-section">
+<section class="gov-section" id="calendrier-activites">
     <div class="gov-section-inner">
 
         <div class="gov-section-head">
@@ -811,12 +836,8 @@
                 @endforeach
             </div>
 
-            <div style="text-align:center;">
-                <a href="#" class="btn-cal">
-                    Voir tout le calendrier
-                    <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
-                </a>
-            </div>
+           
+
         </div>
 
     </div>
@@ -825,7 +846,7 @@
 {{-- ============================================================
      ENGAGEMENT + PARTICIPATION
 ============================================================ --}}
-<section class="gov-section gov-section--gray">
+<section class="gov-section gov-section--gray" id="engagement-transparence">
     <div class="gov-section-inner">
         <div class="engage-grid">
 
@@ -836,7 +857,7 @@
                 <div>
                     <h3 class="engage-card-title">Notre Engagement<br>pour la Transparence</h3>
                     <p class="engage-card-desc">La MUDEA s'engage à gérer de façon transparente les ressources qui lui sont confiées et à rendre compte régulièrement à tous ses membres.</p>
-                    <a href="#" class="btn-engage btn-engage--blue">
+                    <a href="{{ route('contact') }}#formulaire-contact" class="btn-engage btn-engage--blue">
                         En savoir plus
                         <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
                     </a>
@@ -850,7 +871,7 @@
                 <div>
                     <h3 class="engage-card-title">Votre Participation<br>est Essentielle</h3>
                     <p class="engage-card-desc">Votre implication et vos idées contribuent à la bonne gouvernance et au développement durable de notre village.</p>
-                    <a href="#" class="btn-engage btn-engage--gold">
+                    <a href="{{ route('contact') }}#formulaire-contact" class="btn-engage btn-engage--gold">
                         Participer aux activités
                         <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
                     </a>
@@ -860,5 +881,20 @@
         </div>
     </div>
 </section>
+
+<script>
+    document.querySelectorAll('[data-toggle-docs]').forEach((button) => {
+        button.addEventListener('click', () => {
+            const box = button.closest('.docs-box');
+            if (!box) return;
+
+            box.classList.toggle('is-expanded');
+
+            if (box.classList.contains('is-expanded')) {
+                box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+</script>
 
 @endsection

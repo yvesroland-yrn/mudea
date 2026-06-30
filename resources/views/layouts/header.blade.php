@@ -49,14 +49,14 @@
                 </svg>
             </button>
 
-            <a href="{{ route('education') }}" class="btn btn-adherer">
+            <a href="{{ url('/contact') }}" class="btn btn-adherer">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"></path>
                 </svg>
                 Adh&eacute;rer
             </a>
 
-            <a href="{{ route('solidarite') }}" class="btn btn-contribuer">
+            <a href="{{ url('/contact') }}" class="btn btn-contribuer">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"></path>
                 </svg>

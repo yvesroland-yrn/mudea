@@ -448,7 +448,7 @@ body, input, select, textarea, button {
   </thead>
   <tbody>
     @foreach($pages as $p)
-    <tr>
+    <tr data-record='@json($p)'>
       <td style="font-weight:800;color:var(--text);">{{ $p['nom'] }}</td>
       <td><code style="background:var(--cream);padding:2px 8px;border-radius:4px;font-size:.78rem;">{{ $p['slug'] }}</code></td>
       <td>
@@ -460,8 +460,8 @@ body, input, select, textarea, button {
       <td style="color:var(--text-light);font-size:.78rem;">{{ $p['maj'] ?? now()->format('d M Y') }}</td>
       <td>
         <div class="action-btns">
-          <a href="#" class="btn-icon btn-icon--view" title="Voir"><i class="fas fa-eye"></i></a>
-          <a href="#" class="btn-icon btn-icon--edit" title="Modifier"><i class="fas fa-pen"></i></a>
+          <a href="#" class="btn-icon btn-icon--view" title="Voir" onclick="openPageRecordModal('view', this); return false;"><i class="fas fa-eye"></i></a>
+          <a href="#" class="btn-icon btn-icon--edit" title="Modifier" onclick="openPageRecordModal('edit', this); return false;"><i class="fas fa-pen"></i></a>
           <a href="#" class="btn-icon btn-icon--del" title="Supprimer"
              onclick="return confirm('Supprimer cette page ?')"><i class="fas fa-trash"></i></a>
         </div>
@@ -701,6 +701,10 @@ body, input, select, textarea, button {
   var btnBrouillon  = document.getElementById('btn-brouillon-page');
   var btnPublier    = document.getElementById('btn-publier-page');
   var formPage      = document.getElementById('form-page');
+  var modalTitle    = document.getElementById('modal-title-page');
+  var modalSubtitle = document.querySelector('#modal-overlay .modal-subtitle');
+  var modalIcon     = document.querySelector('#modal-overlay .modal-icon i');
+  var submitButtons = [btnBrouillon, btnPublier];
 
   /* ── Ouverture / Fermeture ──────────────────────────────────────────── */
   function openModal() {
@@ -711,6 +715,65 @@ body, input, select, textarea, button {
   function closeModal() {
     overlay.classList.remove('open');
   }
+
+  function resetModalState() {
+    modalTitle.textContent = 'Nouvelle page';
+    modalSubtitle.textContent = 'Créez une page statique pour le site';
+    modalIcon.className = 'fas fa-file-alt';
+    formPage.querySelectorAll('input, select, textarea').forEach(function (field) {
+      field.disabled = false;
+      field.readOnly = false;
+    });
+    submitButtons.forEach(function (button) {
+      button.style.display = '';
+    });
+  }
+
+  function setFormMode(mode) {
+    var isView = mode === 'view';
+    formPage.querySelectorAll('input, select, textarea').forEach(function (field) {
+      if (field.type === 'hidden') return;
+      if (field.tagName === 'SELECT' || field.type === 'file' || field.type === 'checkbox' || field.type === 'radio') {
+        field.disabled = isView;
+      } else {
+        field.readOnly = isView;
+      }
+    });
+    submitButtons.forEach(function (button) {
+      button.style.display = isView ? 'none' : '';
+    });
+  }
+
+  function fillPageForm(record) {
+    document.getElementById('p-nom').value = record.nom || '';
+    document.getElementById('p-slug-input').value = record.slug || '';
+    document.getElementById('p-statut').value = record.statut || 'brouillon';
+    document.getElementById('p-statut-select').value = record.statut || 'brouillon';
+    document.getElementById('p-nc').textContent = (record.nom || '').length + '/80';
+    pUpdateMeta();
+  }
+
+  window.openPageRecordModal = function (mode, trigger) {
+    var row = trigger.closest('tr');
+    var record = row && row.dataset.record ? JSON.parse(row.dataset.record) : {};
+
+    resetModalState();
+    fillPageForm(record);
+
+    if (mode === 'view') {
+      modalTitle.textContent = 'Voir la page';
+      modalSubtitle.textContent = 'Aperçu des informations de la page';
+      modalIcon.className = 'fas fa-eye';
+    } else {
+      modalTitle.textContent = 'Modifier la page';
+      modalSubtitle.textContent = 'Ajustez les informations avant enregistrement';
+      modalIcon.className = 'fas fa-pen';
+    }
+
+    setFormMode(mode);
+    overlay.classList.add('open');
+    document.getElementById('p-nom').focus();
+  };
 
   btnOpen.addEventListener('click', openModal);
   btnClose.addEventListener('click', closeModal);

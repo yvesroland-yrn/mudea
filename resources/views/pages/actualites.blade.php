@@ -321,6 +321,51 @@
         cursor: pointer;
     }
     .galerie-grid img:hover { transform: scale(1.04); opacity: 0.9; }
+    .galerie-grid--full {
+        display: none;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        margin-top: 14px;
+    }
+    .galerie-section.is-expanded .galerie-grid--full {
+        display: grid;
+    }
+    .galerie-card {
+        background: var(--blanc);
+        border: 1px solid var(--gris-bord);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 8px 18px rgba(0,0,0,.05);
+    }
+    .galerie-card img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        display: block;
+    }
+    .galerie-card span {
+        display: block;
+        padding: 10px 12px 12px;
+        font-size: .84rem;
+        font-weight: 700;
+        color: var(--texte);
+    }
+    .galerie-toggle {
+        border: 1px solid var(--vert);
+        background: var(--blanc);
+        color: var(--vert);
+        font-size: 0.82rem;
+        font-weight: 700;
+        text-decoration: none;
+        border-radius: 4px;
+        padding: 4px 12px;
+        cursor: pointer;
+        margin-left: auto;
+    }
+    .galerie-toggle:hover { background: var(--vert); color: var(--blanc); }
+    .galerie-toggle .expanded-label { display: none; }
+    .galerie-section.is-expanded .galerie-toggle .collapsed-label { display: none; }
+    .galerie-section.is-expanded .galerie-toggle .expanded-label { display: inline; }
 
     /* ===== NEWSLETTER BANNER ===== */
     .newsletter-banner {
@@ -419,6 +464,7 @@
 </section>
 
 <!-- ======== CONTENU PRINCIPAL ======== -->
+ 
 <div class="page-actualites">
 
     <!-- ===== VEDETTE + ÉVÉNEMENTS ===== -->
@@ -426,7 +472,7 @@
 
         <!-- Actualité vedette -->
         <div>
-            <div class="section-title">
+            <div class="section-title" id="actualite-vedette">
                 <span class="icon">&#9733;</span>
                 Actualité vedette
             </div>
@@ -455,7 +501,7 @@
                             Admin MUDEA
                         </span>
                     </div>
-                    <a href="/actualites/inauguration-complexe-scolaire" class="btn-lire">
+                    <a href="{{ route('actualites.detail', 'inauguration-complexe-scolaire') }}" class="btn-lire">
                         Lire l'article
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                     </a>
@@ -531,7 +577,7 @@
                 </div>
             </div>
 
-            <a href="/evenements" class="btn-events">
+            <a href="#dernieres-actualites" class="btn-events">
                 Voir tous les événements
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </a>
@@ -539,11 +585,11 @@
     </div>
 
     <!-- ===== DERNIÈRES ACTUALITÉS ===== -->
-    <div class="section-title">
+    <div class="section-title" id="dernieres-actualites">
         <!-- Icône journal SVG -->
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f5c518" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M8 4v16"/><line x1="12" y1="8" x2="18" y2="8"/><line x1="12" y1="12" x2="18" y2="12"/><line x1="12" y1="16" x2="18" y2="16"/></svg>
         Dernières actualités
-        <a href="/actualites">Voir toutes les actualités →</a>
+            <a href="#dernieres-actualites">Voir toutes les actualités →</a>
     </div>
 
     <div class="news-grid">
@@ -560,7 +606,7 @@
                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                         08 Mai 2024
                     </span>
-                    <a href="/actualites/avancement-travaux-chateau-eau">Lire la suite →</a>
+                    <a href="{{ route('actualites.detail', 'avancement-travaux-chateau-eau') }}">Lire la suite →</a>
                 </div>
             </div>
         </div>
@@ -577,7 +623,7 @@
                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                         05 Mai 2024
                     </span>
-                    <a href="/actualites/cours-soutien-examens">Lire la suite →</a>
+                    <a href="{{ route('actualites.detail', 'cours-soutien-examens') }}">Lire la suite →</a>
                 </div>
             </div>
         </div>
@@ -594,7 +640,7 @@
                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                         02 Mai 2024
                     </span>
-                    <a href="/actualites/rencontre-chefs-familles">Lire la suite →</a>
+                    <a href="{{ route('actualites.detail', 'rencontre-chefs-familles') }}">Lire la suite →</a>
                 </div>
             </div>
         </div>
@@ -611,7 +657,7 @@
                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                         28 Avr. 2024
                     </span>
-                    <a href="/actualites/festival-masques-2024">Lire la suite →</a>
+                    <a href="{{ route('actualites.detail', 'festival-masques-2024') }}">Lire la suite →</a>
                 </div>
             </div>
         </div>
@@ -624,14 +670,39 @@
             <!-- Icône image SVG -->
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f5c518" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
             Galerie Photos
-            <a href="/galerie">Voir toute la galerie →</a>
+            <button type="button" class="galerie-toggle" data-toggle-gallery>
+                <span class="collapsed-label">Voir toute la galerie →</span>
+                <span class="expanded-label">Replier la galerie →</span>
+            </button>
         </div>
-        <div class="galerie-grid">
+        <div class="galerie-grid" id="galerie-photos">
             <img src="{{ asset('images/actualites/eleve.JPG') }}" alt="Photo galerie 1">
             <img src="{{ asset('images/actualites/examen.png') }}" alt="Photo galerie 2">
             <img src="{{ asset('images/actualites/reunion.png') }}" alt="Photo galerie 3">
             <img src="{{ asset('images/actualites/solidarite.png') }}" alt="Photo galerie 4">
             <img src="{{ asset('images/actualites/union.png') }}" alt="Photo galerie 5">
+        </div>
+        <div class="galerie-grid galerie-grid--full">
+            <div class="galerie-card">
+                <img src="{{ asset('images/actualites/eleve.JPG') }}" alt="Inauguration du complexe scolaire">
+                <span>Inauguration du complexe scolaire</span>
+            </div>
+            <div class="galerie-card">
+                <img src="{{ asset('images/actualites/examen.png') }}" alt="Cours de soutien">
+                <span>Cours de soutien</span>
+            </div>
+            <div class="galerie-card">
+                <img src="{{ asset('images/actualites/reunion.png') }}" alt="Réunion d'avancement">
+                <span>Réunion d'avancement</span>
+            </div>
+            <div class="galerie-card">
+                <img src="{{ asset('images/actualites/solidarite.png') }}" alt="Journée de solidarité">
+                <span>Journée de solidarité</span>
+            </div>
+            <div class="galerie-card">
+                <img src="{{ asset('images/actualites/union.png') }}" alt="Festival des masques">
+                <span>Festival des masques</span>
+            </div>
         </div>
     </div>
 
@@ -645,7 +716,7 @@
             <h3>Ne manquez aucune actualité !</h3>
             <p>Abonnez-vous à notre newsletter et recevez les dernières informations directement dans votre boîte mail.</p>
         </div>
-        <form class="newsletter-form" action="/newsletter/subscribe" method="POST">
+        <form class="newsletter-form" action="{{ route('newsletter.subscribe') }}" method="POST">
             @csrf
             <input type="email" name="email" placeholder="Votre adresse email" required>
             <button type="submit">
@@ -655,6 +726,29 @@
         </form>
     </div>
 
+    @if(session('success'))
+        <div style="margin-top:14px;padding:12px 16px;border:1px solid #c8e6c9;background:#f1f8f1;color:#1b5e20;border-radius:8px;font-size:.9rem;">
+            {{ session('success') }}
+        </div>
+    @endif
+    @if($errors->any())
+        <div style="margin-top:14px;padding:12px 16px;border:1px solid #ef9a9a;background:#fff5f5;color:#b71c1c;border-radius:8px;font-size:.9rem;">
+            @foreach($errors->all() as $error)
+                <div>{{ $error }}</div>
+            @endforeach
+        </div>
+    @endif
+
 </div>
+
+<script>
+    document.querySelectorAll('[data-toggle-gallery]').forEach((button) => {
+        button.addEventListener('click', () => {
+            const section = button.closest('.galerie-section');
+            if (!section) return;
+            section.classList.toggle('is-expanded');
+        });
+    });
+</script>
 
 @endsection

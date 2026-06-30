@@ -78,9 +78,73 @@
                 </a>
             </div>
         </div>
+
+        <div class="footer-col footer-col--newsletter">
+            <h4 class="footer-col-title">Newsletter</h4>
+            <p class="footer-newsletter-text">Abonnez-vous pour recevoir nos actualit&eacute;s et annonces.</p>
+            <form action="{{ route('newsletter.subscribe') }}" method="POST" class="footer-newsletter-form">
+                @csrf
+                <input type="email" name="email" class="footer-newsletter-input" placeholder="Votre email" required>
+                <button type="submit" class="footer-newsletter-btn" aria-label="S'abonner">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                        <path d="M2 21l21-9L2 3v7l15 2-15 2z"></path>
+                    </svg>
+                </button>
+            </form>
+        </div>
     </div>
 
     <div class="footer-bottom">
         &copy; {{ date('Y') }} MUDEA - Mutuelle de D&eacute;veloppement d'And&eacute;. Tous droits r&eacute;serv&eacute;s.
     </div>
+
+    <style>
+        .footer-col--newsletter .footer-newsletter-text {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .footer-newsletter-form {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .footer-newsletter-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            padding: 0.7rem 1rem;
+            color: #fff;
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        .footer-newsletter-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .footer-newsletter-btn {
+            background: #C9A227;
+            border: none;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1B5E3C;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .footer-newsletter-btn:hover {
+            background: #b8901f;
+        }
+    </style>
 </footer>

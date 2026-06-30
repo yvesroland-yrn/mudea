@@ -245,27 +245,46 @@
     .cta-text-block { flex: 1; min-width: 200px; }
     .cta-text-block h3 { font-size: 1.05rem; font-weight: 900; color: var(--blanc); margin-bottom: 5px; }
     .cta-text-block p  { font-size: .84rem; color: rgba(255,255,255,.72); line-height: 1.5; }
-    .cta-btn-discuss {
-        display: inline-flex; align-items: center; gap: 9px;
-        background: var(--blanc); color: var(--vert-fonce);
-        font-weight: 800; font-size: .84rem; text-transform: uppercase; letter-spacing: .4px;
-        padding: 12px 24px; border-radius: 7px; transition: background .2s; flex-shrink: 0;
+    .cta-track-form {
+        display: flex; gap: 10px; flex-wrap: wrap;
+        margin-top: 16px; align-items: center;
     }
-    .cta-btn-discuss:hover { background: #e8e8e8; }
-    .cta-badges {
-        display: flex; gap: 28px; flex-wrap: wrap; margin-left: auto;
+    .cta-track-form input {
+        min-width: 240px;
+        flex: 1;
+        border: 1px solid rgba(255,255,255,.18);
+        background: rgba(255,255,255,.08);
+        color: var(--blanc);
+        padding: 12px 14px;
+        border-radius: 7px;
+        font-size: .84rem;
+        outline: none;
     }
-    .cta-badge {
-        display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px;
+    .cta-track-form input::placeholder {
+        color: rgba(255,255,255,.55);
     }
-    .cta-badge-icon {
-        width: 44px; height: 44px; border-radius: 50%;
-        border: 2px solid rgba(255,255,255,.25);
-        display: flex; align-items: center; justify-content: center;
+    .cta-track-form input:focus {
+        border-color: rgba(255,255,255,.42);
+        background: rgba(255,255,255,.12);
     }
-    .cta-badge-icon svg { color: rgba(255,255,255,.8); }
-    .cta-badge h5 { font-size: .72rem; font-weight: 800; color: var(--blanc); line-height: 1.2; }
-    .cta-badge p  { font-size: .67rem; color: rgba(255,255,255,.6); }
+    .cta-track-btn {
+        display: inline-flex; align-items: center; justify-content: center;
+        background: var(--jaune); color: var(--vert-fonce);
+        font-weight: 900; font-size: .84rem; text-transform: uppercase; letter-spacing: .4px;
+        padding: 12px 18px; border-radius: 7px; transition: transform .15s, background .2s;
+        flex-shrink: 0;
+    }
+    .cta-track-btn:hover { background: #ffd740; transform: translateY(-1px); }
+    .cta-track-result {
+        margin-top: 14px;
+        padding: 12px 14px;
+        border-radius: 8px;
+        background: rgba(255,255,255,.08);
+        border: 1px solid rgba(255,255,255,.12);
+        color: rgba(255,255,255,.92);
+        font-size: .82rem;
+        line-height: 1.5;
+    }
 
     /* ══ RESPONSIVE ══════════════════════════════════ */
     @media (max-width: 1080px) {
@@ -286,6 +305,20 @@
         .cta-badges { display: none; }
         .cta-bottom-inner { flex-direction: column; align-items: flex-start; gap: 18px; }
     }
+
+            .cta-badge {
+            display: flex; flex-direction: column; align-items: center;
+            text-align: center; min-width: 90px;
+        }
+        .cta-badge-icon {
+            width: 44px; height: 44px; border-radius: 50%;
+            background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 8px; color: var(--jaune);
+        }
+        .cta-badges { display: flex; gap: 20px; flex-wrap: wrap; }
+        .cta-badge h5 { font-size: .75rem; font-weight: 900; color: var(--blanc); margin-bottom: 2px; }
+        .cta-badge p  { font-size: .68rem; color: rgba(255,255,255,.6); line-height: 1.4; }
 </style>
 
 {{-- ══ HERO ══════════════════════════════════════════ --}}
@@ -305,8 +338,7 @@
 {{-- ══ RANGÉE PRINCIPALE ══════════════════════════════ --}}
 <div class="contact-page-wrap">
 
-    <div class="contact-grid-3">
-
+ <div class="contact-grid-3">
         {{-- ── Colonne 1 : Coordonnées ── --}}
         <div>
             <div class="c-card">
@@ -379,7 +411,7 @@
                     <h3>Formulaire de contact</h3>
                 </div>
 
-                <form action="" method="POST">
+                <form action="{{ route('contact.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <div class="form-row-2">
@@ -419,6 +451,11 @@
                     <div class="fg">
                         <label>Votre message <span class="req">*</span></label>
                         <textarea name="message" placeholder="Votre message *" required>{{ old('message') }}</textarea>
+                    </div>
+
+                    <div class="fg">
+                        <label>Joindre un document</label>
+                        <input type="file" name="document" accept=".pdf,.doc,.docx,image/*">
                     </div>
 
                     @if(session('success'))
@@ -520,8 +557,14 @@
                 </div>
             </div>
         </div>
+
+
     </div>
 
+
+    <br>
+
+    
     {{-- ══ RANGÉE BAS ══════════════════════════════════ --}}
     <div class="contact-grid-3-bottom" style="margin-top: 0;">
 
@@ -642,71 +685,122 @@
 </div>
 
 {{-- ══ CTA BAS DE PAGE ══════════════════════════════ --}}
+
+
+{{-- ══ CTA BAS DE PAGE : Discussion immédiate ══ --}}
+
+
+{{-- ══ CTA BAS DE PAGE ══════════════════════════════ --}}
 <div class="cta-bottom">
     <div class="cta-bottom-inner">
+
         <div class="cta-avatar">
-            <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path d="M12 8v5l3 2"/>
+                <circle cx="12" cy="12" r="10"/>
+            </svg>
         </div>
+
         <div class="cta-text-block">
-            <h3>Besoin d'aide immédiate ?</h3>
-            <p>Discutez en direct avec notre assistant MUDEA<br>et obtenez une réponse rapide à vos questions.</p>
+            <h3>Suivre une demande</h3>
+            <p>
+                Entrez votre email ou votre numéro de téléphone pour retrouver
+                le statut de votre dernière demande.
+            </p>
+
+            <form class="cta-track-form" action="{{ route('contact') }}" method="GET">
+                <input
+                    type="text"
+                    name="suivi"
+                    value="{{ request('suivi') }}"
+                    placeholder="Email ou téléphone"
+                >
+                <button type="submit" class="cta-track-btn">
+                    Vérifier
+                </button>
+            </form>
+
+            @if(!empty($suiviDemande))
+                <div class="cta-track-result">
+                    <strong>Statut :</strong> {{ ucfirst($suiviDemande->statut) }}<br>
+                    <strong>Objet :</strong> {{ $suiviDemande->objet }}<br>
+                    <strong>Dernière mise à jour :</strong>
+                    {{ $suiviDemande->updated_at?->format('d/m/Y H:i') }}
+                </div>
+            @elseif(!empty($suiviErreur))
+                <div class="cta-track-result">
+                    {{ $suiviErreur }}
+                </div>
+            @endif
         </div>
-        <a href="https://wa.me/22507000060000" class="cta-btn-discuss" target="_blank">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            Démarrer la discussion
-        </a>
+
+        {{-- Badges --}}
         <div class="cta-badges">
             <div class="cta-badge">
                 <div class="cta-badge-icon">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14"/>
+                    </svg>
                 </div>
                 <h5>Réponse rapide</h5>
-                <p>Nous répondons dans<br>les meilleurs délais</p>
+                <p>Nous répondons dans les meilleurs délais</p>
             </div>
+
             <div class="cta-badge">
                 <div class="cta-badge-icon">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
                 </div>
                 <h5>Confidentialité</h5>
-                <p>Vos données sont<br>sécurisées</p>
+                <p>Vos données sont sécurisées</p>
             </div>
+
             <div class="cta-badge">
                 <div class="cta-badge-icon">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
                 </div>
                 <h5>À votre écoute</h5>
-                <p>Notre équipe est là<br>pour vous aider</p>
+                <p>Notre équipe est là pour vous aider</p>
             </div>
         </div>
+
     </div>
 </div>
 
 @push('scripts')
 <script>
-function toggleFaq(i) {
-    const answer = document.getElementById('faq-answer-' + i);
-    const icon   = document.getElementById('faq-icon-'   + i);
-    const btn    = icon.closest('.faq-btn');
-    const isOpen = answer.classList.contains('open');
+    function toggleFaq(i) {
+        const answer = document.getElementById('faq-answer-' + i);
+        const icon   = document.getElementById('faq-icon-'   + i);
+        const btn    = icon.closest('.faq-btn');
+        const isOpen = answer.classList.contains('open');
 
-    // Ferme tous les autres
-    document.querySelectorAll('.faq-answer').forEach(el => el.classList.remove('open'));
-    document.querySelectorAll('.faq-btn').forEach(el => el.classList.remove('open'));
+        // Ferme tous les autres
+        document.querySelectorAll('.faq-answer').forEach(el => el.classList.remove('open'));
+        document.querySelectorAll('.faq-btn').forEach(el => el.classList.remove('open'));
 
-    if (!isOpen) {
-        answer.classList.add('open');
-        btn.classList.add('open');
+        if (!isOpen) {
+            answer.classList.add('open');
+            btn.classList.add('open');
+        }
     }
-}
 
-// Pré-remplir l'objet du formulaire depuis le sélecteur "Assistant"
-document.querySelectorAll('input[name="assist_topic"]').forEach(function(radio) {
-    radio.addEventListener('change', function() {
-        var select = document.querySelector('select[name="objet"]');
-        if (select) select.value = this.value;
-    });
-});
+    // Pré-remplir l'objet du formulaire depuis le sélecteur "Assistant"
+    document.querySelectorAll('input[name="assist_topic"]').forEach(function(radio) {
+        radio.addEventListener('change', function() {
+            var select = document.querySelector('select[name="objet"]');
+            if (select) select.value = this.value;
+        });
+   });
 </script>
 @endpush
 
 @endsection
+

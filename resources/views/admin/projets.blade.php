@@ -512,7 +512,7 @@ textarea.form-control {
     @endphp
 
     @foreach($projets as $p)
-    <tr>
+    <tr data-record='@json($p)'>
       <td style="font-weight:800;color:var(--text);max-width:260px;">{{ $p['titre'] }}</td>
       <td>
         <span class="status-badge status--{{ $p['statut'] }}">
@@ -531,8 +531,8 @@ textarea.form-control {
       </td>
       <td>
         <div class="action-btns">
-          <a href="#" class="btn-icon btn-icon--view"  title="Voir">     <i class="fas fa-eye"></i>    </a>
-          <a href="#" class="btn-icon btn-icon--edit"  title="Modifier"> <i class="fas fa-pen"></i>    </a>
+          <a href="#" class="btn-icon btn-icon--view"  title="Voir" onclick="openProjetRecordModal('view', this); return false;">     <i class="fas fa-eye"></i>    </a>
+          <a href="#" class="btn-icon btn-icon--edit"  title="Modifier" onclick="openProjetRecordModal('edit', this); return false;"> <i class="fas fa-pen"></i>    </a>
           <a href="#" class="btn-icon btn-icon--del"   title="Supprimer"><i class="fas fa-trash"></i>  </a>
         </div>
       </td>
@@ -686,6 +686,40 @@ function closeModal() {
 function handleOverlayClick(e) {
   if (e.target === document.getElementById('modalOverlay')) closeModal();
 }
+
+function fillProjetForm(record) {
+  document.getElementById('f-titre').value = record.titre || '';
+  document.getElementById('f-statut-sel').value = record.statut || '';
+  document.getElementById('f-budget').value = record.budget || '';
+  document.getElementById('f-avancement').value = record.pct || '';
+}
+
+function setProjetFormMode(isView) {
+  document.querySelectorAll('#modalBox input, #modalBox select, #modalBox textarea').forEach(function (field) {
+    if (field.type === 'file') {
+      field.disabled = isView;
+    } else if (field.tagName === 'SELECT' || field.type === 'checkbox' || field.type === 'radio') {
+      field.disabled = isView;
+    } else {
+      field.readOnly = isView;
+    }
+  });
+}
+
+window.openProjetRecordModal = function (mode, trigger) {
+  var row = trigger.closest('tr');
+  var record = row && row.dataset.record ? JSON.parse(row.dataset.record) : {};
+
+  fillProjetForm(record);
+  setProjetFormMode(mode === 'view');
+  document.getElementById('modalTitle').textContent = mode === 'view' ? 'Voir le projet' : 'Modifier le projet';
+  document.querySelector('#modalBox .modal-subtitle').textContent = mode === 'view'
+    ? 'Aperçu des informations du projet'
+    : 'Ajustez les informations avant enregistrement';
+  document.querySelector('#modalBox .modal-icon i').className = mode === 'view' ? 'fas fa-eye' : 'fas fa-pen';
+  document.getElementById('modalOverlay').classList.add('open');
+  document.getElementById('f-titre').focus();
+};
 
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeModal();

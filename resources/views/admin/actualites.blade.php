@@ -583,7 +583,7 @@ body, input, select, textarea, button {
     @endphp
 
     @foreach($actus as $a)
-    <tr>
+    <tr data-record='@json($a)'>
       <td><input type="checkbox"></td>
       <td>
         <div class="article-title-cell">
@@ -612,8 +612,8 @@ body, input, select, textarea, button {
       <td style="font-size:.78rem; font-weight:700;">{{ $a['vues'] }}</td>
       <td>
         <div class="action-btns">
-          <a href="#" class="btn-icon btn-icon--view" title="Voir"><i class="fas fa-eye"></i></a>
-          <a href="#" class="btn-icon btn-icon--edit" title="Modifier"><i class="fas fa-pen"></i></a>
+          <a href="#" class="btn-icon btn-icon--view" title="Voir" onclick="openActuRecordModal('view', this); return false;"><i class="fas fa-eye"></i></a>
+          <a href="#" class="btn-icon btn-icon--edit" title="Modifier" onclick="openActuRecordModal('edit', this); return false;"><i class="fas fa-pen"></i></a>
           <a href="#" class="btn-icon btn-icon--del" title="Supprimer"
             onclick="return confirm('Supprimer cette actualité ?')"><i class="fas fa-trash"></i></a>
         </div>
@@ -860,6 +860,10 @@ body, input, select, textarea, button {
   var formActu   = document.getElementById('form-actu');
   var tagsInput  = document.getElementById('tag-in');
   var tagsWrap   = document.getElementById('tags-wrap');
+  var modalTitle = document.getElementById('modal-title-actu');
+  var modalSubtitle = document.querySelector('#modal-overlay .modal-subtitle');
+  var modalIcon = document.querySelector('#modal-overlay .modal-icon i');
+  var submitButtons = [btnBrouillon, btnPublier];
 
   var actuTags   = [];
 
@@ -872,6 +876,69 @@ body, input, select, textarea, button {
   function closeModal() {
     overlay.classList.remove('open');
   }
+
+  function resetModalState() {
+    modalTitle.textContent = 'Nouvelle actualité';
+    modalSubtitle.textContent = 'Remplissez les informations puis publiez';
+    modalIcon.className = 'fas fa-newspaper';
+    formActu.querySelectorAll('input, select, textarea').forEach(function (field) {
+      field.disabled = false;
+      field.readOnly = false;
+    });
+    submitButtons.forEach(function (button) {
+      button.style.display = '';
+    });
+  }
+
+  function setFormMode(mode) {
+    var isView = mode === 'view';
+    formActu.querySelectorAll('input, select, textarea').forEach(function (field) {
+      if (field.type === 'hidden') return;
+      if (field.tagName === 'SELECT' || field.type === 'file' || field.type === 'checkbox' || field.type === 'radio') {
+        field.disabled = isView;
+      } else {
+        field.readOnly = isView;
+      }
+    });
+    submitButtons.forEach(function (button) {
+      button.style.display = isView ? 'none' : '';
+    });
+  }
+
+  function fillActuForm(record) {
+    document.getElementById('m-titre').value = record.titre || '';
+    document.getElementById('m-cat').value = record.cat || '';
+    document.getElementById('m-date').value = record.date_iso || '';
+    document.getElementById('m-auteur').value = record.auteur || 'Admin MUDEA';
+    document.getElementById('m-slug').value = record.slug || '';
+    document.getElementById('m-resume').value = record.resume || record.titre || '';
+    document.getElementById('m-contenu').value = record.contenu || '';
+    document.getElementById('m-statut').value = record.statut || 'brouillon';
+    document.getElementById('m-tc').textContent = (record.titre || '').length + '/120';
+    document.getElementById('m-rc').textContent = (record.resume || record.titre || '').length + '/300';
+  }
+
+  window.openActuRecordModal = function (mode, trigger) {
+    var row = trigger.closest('tr');
+    var record = row && row.dataset.record ? JSON.parse(row.dataset.record) : {};
+
+    resetModalState();
+    fillActuForm(record);
+
+    if (mode === 'view') {
+      modalTitle.textContent = 'Voir l\'actualité';
+      modalSubtitle.textContent = 'Aperçu des informations de l\'actualité';
+      modalIcon.className = 'fas fa-eye';
+    } else {
+      modalTitle.textContent = 'Modifier l\'actualité';
+      modalSubtitle.textContent = 'Ajustez les informations avant enregistrement';
+      modalIcon.className = 'fas fa-pen';
+    }
+
+    setFormMode(mode);
+    overlay.classList.add('open');
+    document.getElementById('m-titre').focus();
+  };
 
   btnOpen.addEventListener('click', openModal);
   btnClose.addEventListener('click', closeModal);

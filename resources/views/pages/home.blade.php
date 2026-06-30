@@ -1070,7 +1070,7 @@
     <div class="container">
         <div class="section-header">
             <h2 class="section-title">Projets Prioritaires</h2>
-            <a href="{{ url('/projets') }}" class="section-all">Voir tous les projets &rarr;</a>
+            <a href="{{ url('/projets-de-developpement') }}" class="section-all">Voir tous les projets &rarr;</a>
         </div>
         <div class="projects-grid">
 
@@ -1222,7 +1222,7 @@
                         encourager l'excellence et préparer l'avenir.
                     </p>
 
-                    <a href="{{ url('/education') }}"
+                    <a href="{{ url('/education-excellence') }}"
                        class="btn-duo-gold">
                         Découvrir l'espace éducation
                     </a>
@@ -1244,7 +1244,7 @@
                         le développement de notre village.
                     </p>
 
-                    <a href="{{ url('/communaute') }}"
+                    <a href="{{ url('/chefferie-patrimoine') }}"
                        class="btn-duo-green">
                         Rejoindre les échanges
                     </a>
@@ -1271,11 +1271,11 @@
             </div>
         </div>
         <div class="cta-btns">
-            <a href="{{ url('/contribuer') }}" class="btn-cta-primary">
+            <a href="{{ url('/contact') }}" class="btn-cta-primary">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg>
                 Contribuer maintenant
             </a>
-            <a href="{{ url('/mutuelle') }}" class="btn-cta-outline">
+            <a href="{{ url('/contact') }}" class="btn-cta-outline">
                 En savoir plus
             </a>
         </div>
