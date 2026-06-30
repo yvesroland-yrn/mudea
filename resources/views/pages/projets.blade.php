@@ -268,7 +268,7 @@
 <div class="pj-wrap">
 
   {{-- ══ PROJET À LA UNE ══ --}}
-  <div class="section-block">
+  <div class="section-block" id="projet-a-la-une">
     <div class="sec-title-row" style="margin-bottom:16px;">
       <div class="sec-title-left">
         <i class="fas fa-star icon" style="color:var(--green);"></i>
@@ -310,7 +310,7 @@
           </div>
           <div class="progress-bar"><div class="progress-fill" style="width:65%"></div></div>
         </div>
-        <a href="#" class="btn-details">Voir les détails &rarr;</a>
+        <a href="{{ route('projets.detail', 'complexe-scolaire') }}" class="btn-details">Voir les détails &rarr;</a>
       </div>
       <div class="une-stats">
         <div class="une-stat-item">
@@ -339,21 +339,21 @@
   </div>
 
   {{-- ══ PROJETS EN COURS ══ --}}
-  <div class="section-block">
+  <div class="section-block" id="projets-en-cours">
     <div class="sec-title-row">
       <div class="sec-title-left">
         <i class="fas fa-rotate icon"></i>
         <h2>Projets en Cours</h2>
       </div>
-      <a href="#" class="sec-see-all">Voir tous les projets en cours &rarr;</a>
+      <a href="{{ route('projets.detail', 'adduction-eau') }}" class="sec-see-all">Voir tous les projets en cours &rarr;</a>
     </div>
 
     @php
       $en_cours = [
-        ['titre' => 'Adduction d\'eau potable pour Andé',        'dates' => '2023 – 2025', 'pct' => 65, 'img' => '1.JPG'],
-        ['titre' => 'Construction du Centre de Santé Intégré',   'dates' => '2024 – 2026', 'pct' => 40, 'img' => '2.JPG'],
-        ['titre' => 'Réhabilitation des pistes rurales',         'dates' => '2024 – 2025', 'pct' => 30, 'img' => '3.JPG'],
-        ['titre' => 'Électrification solaire de 5 quartiers',    'dates' => '2023 – 2025', 'pct' => 60, 'img' => '4.JPG'],
+        ['titre' => 'Adduction d\'eau potable pour Andé',        'dates' => '2023 – 2025', 'pct' => 65, 'img' => '1.JPG', 'slug' => 'adduction-eau'],
+        ['titre' => 'Construction du Centre de Santé Intégré',   'dates' => '2024 – 2026', 'pct' => 40, 'img' => '2.JPG', 'slug' => 'centre-sante'],
+        ['titre' => 'Réhabilitation des pistes rurales',         'dates' => '2024 – 2025', 'pct' => 30, 'img' => '3.JPG', 'slug' => 'pistes-rurales'],
+        ['titre' => 'Électrification solaire de 5 quartiers',    'dates' => '2023 – 2025', 'pct' => 60, 'img' => '4.JPG', 'slug' => 'electrification-solaire'],
       ];
     @endphp
 
@@ -375,7 +375,7 @@
             </div>
             <div class="progress-bar"><div class="progress-fill" style="width:{{ $p['pct'] }}%"></div></div>
           </div>
-          <a href="#" class="voir-details-link">Voir les détails &rarr;</a>
+          <a href="{{ route('projets.detail', $p['slug']) }}" class="voir-details-link">Voir les détails &rarr;</a>
         </div>
       </div>
       @endforeach
@@ -383,21 +383,21 @@
   </div>
 
   {{-- ══ PROJETS RÉALISÉS ══ --}}
-  <div class="section-block">
+  <div class="section-block" id="projets-realises">
     <div class="sec-title-row">
       <div class="sec-title-left">
         <i class="fas fa-circle-check icon"></i>
         <h2>Projets Réalisés</h2>
       </div>
-      <a href="#" class="sec-see-all">Voir tous les projets réalisés &rarr;</a>
+      <a href="{{ route('projets.detail', 'ecole') }}" class="sec-see-all">Voir tous les projets réalisés &rarr;</a>
     </div>
 
     @php
       $realises = [
-        ['titre' => 'Réhabilitation de l\'école primaire d\'Andé', 'dates' => '2001 – 2002', 'img' => 'ecole.jpg'],
-        ['titre' => 'Construction de la Maison des Jeunes',        'dates' => '2020 – 2022', 'img' => 'chateau.jpg'],
-        ['titre' => 'Programme d\'appui à l\'agriculture locale',  'dates' => '2019 – 2021', 'img' => 'route.jpg'],
-        ['titre' => 'Aménagement de la place publique',            'dates' => '2021 – 2021', 'img' => '5.JPG'],
+        ['titre' => 'Réhabilitation de l\'école primaire d\'Andé', 'dates' => '2001 – 2002', 'img' => 'ecole.jpg', 'slug' => 'ecole'],
+        ['titre' => 'Construction de la Maison des Jeunes',        'dates' => '2020 – 2022', 'img' => 'chateau.jpg', 'slug' => 'chateau'],
+        ['titre' => 'Programme d\'appui à l\'agriculture locale',  'dates' => '2019 – 2021', 'img' => 'route.jpg', 'slug' => 'agriculture-locale'],
+        ['titre' => 'Aménagement de la place publique',            'dates' => '2021 – 2021', 'img' => '5.JPG', 'slug' => 'place-publique'],
       ];
     @endphp
 
@@ -413,7 +413,7 @@
         <div class="realise-body">
           <div class="realise-title">{{ $r['titre'] }}</div>
           <div class="realise-dates"><i class="fas fa-calendar-days"></i> {{ $r['dates'] }}</div>
-          <a href="#" class="voir-details-link">Voir les détails &rarr;</a>
+          <a href="{{ route('projets.detail', $r['slug']) }}" class="voir-details-link">Voir les détails &rarr;</a>
         </div>
       </div>
       @endforeach
@@ -421,21 +421,21 @@
   </div>
 
   {{-- ══ PROJETS FUTURS ══ --}}
-  <div class="section-block" style="padding-bottom:44px;">
+  <div class="section-block" style="padding-bottom:44px;" id="projets-futurs">
     <div class="sec-title-row">
       <div class="sec-title-left">
         <i class="fas fa-hourglass-half icon"></i>
         <h2>Projets Futurs</h2>
       </div>
-      <a href="#" class="sec-see-all">Voir tous les projets futurs &rarr;</a>
+      <a href="{{ route('projets.detail', 'complexe-sportif-culturel') }}" class="sec-see-all">Voir tous les projets futurs &rarr;</a>
     </div>
 
     @php
       $futurs = [
-        ['titre' => 'Bitumage de l\'axe principal Andé – Carrefour',         'dates' => '2026 – 2027', 'icon' => 'fa-road'],
-        ['titre' => 'Construction d\'un complexe sportif et culturel',        'dates' => '2026 – 2027', 'icon' => 'fa-futbol'],
-        ['titre' => 'Construction d\'un marché moderne',                      'dates' => '2026 – 2027', 'icon' => 'fa-store'],
-        ['titre' => 'Programme de reboisement et protection de l\'environnement', 'dates' => '2026 – 2028', 'icon' => 'fa-seedling'],
+        ['titre' => 'Bitumage de l\'axe principal Andé – Carrefour',         'dates' => '2026 – 2027', 'icon' => 'fa-road', 'slug' => 'adduction-eau'],
+        ['titre' => 'Construction d\'un complexe sportif et culturel',        'dates' => '2026 – 2027', 'icon' => 'fa-futbol', 'slug' => 'complexe-sportif-culturel'],
+        ['titre' => 'Construction d\'un marché moderne',                      'dates' => '2026 – 2027', 'icon' => 'fa-store', 'slug' => 'place-publique'],
+        ['titre' => 'Programme de reboisement et protection de l\'environnement', 'dates' => '2026 – 2028', 'icon' => 'fa-seedling', 'slug' => 'agriculture-locale'],
       ];
     @endphp
 
@@ -447,7 +447,7 @@
         </div>
         <div class="futur-title">{{ $f['titre'] }}</div>
         <div class="futur-dates"><i class="fas fa-calendar-days"></i> {{ $f['dates'] }}</div>
-        <a href="#" class="futur-link">En savoir plus &rarr;</a>
+        <a href="{{ route('projets.detail', $f['slug']) }}" class="futur-link">En savoir plus &rarr;</a>
       </div>
       @endforeach
     </div>
@@ -463,7 +463,7 @@
       <div class="cta-copy">
         <h3>Soutenez nos projets</h3>
         <p>Votre contribution, même petite, peut faire une grande différence pour le développement durable d'Andé.</p>
-        <a href="#" class="btn-contribuer" style="margin-top:14px;">Contribuer maintenant <i class="fas fa-heart"></i></a>
+        <a href="{{ route('contact') }}#formulaire-contact" class="btn-contribuer" style="margin-top:14px;">Contribuer maintenant <i class="fas fa-heart"></i></a>
       </div>
       <div class="cta-features">
         <div class="cta-feature">

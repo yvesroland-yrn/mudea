@@ -708,8 +708,8 @@
     </div>
 
     <div style="text-align:center;margin-top:8px;">
-      <a href="#" class="btn-voir-tous">
-        Voir tous les membres du bureau &nbsp;<i class="fas fa-arrow-right"></i>
+      <a  class="btn-voir-tous">
+         Les membres du bureau &nbsp;<i"></i>
       </a>
     </div>
   </div>

@@ -1070,7 +1070,7 @@
     <div class="container">
         <div class="section-header">
             <h2 class="section-title">Projets Prioritaires</h2>
-            <a href="{{ url('/projets') }}" class="section-all">Voir tous les projets &rarr;</a>
+            <a href="{{ url('/projets-de-developpement') }}" class="section-all">Voir tous les projets &rarr;</a>
         </div>
         <div class="projects-grid">
 

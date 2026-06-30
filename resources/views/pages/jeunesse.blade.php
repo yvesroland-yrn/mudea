@@ -116,6 +116,74 @@
   .btn-action--green  { background: var(--green);  color: white; }
   .btn-action--gold   { background: var(--gold);   color: white; }
   .btn-action--purple { background: var(--purple); color: white; }
+  .btn-action, .btn-full, .voir-tous-link, .comp-more {
+    cursor: pointer;
+    border: none;
+  }
+  .voir-tous-link {
+    background: transparent;
+    padding: 0;
+    font: inherit;
+    text-align: left;
+  }
+  .comp-item {
+    border: none;
+    background: transparent;
+    width: 100%;
+    text-align: left;
+    padding: 12px;
+  }
+
+  .inline-panel {
+    display: none;
+    padding: 14px;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--cream);
+    font-size: .8rem;
+    color: var(--text-mid);
+  }
+  .com-card.is-open .inline-panel {
+    display: block;
+  }
+  .extra-items {
+    display: none;
+  }
+  .com-card.is-expanded .extra-items,
+  .com-card.is-expanded .extra-item {
+    display: flex;
+  }
+  .com-card.is-expanded .extra-grid-item {
+    display: flex;
+  }
+  .extra-item,
+  .extra-grid-item {
+    display: none;
+  }
+  #temoignages.is-expanded .extra-temoignages {
+    display: flex;
+  }
+  .extra-temoignages {
+    display: none;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .comp-empty {
+    display: none;
+    padding: 8px 2px 0;
+    font-size: .78rem;
+    color: var(--text-light);
+    font-weight: 600;
+  }
+  .toggle-label--expanded {
+    display: none;
+  }
+  .com-card.is-expanded .toggle-label--collapsed {
+    display: none;
+  }
+  .com-card.is-expanded .toggle-label--expanded {
+    display: inline;
+  }
 
   /* ─── PLACE PUBLIQUE ─── */
   .sujets-label { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
@@ -301,10 +369,10 @@
 
 {{-- ══ MAIN GRID ══ --}}
 <div class="com-wrap">
-  <div class="main-grid">
+    <div class="main-grid">
 
     {{-- ══ PLACE PUBLIQUE ══ --}}
-    <div class="com-card">
+    <div class="com-card" id="place-publique">
       <div class="com-card-header">
         <div class="com-card-header-left">
           <div class="com-icon com-icon--blue"><i class="fas fa-comments"></i></div>
@@ -313,13 +381,20 @@
             <div class="com-card-sub">Discussions générales</div>
           </div>
         </div>
-        <a href="#" class="btn-action btn-action--blue"><i class="fas fa-pencil"></i> Nouveau sujet</a>
+        <button type="button" class="btn-action btn-action--blue" data-open-panel="topic-panel"><i class="fas fa-pencil"></i> Nouveau sujet</button>
       </div>
       <p class="com-card-desc">Participez aux discussions, posez vos questions, donnez votre avis et échangez sur la vie du village.</p>
 
+      <div class="inline-panel" id="topic-panel">
+        Proposez un nouveau sujet en passant par le formulaire de contact. Nous pourrons le relayer dans l'espace communautaire et le faire suivre à la bonne commission.
+        <div style="margin-top:10px;">
+          <a href="{{ route('contact') }}#formulaire-contact" class="btn-action btn-action--blue" style="padding:8px 12px;">Aller au formulaire</a>
+        </div>
+      </div>
+
       <div class="sujets-label">
         <span>Sujets récents</span>
-        <a href="#" class="voir-tous-link">Voir tous &rarr;</a>
+        <button type="button" class="voir-tous-link" data-expand-card="place-publique">Voir tous &rarr;</button>
       </div>
 
       <div class="sujet-list">
@@ -328,10 +403,12 @@
             ['titre' => 'Amélioration de l\'accès à l\'eau potable', 'par' => 'K. Jean',  'temps' => 'Il y a 2 heures', 'count' => 12, 'img' => '2.png'],
             ['titre' => 'Organisation de la fête des ignames 2024', 'par' => 'A. Marie', 'temps' => 'Il y a 5 heures', 'count' => 8,  'img' => '3.png'],
             ['titre' => 'Transport scolaire : vos suggestions',     'par' => 'Y. Konan',  'temps' => 'Il y a 1 jour',    'count' => 15, 'img' => '4.png'],
+            ['titre' => 'Sécurité du marché et éclairage public',   'par' => 'M. Koffi',  'temps' => 'Il y a 2 jours',   'count' => 6,  'img' => '5.png'],
+            ['titre' => 'Idées pour le prochain forum jeunes',      'par' => 'D. Kouadio','temps' => 'Il y a 3 jours',   'count' => 9,  'img' => '6.JPG'],
           ];
         @endphp
         @foreach($sujets as $s)
-        <div class="sujet-item">
+        <div class="sujet-item {{ $loop->index >= 3 ? 'extra-item' : '' }}">
           <div class="sujet-avatar">
             <img src="{{ asset('images/communaute/' . $s['img']) }}" alt=""
               onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
@@ -346,11 +423,14 @@
         @endforeach
       </div>
 
-      <a href="#" class="btn-full btn-full--blue">Accéder aux discussions &rarr;</a>
+      <button type="button" class="btn-full btn-full--blue" data-expand-card="place-publique">
+        <span class="toggle-label--collapsed">Accéder aux discussions &rarr;</span>
+        <span class="toggle-label--expanded">Replier les discussions &rarr;</span>
+      </button>
     </div>
 
     {{-- ══ RESSOURCES & COMPÉTENCES ══ --}}
-    <div class="com-card">
+    <div class="com-card" id="competences">
       <div class="com-card-header">
         <div class="com-card-header-left">
           <div class="com-icon com-icon--green"><i class="fas fa-people-group"></i></div>
@@ -359,11 +439,18 @@
             <div class="com-card-sub">Référencement des compétences</div>
           </div>
         </div>
-        <a href="#" class="btn-action btn-action--green"><i class="fas fa-user-plus"></i> Ajouter ma compétence</a>
+        <button type="button" class="btn-action btn-action--green" data-open-panel="comp-panel"><i class="fas fa-user-plus"></i> Ajouter ma compétence</button>
       </div>
       <p class="com-card-desc">Découvrez les talents de la communauté et proposez vos compétences.</p>
 
-      <form class="comp-search" action="#" method="GET">
+      <div class="inline-panel" id="comp-panel">
+        Enregistrez votre compétence en passant par le formulaire de contact. Mentionnez votre domaine, votre quartier et votre disponibilité, puis nous pourrons vous référencer.
+        <div style="margin-top:10px;">
+          <a href="{{ route('contact') }}#formulaire-contact" class="btn-action btn-action--green" style="padding:8px 12px;">Déposer ma compétence</a>
+        </div>
+      </div>
+
+      <form class="comp-search" id="comp-search-form" action="#competences" method="GET">
         <input type="text" name="q" class="comp-search-input" placeholder="Rechercher une compétence...">
         <select name="domaine" class="comp-search-select">
           <option value="">Domaine</option>
@@ -384,55 +471,74 @@
 
       <div class="competences-label">
         <span>Compétences disponibles</span>
-        <a href="#" class="voir-tous-link voir-tous-link--green">Voir toutes &rarr;</a>
+        <button type="button" class="voir-tous-link voir-tous-link--green" data-expand-card="competences">Voir toutes &rarr;</button>
       </div>
 
       <div class="competences-grid">
-        <div class="comp-item">
+        <div class="comp-item" data-domaine="batiment" data-localisation="ande-centre">
           <div class="comp-icon comp-icon--orange"><i class="fas fa-hard-hat"></i></div>
           <div>
             <div class="comp-name">Bâtiment &amp;<br>Construction</div>
             <div class="comp-count">16 membres</div>
           </div>
         </div>
-        <div class="comp-item">
+        <div class="comp-item" data-domaine="agriculture" data-localisation="ande-nord">
           <div class="comp-icon comp-icon--leaf"><i class="fas fa-seedling"></i></div>
           <div>
             <div class="comp-name">Agriculture &amp;<br>Élevage</div>
             <div class="comp-count">24 membres</div>
           </div>
         </div>
-        <div class="comp-item">
+        <div class="comp-item" data-domaine="informatique" data-localisation="ande-centre">
           <div class="comp-icon comp-icon--laptop"><i class="fas fa-laptop-code"></i></div>
           <div>
             <div class="comp-name">Informatique &amp;<br>Digital</div>
             <div class="comp-count">15 membres</div>
           </div>
         </div>
-        <div class="comp-item">
+        <div class="comp-item" data-domaine="sante" data-localisation="ande-sud">
           <div class="comp-icon comp-icon--red"><i class="fas fa-heart-pulse"></i></div>
           <div>
             <div class="comp-name">Santé &amp;<br>Bien-Être</div>
             <div class="comp-count">12 membres</div>
           </div>
         </div>
-        <div class="comp-item">
+        <div class="comp-item" data-domaine="education" data-localisation="ande-centre">
           <div class="comp-icon comp-icon--cap"><i class="fas fa-graduation-cap"></i></div>
           <div>
             <div class="comp-name">Éducation &amp;<br>Formation</div>
             <div class="comp-count">20 membres</div>
           </div>
         </div>
-        <a href="#" class="comp-item" style="text-decoration:none; cursor:pointer;">
+        <div class="comp-item extra-grid-item" data-domaine="transport" data-localisation="ande-nord">
+          <div class="comp-icon comp-icon--purple"><i class="fas fa-truck"></i></div>
+          <div>
+            <div class="comp-name">Transport &amp;<br>Logistique</div>
+            <div class="comp-count">9 membres</div>
+          </div>
+        </div>
+        <div class="comp-item extra-grid-item" data-domaine="artisanat" data-localisation="ande-sud">
+          <div class="comp-icon comp-icon--orange"><i class="fas fa-paint-brush"></i></div>
+          <div>
+            <div class="comp-name">Artisanat &amp;<br>Création</div>
+            <div class="comp-count">11 membres</div>
+          </div>
+        </div>
+        <button type="button" class="comp-item" style="text-decoration:none;" data-expand-card="competences">
           <div class="comp-more">Voir plus<br>de domaines &rarr;</div>
-        </a>
+        </button>
       </div>
 
-      <a href="#" class="btn-full btn-full--green" style="margin-top:4px;">Découvrir les compétences &rarr;</a>
+      <div class="comp-empty" id="comp-empty">Aucune compétence ne correspond à votre recherche.</div>
+
+      <button type="button" class="btn-full btn-full--green" style="margin-top:4px;" data-expand-card="competences">
+        <span class="toggle-label--collapsed">Découvrir les compétences &rarr;</span>
+        <span class="toggle-label--expanded">Replier les compétences &rarr;</span>
+      </button>
     </div>
 
     {{-- ══ PARTAGE D'EXPÉRIENCES ══ --}}
-    <div class="com-card">
+    <div class="com-card" id="temoignages">
       <div class="com-card-header">
         <div class="com-card-header-left">
           <div class="com-icon com-icon--gold"><i class="fas fa-people-arrows"></i></div>
@@ -441,13 +547,20 @@
             <div class="com-card-sub">Témoignages et retours d'expérience</div>
           </div>
         </div>
-        <a href="#" class="btn-action btn-action--gold"><i class="fas fa-pencil"></i> Partager une expérience</a>
+        <button type="button" class="btn-action btn-action--gold" data-open-panel="exp-panel"><i class="fas fa-pencil"></i> Partager une expérience</button>
       </div>
       <p class="com-card-desc">Inspirez et soyez inspiré par les parcours, réussites et initiatives de notre communauté.</p>
 
+      <div class="inline-panel" id="exp-panel">
+        Racontez votre parcours via le formulaire de contact. Nous pourrons publier votre retour d’expérience dans cette section après validation.
+        <div style="margin-top:10px;">
+          <a href="{{ route('contact') }}#formulaire-contact" class="btn-action btn-action--gold" style="padding:8px 12px;">Proposer un témoignage</a>
+        </div>
+      </div>
+
       <div class="sujets-label">
         <span>Derniers témoignages</span>
-        <a href="#" class="voir-tous-link voir-tous-link--gold">Voir tous &rarr;</a>
+        <button type="button" class="voir-tous-link voir-tous-link--gold" data-expand-card="temoignages">Voir tous &rarr;</button>
       </div>
 
       <div class="temoignage-card">
@@ -469,11 +582,38 @@
         </div>
       </div>
 
-      <a href="#" class="btn-full btn-full--gold" style="margin-top:4px;">Lire les témoignages &rarr;</a>
+      <div class="extra-temoignages">
+        <div class="temoignage-card">
+          <div class="temoignage-img">
+            <img src="{{ asset('images/communaute/4.png') }}" alt="Awa B."
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+            <div class="temoignage-img-placeholder" style="display:none;"><i class="fas fa-user"></i></div>
+          </div>
+          <div class="temoignage-body">
+            <div class="temoignage-title">Mon retour sur le soutien scolaire</div>
+            <div class="temoignage-by">Par Awa B. · Il y a 5 jours</div>
+            <div class="temoignage-excerpt">L’accompagnement reçu nous a aidés à mieux préparer les examens et à reprendre confiance.</div>
+          </div>
+        </div>
+        <div class="temoignage-card">
+          <div class="temoignage-img">
+            <img src="{{ asset('images/communaute/6.JPG') }}" alt="Kouadio M."
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+            <div class="temoignage-img-placeholder" style="display:none;"><i class="fas fa-user"></i></div>
+          </div>
+          <div class="temoignage-body">
+            <div class="temoignage-title">L'impact des actions communautaires</div>
+            <div class="temoignage-by">Par Kouadio M. · Il y a 1 semaine</div>
+            <div class="temoignage-excerpt">Les initiatives locales renforcent la solidarité et montrent que chacun peut contribuer au progrès du village.</div>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="btn-full btn-full--gold" style="margin-top:4px;" data-expand-card="temoignages">Lire les témoignages &rarr;</button>
     </div>
 
     {{-- ══ ENTRAIDE & SOLIDARITÉ ══ --}}
-    <div class="com-card">
+    <div class="com-card" id="entraide">
       <div class="com-card-header">
         <div class="com-card-header-left">
           <div class="com-icon com-icon--purple"><i class="fas fa-hands-holding-heart"></i></div>
@@ -482,7 +622,7 @@
             <div class="com-card-sub">Assistance et soutien communautaire</div>
           </div>
         </div>
-        <a href="#" class="btn-action btn-action--purple"><i class="fas fa-plus"></i> Publier une demande</a>
+        <a href="{{ route('contact') }}#formulaire-contact" class="btn-action btn-action--purple"><i class="fas fa-plus"></i> Publier une demande</a>
       </div>
       <p class="com-card-desc">Besoin d'aide ou envie d'aider ? Ensemble, nous sommes plus forts.</p>
 
@@ -492,7 +632,7 @@
         <div>
           <div class="entraide-sub-title">
             <span>Demandes récentes</span>
-            <a href="#" class="voir-tous-link voir-tous-link--purple" style="font-size:.72rem;">Voir toutes &rarr;</a>
+            <button type="button" class="voir-tous-link voir-tous-link--purple" style="font-size:.72rem;" data-expand-card="entraide">Voir toutes &rarr;</button>
           </div>
           <div class="entraide-list">
             @php
@@ -500,10 +640,12 @@
                 ['titre' => 'Aide pour frais médicaux',        'par' => 'K. Koffi', 'temps' => 'Il y a 4 heures', 'img' => '2.png'],
                 ['titre' => 'Soutien scolaire en maths',       'par' => 'B. Yao',   'temps' => 'Il y a 1 jour',   'img' => '3.png'],
                 ['titre' => 'Matériel pour activité agricole', 'par' => 'D. Assi',  'temps' => 'Il y a 2 jours',  'img' => '4.png'],
+                ['titre' => 'Recherche d\'un hébergement temporaire', 'par' => 'S. Traoré', 'temps' => 'Il y a 3 jours', 'img' => '5.png'],
+                ['titre' => 'Besoin de soutien pour inscription',     'par' => 'N. N\'Guessan', 'temps' => 'Il y a 4 jours', 'img' => '1.png'],
               ];
             @endphp
             @foreach($demandes as $d)
-            <div class="entraide-item">
+            <div class="entraide-item {{ $loop->index >= 3 ? 'extra-item' : '' }}">
               <div class="entraide-avatar">
                 <img src="{{ asset('images/communaute/' . $d['img']) }}" alt=""
                   onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
@@ -516,14 +658,14 @@
             </div>
             @endforeach
           </div>
-          <a href="#" class="voir-tous-link voir-tous-link--purple" style="font-size:.72rem; margin-top:10px;">Voir toutes les demandes &rarr;</a>
+          <button type="button" class="voir-tous-link voir-tous-link--purple" style="font-size:.72rem; margin-top:10px;" data-expand-card="entraide">Voir toutes les demandes &rarr;</button>
         </div>
 
         {{-- Offres d'aide récentes --}}
         <div>
           <div class="entraide-sub-title">
             <span>Offres d'aide récentes</span>
-            <a href="#" class="voir-tous-link voir-tous-link--purple" style="font-size:.72rem;">Voir toutes &rarr;</a>
+            <button type="button" class="voir-tous-link voir-tous-link--purple" style="font-size:.72rem;" data-expand-card="entraide">Voir toutes &rarr;</button>
           </div>
           <div class="entraide-list">
             @php
@@ -531,10 +673,12 @@
                 ['titre' => 'Don de livres scolaires',   'par' => 'K. Marie',   'temps' => 'Il y a 6 heures', 'img' => '6.JPG'],
                 ['titre' => 'Cours de soutien gratuit',  'par' => 'A. Sané',    'temps' => 'Il y a 1 jour',   'img' => '1.png'],
                 ['titre' => 'Offre de stages étudiants', 'par' => 'N. Konaté',  'temps' => 'Il y a 3 jours',  'img' => '5.png'],
+                ['titre' => 'Don de matériel sportif',   'par' => 'D. Koffi',   'temps' => 'Il y a 4 jours',  'img' => '2.png'],
+                ['titre' => 'Mentorat pour étudiants',    'par' => 'M. Yapo',    'temps' => 'Il y a 5 jours',  'img' => '3.png'],
               ];
             @endphp
             @foreach($offres as $o)
-            <div class="entraide-item">
+            <div class="entraide-item {{ $loop->index >= 3 ? 'extra-item' : '' }}">
               <div class="entraide-avatar">
                 <img src="{{ asset('images/communaute/' . $o['img']) }}" alt=""
                   onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
@@ -547,12 +691,12 @@
             </div>
             @endforeach
           </div>
-          <a href="#" class="voir-tous-link voir-tous-link--purple" style="font-size:.72rem; margin-top:10px;">Voir toutes les offres &rarr;</a>
+          <button type="button" class="voir-tous-link voir-tous-link--purple" style="font-size:.72rem; margin-top:10px;" data-expand-card="entraide">Voir toutes les offres &rarr;</button>
         </div>
 
       </div>
 
-      <a href="#" class="btn-full btn-full--purple" style="margin-top:4px;">Voir toutes les annonces &rarr;</a>
+      <button type="button" class="btn-full btn-full--purple" style="margin-top:4px;" data-expand-card="entraide">Voir toutes les annonces &rarr;</button>
     </div>
 
   </div>
@@ -597,5 +741,61 @@
     </div>
   </div>
 </section>
+
+<script>
+  document.querySelectorAll('[data-open-panel]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const card = button.closest('.com-card');
+      if (!card) return;
+      card.classList.toggle('is-open');
+    });
+  });
+
+  document.querySelectorAll('[data-expand-card]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const cardId = button.getAttribute('data-expand-card');
+      const card = document.getElementById(cardId);
+      if (!card) return;
+      card.classList.toggle('is-expanded');
+      button.setAttribute('aria-pressed', card.classList.contains('is-expanded') ? 'true' : 'false');
+      if (card.classList.contains('is-expanded')) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  const compForm = document.getElementById('comp-search-form');
+  if (compForm) {
+    compForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const card = document.getElementById('competences');
+      const empty = document.getElementById('comp-empty');
+      const query = (compForm.querySelector('[name="q"]')?.value || '').trim().toLowerCase();
+      const domaine = compForm.querySelector('[name="domaine"]')?.value || '';
+      const localisation = compForm.querySelector('[name="localisation"]')?.value || '';
+      const items = card ? Array.from(card.querySelectorAll('.comp-item[data-domaine]')) : [];
+
+      if (card) {
+        card.classList.add('is-expanded');
+      }
+
+      let visibleCount = 0;
+      items.forEach((item) => {
+        const text = item.textContent.toLowerCase();
+        const matchQuery = !query || text.includes(query);
+        const matchDomaine = !domaine || item.dataset.domaine === domaine;
+        const matchLoc = !localisation || item.dataset.localisation === localisation;
+        const match = matchQuery && matchDomaine && matchLoc;
+        item.style.display = match ? '' : 'none';
+        if (match) visibleCount += 1;
+      });
+
+      if (empty) {
+        empty.style.display = visibleCount === 0 ? 'block' : 'none';
+      }
+    });
+  }
+</script>
 
 @endsection

@@ -9,7 +9,9 @@
     <title>@yield('title', 'MUDEA – Mutuelle de Développement d\'Andé')</title>
 
     {{-- Favicon --}}
-    <link rel="icon" href="{{ asset('images/mudea-favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo.png') }}">
+    <link rel="shortcut icon" href="{{ asset('images/logo.png') }}">
 
     {{-- CSS/JS compilés --}}
     <link rel="stylesheet" href="{{ asset('css/mudea-header-footer.css') }}">

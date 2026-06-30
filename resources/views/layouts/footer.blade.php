@@ -82,7 +82,7 @@
         <div class="footer-col footer-col--newsletter">
             <h4 class="footer-col-title">Newsletter</h4>
             <p class="footer-newsletter-text">Abonnez-vous pour recevoir nos actualit&eacute;s et annonces.</p>
-            <form action="#" method="POST" class="footer-newsletter-form">
+            <form action="{{ route('newsletter.subscribe') }}" method="POST" class="footer-newsletter-form">
                 @csrf
                 <input type="email" name="email" class="footer-newsletter-input" placeholder="Votre email" required>
                 <button type="submit" class="footer-newsletter-btn" aria-label="S'abonner">
