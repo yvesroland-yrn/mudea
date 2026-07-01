@@ -11,7 +11,7 @@ class AdminController extends Controller
 
     public function actualites()
     {
-        return view('admin.actualites');
+        return redirect()->route('admin.actualites.index');
     }
 
     public function pages()

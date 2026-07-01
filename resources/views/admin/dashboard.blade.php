@@ -196,7 +196,7 @@
     <div>
       <div class="kpi-label">Actualités</div>
       <div class="kpi-number">125</div>
-      <a href="{{ route('admin.actualites') }}" class="kpi-link kpi-link--green">Voir tous &rarr;</a>
+      <a href="{{ route('admin.actualites.index') }}" class="kpi-link kpi-link--green">Voir tous &rarr;</a>
     </div>
   </div>
   <div class="kpi-card">
