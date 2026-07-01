@@ -253,18 +253,18 @@
           <div class="quick-icon quick-icon--green"><i class="fas fa-pencil"></i></div>
           <div class="quick-label">Créer une actualité</div>
         </a>
-        <a href="" class="quick-item">
+        <a href="{{ route('admin.projets') }}" class="quick-item">
           <div class="quick-icon quick-icon--blue"><i class="fas fa-folder-plus"></i></div>
           <div class="quick-label">Créer un projet</div>
         </a>
-        <a href="#" class="quick-item">
+        <a href="{{ route('admin.communaute') }}" class="quick-item">
           <div class="quick-icon quick-icon--gold"><i class="fas fa-calendar-plus"></i></div>
           <div class="quick-label">Créer un événement</div>
         </a>
-        <a href="{{ route('admin.pages') }}" class="quick-item">
+        <!-- <a href="{{ route('admin.pages') }}" class="quick-item">
           <div class="quick-icon quick-icon--purple"><i class="fas fa-file-circle-plus"></i></div>
           <div class="quick-label">Publier une page</div>
-        </a>
+        </a> -->
         <a href="{{ route('admin.messages') }}" class="quick-item">
           <div class="quick-icon quick-icon--dark"><i class="fas fa-envelope-open-text"></i></div>
           <div class="quick-label">Voir les messages</div>

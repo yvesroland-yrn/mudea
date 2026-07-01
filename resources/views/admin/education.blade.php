@@ -422,7 +422,7 @@ textarea.form-control {
   </button>
 </div>
 
-{{-- ── Section cards ──────────────────────────────────────────────────────── --}}
+<!-- {{-- ── Section cards ──────────────────────────────────────────────────────── --}}
 <div class="sections-grid">
   <div class="section-card">
     <div class="section-card-icon"><i class="fas fa-file-lines"></i></div>
@@ -442,7 +442,7 @@ textarea.form-control {
     <div class="section-card-count">5 vidéos</div>
     <a href="#" class="btn-sm">Gérer <i class="fas fa-arrow-right"></i></a>
   </div>
-</div>
+</div> -->
 
 {{-- ── Tableau ─────────────────────────────────────────────────────────────── --}}
 <table class="data-table">
