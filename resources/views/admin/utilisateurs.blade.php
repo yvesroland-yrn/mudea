@@ -148,17 +148,17 @@
 @endpush
 @section('content')
 <div class="page-toolbar">
-  <h1>Utilisateurs <span style="font-weight:600;color:var(--text-light);font-size:.9rem;">(520)</span></h1>
+  <h1>Utilisateurs <span style="font-weight:600;color:var(--text-light);font-size:.9rem;"></span></h1>
   <button type="button" class="btn-primary" data-bs-toggle="modal" data-bs-target="#userModal">
     <i class="fas fa-user-plus"></i>
     Ajouter un utilisateur
 </button>
 </div>
 <div class="kpi-grid">
-  <div class="kpi-card"><div class="kpi-icon kpi-icon--green"><i class="fas fa-users"></i></div><div><div class="kpi-number">520</div><div class="kpi-label">Total membres</div></div></div>
-  <div class="kpi-card"><div class="kpi-icon kpi-icon--blue"><i class="fas fa-user-check"></i></div><div><div class="kpi-number">498</div><div class="kpi-label">Actifs</div></div></div>
-  <div class="kpi-card"><div class="kpi-icon kpi-icon--gold"><i class="fas fa-user-plus"></i></div><div><div class="kpi-number">+15</div><div class="kpi-label">Ce mois</div></div></div>
-  <div class="kpi-card"><div class="kpi-icon kpi-icon--purple"><i class="fas fa-user-shield"></i></div><div><div class="kpi-number">3</div><div class="kpi-label">Admins</div></div></div>
+  <div class="kpi-card"><div class="kpi-icon kpi-icon--green"><i class="fas fa-users"></i></div><div><div class="kpi-number"></div><div class="kpi-label">Total membres</div></div></div>
+  <div class="kpi-card"><div class="kpi-icon kpi-icon--blue"><i class="fas fa-user-check"></i></div><div><div class="kpi-number"></div><div class="kpi-label">Actifs</div></div></div>
+  <div class="kpi-card"><div class="kpi-icon kpi-icon--gold"><i class="fas fa-user-plus"></i></div><div><div class="kpi-number"></div><div class="kpi-label">Ce mois</div></div></div>
+  <div class="kpi-card"><div class="kpi-icon kpi-icon--purple"><i class="fas fa-user-shield"></i></div><div><div class="kpi-number"></div><div class="kpi-label">Admins</div></div></div>
 </div>
 <div class="filters-bar">
   <input class="filter-input filter-input--search" type="text" placeholder="Rechercher un utilisateur...">
@@ -169,7 +169,7 @@
   <thead><tr><th><input type="checkbox"></th><th>Utilisateur</th><th>Rôle</th><th>Statut</th><th>Inscription</th><th>Dernière connexion</th><th>Actions</th></tr></thead>
   <tbody>
     @php $users=[['nom'=>'Kouadio Jean','email'=>'kouadio.j@gmail.com','role'=>'admin','statut'=>'actif','inscrit'=>'15 Jan. 2020','derniere'=>'Aujourd\'hui'],['nom'=>'Yao Rosine','email'=>'yao.r@gmail.com','role'=>'moderateur','statut'=>'actif','inscrit'=>'02 Mar. 2021','derniere'=>'Hier'],['nom'=>'Kouassi A. Marie','email'=>'kouassi.m@yahoo.fr','role'=>'membre','statut'=>'actif','inscrit'=>'10 Avr. 2022','derniere'=>'Il y a 3 jours'],['nom'=>'N\'Guessan Marc','email'=>'nguessan.m@gmail.com','role'=>'membre','statut'=>'actif','inscrit'=>'05 Mai 2022','derniere'=>'Il y a 1 sem.'],['nom'=>'Bamba Arlette','email'=>'bamba.a@gmail.com','role'=>'membre','statut'=>'actif','inscrit'=>'18 Juin 2023','derniere'=>'Il y a 2 sem.'],['nom'=>'Yapi Koren','email'=>'yapi.k@gmail.com','role'=>'membre','statut'=>'inactif','inscrit'=>'30 Juil. 2023','derniere'=>'Il y a 2 mois'],['nom'=>'Awo Toure','email'=>'awo.t@gmail.com','role'=>'membre','statut'=>'actif','inscrit'=>'10 Mai 2024','derniere'=>'Hier']]; @endphp
-    @foreach($users as $u)
+    @foreach($users as $key => $u)
     <tr>
       <td><input type="checkbox"></td>
       <td><div class="user-cell"><div class="user-avatar">{{ strtoupper(substr($u['nom'],0,1)) }}</div><div><div class="user-name">{{ $u['nom'] }}</div><div class="user-email">{{ $u['email'] }}</div></div></div></td>
@@ -177,12 +177,12 @@
       <td><span class="status-badge status--{{ $u['statut'] }}">{{ ucfirst($u['statut']) }}</span></td>
       <td style="font-size:.78rem;color:var(--text-light);">{{ $u['inscrit'] }}</td>
       <td style="font-size:.78rem;color:var(--text-light);">{{ $u['derniere'] }}</td>
-      <td><div class="action-btns"><a href="#" class="btn-icon btn-icon--edit"><i class="fas fa-pen"></i></a><a href="#" class="btn-icon btn-icon--del"><i class="fas fa-trash"></i></a></div></td>
+      <td><div class="action-btns"><button type="button" class="btn-icon btn-icon--edit" data-bs-toggle="modal" data-bs-target="#editModal{{ $key }}" title="Modifier"><i class="fas fa-pen"></i></button><button type="button" class="btn-icon btn-icon--del" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $key }}" title="Supprimer"><i class="fas fa-trash"></i></button></div></td>
     </tr>
     @endforeach
   </tbody>
 </table>
-<div class="pagination"><div class="pagination-info">Affichage 1–7 sur 520 utilisateurs</div><div class="pagination-btns"><a href="#" class="pag-btn active">1</a><a href="#" class="pag-btn">2</a><a href="#" class="pag-btn">3</a><span class="pag-btn">…</span><a href="#" class="pag-btn">74</a></div></div>
+<div class="pagination"><div class="pagination-info"></div><div class="pagination-btns"></div></div>
 
 <!-- Modal Ajout Utilisateur -->
 <div class="modal fade" id="userModal" tabindex="-1" aria-hidden="true">
@@ -199,7 +199,7 @@
                         data-bs-dismiss="modal"></button>
             </div>
 
-            <form action=" " method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.utilisateurs') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="modal-body">
@@ -298,5 +298,83 @@
         </div>
     </div>
 </div>
+
+<!-- Modals pour édition et suppression -->
+@php $users=[['nom'=>'Kouadio Jean','email'=>'kouadio.j@gmail.com','role'=>'admin','statut'=>'actif','inscrit'=>'15 Jan. 2020','derniere'=>'Aujourd\'hui'],['nom'=>'Yao Rosine','email'=>'yao.r@gmail.com','role'=>'moderateur','statut'=>'actif','inscrit'=>'02 Mar. 2021','derniere'=>'Hier'],['nom'=>'Kouassi A. Marie','email'=>'kouassi.m@yahoo.fr','role'=>'membre','statut'=>'actif','inscrit'=>'10 Avr. 2022','derniere'=>'Il y a 3 jours'],['nom'=>'N\'Guessan Marc','email'=>'nguessan.m@gmail.com','role'=>'membre','statut'=>'actif','inscrit'=>'05 Mai 2022','derniere'=>'Il y a 1 sem.'],['nom'=>'Bamba Arlette','email'=>'bamba.a@gmail.com','role'=>'membre','statut'=>'actif','inscrit'=>'18 Juin 2023','derniere'=>'Il y a 2 sem.'],['nom'=>'Yapi Koren','email'=>'yapi.k@gmail.com','role'=>'membre','statut'=>'inactif','inscrit'=>'30 Juil. 2023','derniere'=>'Il y a 2 mois'],['nom'=>'Awo Toure','email'=>'awo.t@gmail.com','role'=>'membre','statut'=>'actif','inscrit'=>'10 Mai 2024','derniere'=>'Hier']]; @endphp
+
+@foreach($users as $key => $u)
+<!-- Modal Modification Utilisateur {{ $key }} -->
+<div class="modal fade" id="editModal{{ $key }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-user-edit me-2"></i>
+                    Modifier: {{ $u['nom'] }}
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Nom complet</label>
+                            <input type="text" name="nom" class="form-control" value="{{ $u['nom'] }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control" value="{{ $u['email'] }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Rôle</label>
+                            <select name="role" class="form-select">
+                                <option value="membre" {{ $u['role']=='membre'?'selected':'' }}>Membre</option>
+                                <option value="moderateur" {{ $u['role']=='moderateur'?'selected':'' }}>Modérateur</option>
+                                <option value="admin" {{ $u['role']=='admin'?'selected':'' }}>Administrateur</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Statut</label>
+                            <select name="statut" class="form-select">
+                                <option value="actif" {{ $u['statut']=='actif'?'selected':'' }}>Actif</option>
+                                <option value="inactif" {{ $u['statut']=='inactif'?'selected':'' }}>Inactif</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn-save"><i class="fas fa-save"></i> Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Suppression Utilisateur {{ $key }} -->
+<div class="modal fade" id="deleteModal{{ $key }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-trash me-2"></i>
+                    Confirmer la suppression
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p style="margin:0;color:var(--text);">Êtes-vous sûr de vouloir supprimer <strong>{{ $u['nom'] }}</strong> ?</p>
+                <p style="margin:8px 0 0;color:var(--text-light);font-size:.85rem;">Cette action est irréversible.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-cancel" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn-save" style="background:#e53935;" onclick="alert('Utilisateur supprimé');new bootstrap.Modal(document.getElementById('deleteModal{{ $key }}')).hide();">
+                    <i class="fas fa-check"></i> Confirmer
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
 
 @endsection
