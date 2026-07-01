@@ -22,20 +22,14 @@ class Actualite extends Model
         'image',
         'tags',
         'vues',
-        'notifier',
-        'partager_reseaux',
         'epingle',
-        'commentaires',
         'user_id',
     ];
 
     protected $casts = [
         'tags' => 'array',
         'date_publication' => 'date',
-        'notifier' => 'boolean',
-        'partager_reseaux' => 'boolean',
         'epingle' => 'boolean',
-        'commentaires' => 'boolean',
         'vues' => 'integer',
     ];
 

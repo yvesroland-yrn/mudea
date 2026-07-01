@@ -7,6 +7,7 @@ use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\admin\AuthController as Auth;
+use App\Http\Controllers\admin\ActualiteController as Actualite;
 
 /*
 |--------------------------------------------------------------------------
@@ -89,11 +90,18 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
 
     // Tableau de bord
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-    Route::post('/logout', [Auth::class, 'logout'])->name('logout');
-
 
     // Actualités
-    Route::get('/actualites', [AdminController::class, 'actualites'])->name('actualites');
+    Route::prefix('actualites')->name('actualites.')->group(function () {
+        Route::get('/', [Actualite::class, 'index'])->name('index');
+        Route::get('/create', [Actualite::class, 'create'])->name('create');
+        Route::post('/', [Actualite::class, 'store'])->name('store');
+        Route::get('/{id}', [Actualite::class, 'show'])->name('show');
+        Route::get('/{id}/edit', [Actualite::class, 'edit'])->name('edit');
+        Route::put('/{id}', [Actualite::class, 'update'])->name('update');
+        Route::delete('/{id}', [Actualite::class, 'destroy'])->name('destroy');
+        Route::patch('/{id}/statut', [Actualite::class, 'changeStatut'])->name('statut');
+    });
 
 
     // Pages
@@ -103,25 +111,31 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     // Vie & Coutumes
     Route::get('/vie-coutumes', [AdminController::class, 'vieCoutumes'])->name('vie-coutumes');
 
+
     // Education & Excellence
     Route::get('/education', [AdminController::class, 'education'])->name('education');
+
 
     // Espace communautaire
     Route::get('/communaute', [AdminController::class, 'communaute'])->name('communaute');
 
+
     // Projets
     Route::get('/projets', [AdminController::class, 'projets'])->name('projets');
+
 
     // Messages
     Route::get('/messages', [AdminController::class, 'messages'])->name('messages');
 
+
     // Utilisateurs
     Route::get('/utilisateurs', [AdminController::class, 'utilisateurs'])->name('utilisateurs');
+
 
     // Paramètres
     Route::get('/parametres', [AdminController::class, 'parametres'])->name('parametres');
 
+
     // Statistiques
     Route::get('/statistiques', [AdminController::class, 'statistiques'])->name('statistiques');
-
 });
