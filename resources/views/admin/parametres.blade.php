@@ -37,13 +37,13 @@
 @section('content')
 <div class="params-layout">
   <nav class="params-nav">
-    <a href="#" class="params-nav-item active"><i class="fas fa-globe"></i> Général</a>
+    <!-- <a href="#" class="params-nav-item active"><i class="fas fa-globe"></i> Général</a>
     <a href="#" class="params-nav-item"><i class="fas fa-palette"></i> Apparence</a>
     <a href="#" class="params-nav-item"><i class="fas fa-envelope"></i> Email</a>
     <a href="#" class="params-nav-item"><i class="fas fa-bell"></i> Notifications</a>
     <a href="#" class="params-nav-item"><i class="fas fa-share-nodes"></i> Réseaux sociaux</a>
     <a href="#" class="params-nav-item"><i class="fas fa-shield-halved"></i> Sécurité</a>
-    <a href="#" class="params-nav-item"><i class="fas fa-database"></i> Sauvegarde</a>
+    <a href="#" class="params-nav-item"><i class="fas fa-database"></i> Sauvegarde</a> -->
   </nav>
   <div>
     <div class="params-section">

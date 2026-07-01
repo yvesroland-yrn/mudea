@@ -249,7 +249,7 @@
     <div class="quick-card">
       <div class="card-title">Accès rapide</div>
       <div class="quick-grid">
-        <a href="" class="quick-item">
+        <a href="{{ route('admin.actualites') }}" class="quick-item">
           <div class="quick-icon quick-icon--green"><i class="fas fa-pencil"></i></div>
           <div class="quick-label">Créer une actualité</div>
         </a>
