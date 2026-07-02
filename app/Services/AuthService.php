@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 class AuthService
@@ -19,15 +20,22 @@ class AuthService
     {
         $remember = $credentials['remember'] ?? false;
 
-        if (!Auth::attempt([
-            'email' => $credentials['email'],
-            'password' => $credentials['password'],
-        ], $remember)) {
+        /** @var User|null $user */
+        $user = User::query()
+            ->where('email', $credentials['email'])
+            ->first();
+
+        if (!$user || !is_string($user->password) || !password_verify($credentials['password'], $user->password)) {
             return null;
         }
 
-        /** @var User $user */
-        $user = Auth::user();
+        if (password_needs_rehash($user->password, PASSWORD_BCRYPT)) {
+            $user->forceFill([
+                'password' => Hash::make($credentials['password']),
+            ])->save();
+        }
+
+        Auth::login($user, $remember);
 
         $user->update([
             'last_login_at' => now(),

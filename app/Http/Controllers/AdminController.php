@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Projet;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
 class AdminController extends Controller
 {
     public function dashboard()
@@ -34,9 +38,14 @@ class AdminController extends Controller
         return view('admin.communaute');
     }
 
+    public function bureau()
+    {
+        return view('admin.bureau');
+    }
+
     public function projets()
     {
-        return view('admin.projets');
+        return view('admin.projets');          
     }
 
     public function messages()

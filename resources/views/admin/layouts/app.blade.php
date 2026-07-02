@@ -453,6 +453,11 @@
                 <span class="nav-icon"><i class="fas fa-people-group"></i></span>
                 <span>Espace Communautaire</span>
             </a>
+            <a href="{{ route('admin.bureau') }}"
+                class="nav-item {{ request()->routeIs('admin.bureau*') ? 'active' : '' }}">
+                <span class="nav-icon"><i class="fas fa-user-tie"></i></span>
+                <span>Bureau</span>
+            </a>
             <a href="{{ route('admin.projets') }}"
                 class="nav-item {{ request()->routeIs('admin.projets*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-diagram-project"></i></span>

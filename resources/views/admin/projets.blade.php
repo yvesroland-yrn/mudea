@@ -467,11 +467,17 @@ textarea.form-control {
 
 {{-- ── Toolbar ────────────────────────────────────────────────────────────── --}}
 <div class="page-toolbar">
-  <h1>Tous les projets <span>(18)</span></h1>
+  <h1>Tous les projets <span>({{ $projets->count() }})</span></h1>
   <button class="btn-primary" onclick="openModal()">
     <i class="fas fa-plus"></i> Nouveau projet
   </button>
 </div>
+
+@if(session('success'))
+<div class="alert alert-success" style="margin-bottom:18px;">
+  {{ session('success') }}
+</div>
+@endif
 
 {{-- ── Filtres ─────────────────────────────────────────────────────────────── --}}
 <div class="filters-bar">
@@ -571,7 +577,7 @@ textarea.form-control {
     </div>
 
     {{-- Formulaire --}}
-    <form action="" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('admin.projets.store') }}" method="POST" enctype="multipart/form-data">
       @csrf
 
       <div class="modal-body">

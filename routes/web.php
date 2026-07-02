@@ -109,6 +109,9 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     // Espace communautaire
     Route::get('/communaute', [AdminController::class, 'communaute'])->name('communaute');
 
+    // Bureau
+    Route::get('/bureau', [AdminController::class, 'bureau'])->name('bureau');
+
     // Projets
     Route::get('/projets', [AdminController::class, 'projets'])->name('projets');
 

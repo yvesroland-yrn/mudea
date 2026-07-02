@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Message;
+use App\Models\Projet;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -415,7 +416,10 @@ class PageController extends Controller
 
     public function projets()
     {
-        return view('pages.projets');
+        return view('pages.projets', [
+            'publishedProjets' => Projet::query()->latest()->get(),
+            'featuredProjet' => Projet::query()->where('featured', true)->latest()->first(),
+        ]);
     }
 
     public function transparence()
