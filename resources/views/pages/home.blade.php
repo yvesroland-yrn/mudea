@@ -129,24 +129,21 @@
             padding: 9px 12px;
             font-size: .8rem;
             font-weight: 700;
-            color: var(--text);
-            border-radius: 6px;
+            color: var(--mudea-dark);
+            border-radius: 4px;
             white-space: nowrap;
             transition: color var(--transition), background var(--transition);
-            text-transform: uppercase;
-            letter-spacing: .4px;
+            letter-spacing: .2px;
         }
 
         .nav-link:hover,
         .nav-item.active > .nav-link {
             color: var(--green);
-            background: var(--green-pale);
+            background: rgba(46,125,50,0.07);
         }
 
         .nav-item.active > .nav-link {
-            color: var(--green);
-            border-bottom: 2px solid var(--green);
-            border-radius: 0;
+            color: var(--mudea-dark);
         }
 
         .nav-arrow {

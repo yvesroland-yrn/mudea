@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -11,15 +10,18 @@ class AdminSeeder extends Seeder
 {
     public function run(): void
     {
+        $email = 'admin2026@mudea.com';
+        $password = 'Mudea@2026!';
+
         DB::table('users')->updateOrInsert(
-            ['email' => 'admin@mudea.com'],
+            ['email' => $email],
             [
                 'name' => 'Admin MUDEA',
                 'nom' => 'Admin',
                 'prenom' => 'MUDEA',
-                'email' => 'admin@mudea.com',
+                'email' => $email,
                 'telephone' => '+225 07 00 00 00 28',
-                'password' => Hash::make('12345'),
+                'password' => Hash::make($password),
                 'role' => 'admin',
                 'statut' => 'actif',
                 'photo' => null,
@@ -34,7 +36,7 @@ class AdminSeeder extends Seeder
         );
 
         $this->command->info('Utilisateur admin créé avec succès');
-        $this->command->info('Email: admin@mudea.com');
-        $this->command->info('Mot de passe: 12345');
+        $this->command->info('Email: ' . $email);
+        $this->command->info('Mot de passe: ' . $password);
     }
 }

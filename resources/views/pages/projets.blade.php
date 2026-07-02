@@ -265,6 +265,58 @@
   </div>
 </section>
 
+<div class="pj-wrap" style="margin-top: 28px;">
+  <div class="section-block" id="projets-enregistres">
+    <div class="sec-title-row">
+      <div class="sec-title-left">
+        <i class="fas fa-folder-open icon"></i>
+        <h2>Projets enregistrés</h2>
+      </div>
+    </div>
+
+    @if($publishedProjets->isEmpty())
+      <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:20px;color:var(--text-mid);box-shadow:var(--shadow-sm);">
+        Aucun projet n’a encore été publié depuis l’administration.
+      </div>
+    @else
+      <div class="projets-grid" style="margin-bottom:0;">
+        @foreach($publishedProjets->take(4) as $project)
+          <div class="projet-card">
+            <div class="projet-img">
+              @if($project->media && in_array(strtolower(pathinfo($project->media, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'webp']))
+                <img src="{{ asset('storage/' . $project->media) }}" alt="{{ $project->titre }}"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+              @else
+                <img src="{{ asset('images/projets/1.png') }}" alt="{{ $project->titre }}"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+              @endif
+              <div class="projet-img-placeholder" style="display:none;"><i class="fas fa-city"></i></div>
+              <div class="projet-pct-badge">{{ $project->avancement }}%</div>
+            </div>
+            <div class="projet-body">
+              <div class="projet-title">{{ $project->titre }}</div>
+              <div class="projet-dates">
+                <i class="fas fa-calendar-days"></i>
+                {{ optional($project->date_debut)->format('Y') }}
+                @if($project->date_fin)
+                  - {{ optional($project->date_fin)->format('Y') }}
+                @endif
+              </div>
+              <div class="projet-progress">
+                <div class="progress-label">
+                  <span>{{ $project->statut === 'realise' ? 'Réalisé' : 'Avancement' }}</span>
+                  <strong>{{ $project->avancement }}%</strong>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width:{{ $project->avancement }}%"></div></div>
+              </div>
+            </div>
+          </div>
+        @endforeach
+      </div>
+    @endif
+  </div>
+</div>
+
 <div class="pj-wrap">
 
   {{-- ══ PROJET À LA UNE ══ --}}
