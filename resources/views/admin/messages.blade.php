@@ -3,6 +3,7 @@
 @section('page-title','Messages')
 @section('page-subtitle','Gérer les messages reçus')
 @push('styles')
+
 <style>
 :root{--green:#1b5e20;--green-dark:#0a3d14;--green-light:#e8f5e9;--green-soft:#c8e6c9;--gold:#f5a623;--blue:#1565c0;--blue-light:#e3f2fd;--purple:#6a1b9a;--purple-light:#f3e5f5;--white:#ffffff;--cream:#f4f6f8;--border:#e0e8e4;--text:#1a2e25;--text-mid:#455d4f;--text-light:#7a9585;--shadow-sm:0 2px 10px rgba(0,0,0,.07);--radius-sm:8px;--radius-md:14px;--radius-lg:20px;}
 .page-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;}

@@ -674,36 +674,32 @@
 
     <div class="bureau-grid">
 
-      @php
-        $membres = [
-          ['role' => 'Président',                 'nom' => 'Kouadio Jean',       'img' => 'bureau-1'],
-          ['role' => 'Vice-Président',             'nom' => 'Yao Kouassi',        'img' => 'bureau-2'],
-          ['role' => 'Secrétaire Générale',        'nom' => 'Kouassi A. Marie',   'img' => 'bureau-3'],
-          ['role' => 'Trésorier Général',          'nom' => 'Kouamé Marc',        'img' => 'bureau-4'],
-          ['role' => 'Secrétaire à la Communication', 'nom' => 'Bamba Adjoua',   'img' => 'bureau-5'],
-          ['role' => 'Chargé à l\'Organisation',  'nom' => 'Yapi Koren',          'img' => 'bureau-6'],
-        ];
-      @endphp
-
-      @foreach($membres as $m)
+      @forelse($bureauMembers as $member)
       <div class="bureau-card">
         <div class="bureau-photo">
-          <img src="{{ asset('images/mutuelles/' . $m['img'] . '.jpg') }}" alt="{{ $m['nom'] }}"
-            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-          <div class="bureau-photo-placeholder" style="display:none;">
-            <svg width="52" height="52" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-              <circle cx="12" cy="8" r="4"/>
-              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-            </svg>
-          </div>
+          @if($member->photo)
+            <img src="{{ asset($member->photo) }}" alt="{{ $member->prenom }} {{ $member->nom }}"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+          @else
+            <div class="bureau-photo-placeholder" style="display:flex;">
+              <svg width="52" height="52" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="4"/>
+                <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+              </svg>
+            </div>
+          @endif
         </div>
         <div class="bureau-body">
-          <div class="bureau-role">{{ $m['role'] }}</div>
-          <div class="bureau-name">{{ $m['nom'] }}</div>
+          <div class="bureau-role">{{ $member->role }}</div>
+          <div class="bureau-name">{{ $member->prenom }} {{ $member->nom }}</div>
           <div class="bureau-underline"></div>
         </div>
       </div>
-      @endforeach
+      @empty
+      <div class="bureau-card" style="grid-column:1/-1; text-align:center; padding:32px 16px;">
+        Aucun membre du bureau n'est encore enregistré.
+      </div>
+      @endforelse
 
     </div>
 

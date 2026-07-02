@@ -51,12 +51,13 @@ img, svg {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: min(100%, 1320px);
-    margin: 0 auto;
+    width: auto;
+    max-width: none;
+    margin: 0;
     padding: 12px 24px;
     min-height: 82px;
     gap: 24px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
 /* --- Logo --- */
@@ -111,11 +112,12 @@ img, svg {
     margin: 0;
     padding: 0;
     gap: 2px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
 .nav-item {
     position: relative;
+    flex-shrink: 0;
 }
 
 .nav-link {

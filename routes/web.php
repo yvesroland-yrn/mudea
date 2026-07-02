@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BureauMemberController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\PageController;
@@ -124,9 +125,9 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     // Projets
     Route::get('/projets', [AdminController::class, 'projets'])->name('projets');
 
-
-     // Bureau
-    Route::get('/bureau', [AdminController::class, 'bureau'])->name('bureau');
+    // Bureau
+    Route::get('/bureau', [BureauMemberController::class, 'index'])->name('bureau');
+    Route::post('/bureau', [BureauMemberController::class, 'store'])->name('bureau.store');
 
     // Messages
     Route::get('/messages', [AdminController::class, 'messages'])->name('messages');
