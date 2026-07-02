@@ -99,7 +99,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     // Pages
     Route::get('/pages', [AdminController::class, 'pages'])->name('pages');
 
-
+ 
+    
     // Vie & Coutumes
     Route::get('/vie-coutumes', [AdminController::class, 'vieCoutumes'])->name('vie-coutumes');
 

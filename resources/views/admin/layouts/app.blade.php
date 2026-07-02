@@ -437,7 +437,7 @@
                 class="nav-item {{ request()->routeIs('admin.pages*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-file-lines"></i></span>
                 <span>Pages</span>
-            </a> -->
+            </a> -->  
             <a href="{{ route('admin.vie-coutumes') }}"
                 class="nav-item {{ request()->routeIs('admin.vie-coutumes*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-masks-theater"></i></span>
