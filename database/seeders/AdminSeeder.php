@@ -10,13 +10,12 @@ class AdminSeeder extends Seeder
 {
     public function run(): void
     {
-        $email = 'admin2026@mudea.com';
-        $password = 'Mudea@2026!';
+        $email = 'admin@mudea.com';
+        $password = '12345';
 
         DB::table('users')->updateOrInsert(
             ['email' => $email],
             [
-                'name' => 'Admin MUDEA',
                 'nom' => 'Admin',
                 'prenom' => 'MUDEA',
                 'email' => $email,

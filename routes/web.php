@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\admin\AuthController as Auth;
 use App\Http\Controllers\admin\ActualiteController as Actualite;
+use App\Http\Controllers\admin\VieCoutumeController as VieCoutume;
+use App\Http\Controllers\admin\EducationController as Education;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,14 +88,14 @@ Route::post('/deconnexion', [Auth::class, 'logout'])->name('logout');
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () { 
+Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
 
     // Tableau de bord
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
     // Actualités
     Route::prefix('actualites')->name('actualites.')->group(function () {
-        Route::get('/', [Actualite::class, 'index'])->name('index'); 
+        Route::get('/', [Actualite::class, 'index'])->name('index');
         Route::get('/create', [Actualite::class, 'create'])->name('create');
         Route::post('/', [Actualite::class, 'store'])->name('store');
         Route::get('/{id}', [Actualite::class, 'show'])->name('show');
@@ -107,14 +109,24 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     // Pages
     Route::get('/pages', [AdminController::class, 'pages'])->name('pages');
 
- 
-    
+
+
     // Vie & Coutumes
-    Route::get('/vie-coutumes', [AdminController::class, 'vieCoutumes'])->name('vie-coutumes');
+    Route::prefix('vie-coutumes')->name('vie-coutumes.')->group(function () {
+        Route::get('/', [VieCoutume::class, 'index'])->name('index');
+        Route::post('/', [VieCoutume::class, 'store'])->name('store');
+        Route::put('/{id}', [VieCoutume::class, 'update'])->name('update');
+        Route::delete('/{id}', [VieCoutume::class, 'destroy'])->name('destroy');
+    });
 
 
     // Education & Excellence
-    Route::get('/education', [AdminController::class, 'education'])->name('education');
+    Route::prefix('education')->name('education.')->group(function () {
+        Route::get('/', [Education::class, 'index'])->name('index');
+        Route::post('/', [Education::class, 'store'])->name('store');
+        Route::put('/{id}', [Education::class, 'update'])->name('update');
+        Route::delete('/{id}', [Education::class, 'destroy'])->name('destroy');
+    });
 
 
     // Espace communautaire
@@ -125,7 +137,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/projets', [AdminController::class, 'projets'])->name('projets');
 
 
-     // Bureau
+    // Bureau
     Route::get('/bureau', [AdminController::class, 'bureau'])->name('bureau');
 
     // Messages

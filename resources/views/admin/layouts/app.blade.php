@@ -427,7 +427,7 @@
                 class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-house"></i></span>
                 <span>Dashboard</span>
-            </a> 
+            </a>
             <a href="{{ route('admin.actualites.index') }}"
                 class="nav-item {{ request()->routeIs('admin.actualites*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-newspaper"></i></span>
@@ -437,13 +437,13 @@
                 class="nav-item {{ request()->routeIs('admin.pages*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-file-lines"></i></span>
                 <span>Pages</span>
-            </a> -->  
-            <a href="{{ route('admin.vie-coutumes') }}"
+            </a> -->
+            <a href="{{ route('admin.vie-coutumes.index') }}"
                 class="nav-item {{ request()->routeIs('admin.vie-coutumes*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-masks-theater"></i></span>
                 <span>Vie &amp; Coutumes</span>
             </a>
-            <a href="{{ route('admin.education') }}"
+            <a href="{{ route('admin.education.index') }}"
                 class="nav-item {{ request()->routeIs('admin.education*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-graduation-cap"></i></span>
                 <span>Éducation &amp; Excellence</span>
@@ -524,7 +524,8 @@
                     <div class="topbar-avatar">
                         <img src="{{ asset('images/admin/avatar-default.jpg') }}" alt="Photo de profil admin"
                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                        <div class="topbar-avatar-placeholder" style="display:none;"><i class="fas fa-user"></i></div>
+                        <div class="topbar-avatar-placeholder" style="display:none;"><i class="fas fa-user"></i>
+                        </div>
                     </div>
                     <div class="topbar-user-info">
                         <strong>{{ Auth::user()->nom . ' ' . Auth::user()->prenom }}</strong>
