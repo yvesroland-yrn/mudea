@@ -427,7 +427,7 @@
                 class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-house"></i></span>
                 <span>Dashboard</span>
-            </a>
+            </a> 
             <a href="{{ route('admin.actualites.index') }}"
                 class="nav-item {{ request()->routeIs('admin.actualites*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-newspaper"></i></span>

@@ -86,14 +86,14 @@ Route::post('/deconnexion', [Auth::class, 'logout'])->name('logout');
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () { 
 
     // Tableau de bord
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
     // Actualités
     Route::prefix('actualites')->name('actualites.')->group(function () {
-        Route::get('/', [Actualite::class, 'index'])->name('index');
+        Route::get('/', [Actualite::class, 'index'])->name('index'); 
         Route::get('/create', [Actualite::class, 'create'])->name('create');
         Route::post('/', [Actualite::class, 'store'])->name('store');
         Route::get('/{id}', [Actualite::class, 'show'])->name('show');
