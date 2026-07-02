@@ -107,7 +107,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     // Pages
     Route::get('/pages', [AdminController::class, 'pages'])->name('pages');
 
-
+ 
+    
     // Vie & Coutumes
     Route::get('/vie-coutumes', [AdminController::class, 'vieCoutumes'])->name('vie-coutumes');
 
@@ -123,6 +124,9 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     // Projets
     Route::get('/projets', [AdminController::class, 'projets'])->name('projets');
 
+
+     // Bureau
+    Route::get('/bureau', [AdminController::class, 'bureau'])->name('bureau');
 
     // Messages
     Route::get('/messages', [AdminController::class, 'messages'])->name('messages');
