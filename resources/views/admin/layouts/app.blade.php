@@ -428,7 +428,7 @@
                 <span class="nav-icon"><i class="fas fa-house"></i></span>
                 <span>Dashboard</span>
             </a>
-            <a href="{{ route('admin.actualites') }}"
+            <a href="{{ route('admin.actualites.index') }}"
                 class="nav-item {{ request()->routeIs('admin.actualites*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-newspaper"></i></span>
                 <span>Actualités</span>
@@ -512,7 +512,7 @@
                 </button>
                 <div class="topbar-page-title">
                     <strong>@yield('page-title', 'Dashboard')</strong>
-                    <span>@yield('page-subtitle', 'Bienvenue dans l\'administration MUDEA')</span>
+                    <span>@yield('page-subtitle', 'Bienvenue dans l\'administratùion MUDEA')</span>
                 </div>
             </div>
             <div class="topbar-right">
@@ -522,13 +522,13 @@
                 </div>
                 <div class="topbar-user">
                     <div class="topbar-avatar">
-                        <img src="{{ asset('images/admin/avatar-admin.jpg') }}" alt="Admin"
+                        <img src="{{ asset('images/admin/avatar-default.jpg') }}" alt="Photo de profil admin"
                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
                         <div class="topbar-avatar-placeholder" style="display:none;"><i class="fas fa-user"></i></div>
                     </div>
                     <div class="topbar-user-info">
-                        <strong>Administrateur</strong>
-                        <span>Super Admin</span>
+                        <strong>{{ Auth::user()->nom . ' ' . Auth::user()->prenom }}</strong>
+                        <span>{{ Auth::user()->role === 'admin' ? 'Administrateur' : Auth::user()->role }}</span>
                     </div>
                     <i class="fas fa-chevron-down topbar-chevron"></i>
                 </div>
