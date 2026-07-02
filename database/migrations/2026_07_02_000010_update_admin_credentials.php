@@ -27,7 +27,6 @@ return new class extends Migration
         DB::table('users')->updateOrInsert(
             ['email' => $newEmail],
             [
-                'name' => 'Admin MUDEA',
                 'nom' => 'Admin',
                 'prenom' => 'MUDEA',
                 'email' => $newEmail,

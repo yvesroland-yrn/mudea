@@ -38,6 +38,7 @@ class AdminController extends Controller
         return view('admin.communaute');
     }
 
+    
     public function bureau()
     {
         return view('admin.bureau');

@@ -467,7 +467,7 @@ textarea.form-control {
 
 {{-- ── Toolbar ────────────────────────────────────────────────────────────── --}}
 <div class="page-toolbar">
-  <h1>Tous les projets <span>({{ $projets->count() }})</span></h1>
+  <h1>Tous les projets <span></span></h1>
   <button class="btn-primary" onclick="openModal()">
     <i class="fas fa-plus"></i> Nouveau projet
   </button>

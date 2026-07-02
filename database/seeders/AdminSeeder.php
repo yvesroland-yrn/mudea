@@ -16,7 +16,6 @@ class AdminSeeder extends Seeder
         DB::table('users')->updateOrInsert(
             ['email' => $email],
             [
-                'name' => 'Admin MUDEA',
                 'nom' => 'Admin',
                 'prenom' => 'MUDEA',
                 'email' => $email,

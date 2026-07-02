@@ -11,35 +11,36 @@
 
         <nav class="header-nav" id="mainNav">
             <ul class="nav-list">
-                <li class="nav-item">
+                <li class="nav-item {{ request()->routeIs('home') ? 'active' : '' }}">
                     <a href="{{ route('home') }}" class="nav-link">Accueil</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ request()->routeIs('mutuelle') ? 'active' : '' }}">
                     <a href="{{ route('mutuelle') }}" class="nav-link">La Mutuelle</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ request()->routeIs('gouvernance') ? 'active' : '' }}">
                     <a href="{{ route('gouvernance') }}" class="nav-link">Gouvernance</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ request()->routeIs('chefferie*') ? 'active' : '' }}">
                     <a href="{{ route('chefferie') }}" class="nav-link">Vie &amp; Coutumes</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ request()->routeIs('education*') ? 'active' : '' }}">
                     <a href="{{ route('education') }}" class="nav-link">Éducation & Excellence</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ request()->routeIs('jeunesse') ? 'active' : '' }}">
                     <a href="{{ route('jeunesse') }}" class="nav-link">Espace Communautaire</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ request()->routeIs('projets*') ? 'active' : '' }}">
                     <a href="{{ route('projets') }}" class="nav-link">Projets</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ request()->routeIs('actualites*') ? 'active' : '' }}">
                     <a href="{{ route('actualites') }}" class="nav-link">Actualités</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ request()->routeIs('contact') ? 'active' : '' }}">
                     <a href="{{ route('contact') }}" class="nav-link">Contact</a>
                 </li>
             </ul>
         </nav>
+        
 
         <div class="header-actions">
             <button class="btn-search" id="searchToggle" aria-label="Rechercher">

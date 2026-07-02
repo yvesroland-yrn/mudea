@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BureauMember;
 use App\Models\Message;
 use App\Models\Projet;
 use Illuminate\Http\Request;
@@ -381,7 +382,9 @@ class PageController extends Controller
 
     public function mutuelle()
     {
-        return view('pages.mutuelle');
+        return view('pages.mutuelle', [
+            'bureauMembers' => BureauMember::latest()->get(),
+        ]);
     }
 
     public function gouvernance()
