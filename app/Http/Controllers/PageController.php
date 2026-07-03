@@ -365,11 +365,6 @@ class PageController extends Controller
         return $this->renderDetail('education', $slug);
     }
 
-    public function projetsDetail(string $slug)
-    {
-        return $this->renderDetail('projets', $slug);
-    }
-
     public function actualitesDetail(string $slug)
     {
         return $this->renderDetail('actualites', $slug);
