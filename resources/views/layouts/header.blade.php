@@ -27,7 +27,7 @@
                     <a href="{{ route('education') }}" class="nav-link">Éducation & Excellence</a>
                 </li>
                 <li class="nav-item {{ request()->routeIs('jeunesse') ? 'active' : '' }}">
-                    <a href="{{ route('jeunesse') }}" class="nav-link">Espace Communautaire</a>
+                    <a href="{{ route('jeunesse') }}" class="nav-link">Communautaire</a>
                 </li>
                 <li class="nav-item {{ request()->routeIs('projets*') ? 'active' : '' }}">
                     <a href="{{ route('projets') }}" class="nav-link">Projets</a>

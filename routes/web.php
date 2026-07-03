@@ -124,6 +124,9 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
 
     // Projets
     Route::get('/projets', [AdminController::class, 'projets'])->name('projets');
+    Route::post('/projets', [AdminController::class, 'storeProjet'])->name('projets.store');
+    Route::patch('/projets/{projet}', [AdminController::class, 'updateProjet'])->name('projets.update');
+    Route::delete('/projets/{projet}', [AdminController::class, 'destroyProjet'])->name('projets.destroy');
 
     // Bureau
     Route::get('/bureau', [BureauMemberController::class, 'index'])->name('bureau');
