@@ -448,12 +448,12 @@
                 <span class="nav-icon"><i class="fas fa-graduation-cap"></i></span>
                 <span>Éducation &amp; Excellence</span>
             </a>
-            <a href="{{ route('admin.communaute') }}"
+            {{-- <a href="{{ route('admin.communaute.index') }}"
                 class="nav-item {{ request()->routeIs('admin.communaute*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-people-group"></i></span>
                 <span>Espace Communautaire</span>
-            </a>
-            <a href="{{ route('admin.bureau') }}"
+            </a> --}}
+            <a href="{{ route('admin.bureau.index') }}"
                 class="nav-item {{ request()->routeIs('admin.bureau*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-user-tie"></i></span>
                 <span>Bureau</span>

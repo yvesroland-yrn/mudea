@@ -26,9 +26,9 @@
                 <li class="nav-item {{ request()->routeIs('education*') ? 'active' : '' }}">
                     <a href="{{ route('education') }}" class="nav-link">Éducation & Excellence</a>
                 </li>
-                <li class="nav-item {{ request()->routeIs('jeunesse') ? 'active' : '' }}">
+                {{-- <li class="nav-item {{ request()->routeIs('jeunesse') ? 'active' : '' }}">
                     <a href="{{ route('jeunesse') }}" class="nav-link">Communautaire</a>
-                </li>
+                </li> --}}
                 <li class="nav-item {{ request()->routeIs('projets*') ? 'active' : '' }}">
                     <a href="{{ route('projets') }}" class="nav-link">Projets</a>
                 </li>
@@ -40,7 +40,7 @@
                 </li>
             </ul>
         </nav>
-        
+
 
         <div class="header-actions">
             <button class="btn-search" id="searchToggle" aria-label="Rechercher">

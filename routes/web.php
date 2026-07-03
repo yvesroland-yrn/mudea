@@ -11,6 +11,7 @@ use App\Http\Controllers\admin\AuthController as Auth;
 use App\Http\Controllers\admin\ActualiteController as Actualite;
 use App\Http\Controllers\admin\VieCoutumeController as VieCoutume;
 use App\Http\Controllers\admin\EducationController as Education;
+use App\Http\Controllers\Admin\CommunauteController as Communaute;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +26,7 @@ Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/la-mutuelle', [PageController::class, 'mutuelle'])->name('mutuelle');
 Route::get('/gouvernance', [PageController::class, 'gouvernance'])->name('gouvernance');
 Route::get('/chefferie-patrimoine', [PageController::class, 'chefferie'])->name('chefferie');
-Route::get('/chefferie/{slug}', [PageController::class, 'chefferieDetail'])->name('chefferie.detail');
+Route::get('/chefferie/{id}', [PageController::class, 'chefferieDetail'])->name('chefferie.detail');
 Route::get('/education-excellence', [PageController::class, 'education'])->name('education');
 Route::get('/education/{slug}', [PageController::class, 'educationDetail'])->name('education.detail');
 Route::get('/jeunesse', [PageController::class, 'jeunesse'])->name('jeunesse');
@@ -131,7 +132,12 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
 
 
     // Espace communautaire
-    Route::get('/communaute', [AdminController::class, 'communaute'])->name('communaute');
+    Route::prefix('communaute')->name('communaute.')->group(function () {
+        Route::get('/', [Communaute::class, 'index'])->name('index');
+        Route::post('/', [Communaute::class, 'store'])->name('store');
+        Route::put('/{id}', [Communaute::class, 'update'])->name('update');
+        Route::delete('/{id}', [Communaute::class, 'destroy'])->name('destroy');
+    });
 
 
     // Projets
@@ -141,8 +147,12 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::delete('/projets/{projet}', [AdminController::class, 'destroyProjet'])->name('projets.destroy');
 
     // Bureau
-    Route::get('/bureau', [BureauMemberController::class, 'index'])->name('bureau');
-    Route::post('/bureau', [BureauMemberController::class, 'store'])->name('bureau.store');
+    Route::prefix('bureau')->name('bureau.')->group(function () {
+        Route::get('/', [BureauMemberController::class, 'index'])->name('index');
+        Route::post('/', [BureauMemberController::class, 'store'])->name('store');
+        Route::put('/{id}', [BureauMemberController::class, 'update'])->name('update');
+        Route::delete('/{id}', [BureauMemberController::class, 'destroy'])->name('destroy');
+    });
 
     // Messages
     Route::get('/messages', [AdminController::class, 'messages'])->name('messages');

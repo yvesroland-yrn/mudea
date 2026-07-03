@@ -545,7 +545,7 @@ textarea.form-control {
       </td>
       <td>
         <div class="action-btns">
-          <a href="#" class="btn-icon btn-icon--view"  title="Voir" onclick="openProjetRecordModal('view', this); return false;">     <i class="fas fa-eye"></i>    </a>
+          {{-- <a href="#" class="btn-icon btn-icon--view"  title="Voir" onclick="openProjetRecordModal('view', this); return false;">     <i class="fas fa-eye"></i>    </a> --}}
           <a href="#" class="btn-icon btn-icon--edit"  title="Modifier" onclick="openProjetRecordModal('edit', this); return false;"> <i class="fas fa-pen"></i>    </a>
           <a href="#" class="btn-icon btn-icon--del"   title="Supprimer" onclick="deleteProjet(this); return false;"><i class="fas fa-trash"></i>  </a>
         </div>

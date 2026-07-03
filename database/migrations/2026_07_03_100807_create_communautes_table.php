@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bureau_members', function (Blueprint $table) {
+        Schema::create('communautes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('role_id')->constrained()->onDelete('cascade');
-            $table->string('prenom');
-            $table->string('nom');
-            $table->string('mandat')->nullable();
-            $table->string('photo')->nullable();
+            $table->string('titre');
+            $table->enum('categorie', ['evenements', 'temoignages', 'annonces', 'projets'])->nullable();
+            $table->enum('statut', ['publie', 'brouillon'])->default('brouillon');
+            $table->string('description', 300);
+            $table->string('image')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bureau_members');
+        Schema::dropIfExists('communautes');
     }
 };

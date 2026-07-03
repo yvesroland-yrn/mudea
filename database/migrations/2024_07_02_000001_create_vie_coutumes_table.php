@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('description', 300);
             $table->string('media')->nullable();
             $table->date('date_publication')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
