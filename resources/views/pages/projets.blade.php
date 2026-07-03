@@ -280,7 +280,7 @@
       </div>
     @else
       <div class="projets-grid" style="margin-bottom:0;">
-        @foreach($publishedProjets->take(4) as $project)
+        @foreach($publishedProjets as $project)
           <div class="projet-card">
             <div class="projet-img">
               @if($project->media && in_array(strtolower(pathinfo($project->media, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'webp']))
@@ -316,6 +316,7 @@
     @endif
   </div>
 </div>
+
 
 <div class="pj-wrap">
 

@@ -419,10 +419,29 @@ class PageController extends Controller
 
     public function projets()
     {
+        $publishedProjets = Projet::query()->latest()->get();
+
         return view('pages.projets', [
-            'publishedProjets' => Projet::query()->latest()->get(),
-            'featuredProjet' => Projet::query()->where('featured', true)->latest()->first(),
+            'publishedProjets' => $publishedProjets,
+            'featuredProjet' => $publishedProjets->firstWhere('featured', true) ?? $publishedProjets->first(),
+            'enCours' => $publishedProjets->where('statut', 'en-cours'),
+            'realises' => $publishedProjets->where('statut', 'realise'),
+            'futurs' => $publishedProjets->where('statut', 'futur'),
         ]);
+    }
+
+    public function projetsDetail(string $slug)
+    {
+        $project = Projet::where('slug', $slug)->first();
+
+        if ($project) {
+            return view('pages.detail', [
+                'project' => $project,
+                'section' => 'projets',
+            ]);
+        }
+
+        return $this->renderDetail('projets', $slug);
     }
 
     public function transparence()
