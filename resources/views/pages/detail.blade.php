@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $item['title'] . ' - MUDEA')
+@section('title', isset($project) ? $project->titre . ' - MUDEA' : ($item['title'] . ' - MUDEA'))
 
 @push('styles')
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -150,16 +150,33 @@
     <article class="detail-hero">
         <div class="detail-image">
             <span class="detail-badge">{{ ucfirst($section) }}</span>
-            <img src="{{ asset($item['image']) }}" alt="{{ $item['title'] }}">
+            @if(isset($project))
+                @if($project->media && in_array(strtolower(pathinfo($project->media, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'webp']))
+                    <img src="{{ asset('storage/' . $project->media) }}" alt="{{ $project->titre }}">
+                @else
+                    <img src="{{ asset('images/projets/1.png') }}" alt="{{ $project->titre }}">
+                @endif
+            @else
+                <img src="{{ asset($item['image']) }}" alt="{{ $item['title'] }}">
+            @endif
         </div>
         <div class="detail-content">
-            <h1 class="detail-title">{{ $item['title'] }}</h1>
-            <div class="detail-subtitle">{{ $item['subtitle'] }}</div>
-            <p class="detail-lead">{{ $item['lead'] }}</p>
+            <h1 class="detail-title">{{ isset($project) ? $project->titre : $item['title'] }}</h1>
+            <div class="detail-subtitle">{{ isset($project) ? ucfirst(str_replace('-', ' ', $project->statut ?? 'projet')) : $item['subtitle'] }}</div>
+            <p class="detail-lead">{{ isset($project) ? Str::limit($project->description, 160) : $item['lead'] }}</p>
             <div class="detail-body">
-                @foreach($item['body'] as $paragraph)
-                    <p>{{ $paragraph }}</p>
-                @endforeach
+                @if(isset($project))
+                    @php
+                        $paragraphs = preg_split('/\r\n|\r|\n/', trim($project->description ?? ''));
+                    @endphp
+                    @foreach(array_filter($paragraphs) as $paragraph)
+                        <p>{{ $paragraph }}</p>
+                    @endforeach
+                @else
+                    @foreach($item['body'] as $paragraph)
+                        <p>{{ $paragraph }}</p>
+                    @endforeach
+                @endif
             </div>
             <div class="detail-actions">
                 @if($section === 'chefferie')
