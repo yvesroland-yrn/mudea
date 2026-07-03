@@ -460,15 +460,15 @@
             </a>
             <a href="{{ route('admin.projets') }}"
                 class="nav-item {{ request()->routeIs('admin.projets*') ? 'active' : '' }}">
-                <span class="nav-icon"><i class="fas fa-diagram-project"></i></span>
+                    <span class="nav-icon"><i class="fas fa-diagram-project"></i></span>
                 <span>Projets</span>
             </a>
-            <a href="{{ route('admin.messages') }}"
+            {{-- <a href="{{ route('admin.messages') }}"
                 class="nav-item {{ request()->routeIs('admin.messages*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-envelope"></i></span>
                 <span>Messages</span>
                 <span class="nav-badge">46</span>
-            </a>
+            </a> --}}
 
             <div class="nav-separator"></div>
 
@@ -477,11 +477,11 @@
                 <span class="nav-icon"><i class="fas fa-users"></i></span>
                 <span>Utilisateurs</span>
             </a>
-            <a href="{{ route('admin.parametres') }}"
+            {{-- <a href="{{ route('admin.parametres') }}"
                 class="nav-item {{ request()->routeIs('admin.parametres*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-gear"></i></span>
                 <span>Paramètres</span>
-            </a>
+            </a> --}}
             <a href="{{ route('admin.statistiques') }}"
                 class="nav-item {{ request()->routeIs('admin.statistiques*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-chart-line"></i></span>
@@ -528,7 +528,7 @@
                         </div>
                     </div>
                     <div class="topbar-user-info">
-                        <strong>{{ Auth::user()->nom . ' ' . Auth::user()->prenom }}</strong>
+                        <strong>{{ Auth::user()->nom_complet }}</strong>
                         <span>{{ Auth::user()->role === 'admin' ? 'Administrateur' : Auth::user()->role }}</span>
                     </div>
                     <i class="fas fa-chevron-down topbar-chevron"></i>

@@ -159,11 +159,13 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
 
 
     // Utilisateurs
+    Route::post('/utilisateurs', [AdminController::class, 'storeUtilisateur'])->name('utilisateurs.store');
     Route::get('/utilisateurs', [AdminController::class, 'utilisateurs'])->name('utilisateurs');
 
 
     // Paramètres
     Route::get('/parametres', [AdminController::class, 'parametres'])->name('parametres');
+    Route::post('/parametres/mot-de-passe', [AdminController::class, 'updatePassword'])->name('parametres.password.update');
 
 
     // Statistiques

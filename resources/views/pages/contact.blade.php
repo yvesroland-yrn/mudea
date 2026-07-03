@@ -414,6 +414,13 @@
                 <form action="{{ route('contact.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
+                    @if(session('success'))
+                        <div style="background:linear-gradient(135deg,#e8f5e9 0%,#f1f8e9 100%);border:1px solid #66bb6a;color:#1b5e20;padding:14px 16px;border-radius:10px;font-size:.92rem;margin-bottom:16px;font-weight:800;box-shadow:0 4px 14px rgba(27,94,32,.12);display:flex;align-items:center;gap:10px;">
+                            <span style="font-size:1.1rem;">✓</span>
+                            <span>{{ session('success') }}</span>
+                        </div>
+                    @endif
+
                     <div class="form-row-2">
                         <div class="fg">
                             <label>Nom <span class="req">*</span></label>
@@ -458,11 +465,6 @@
                         <input type="file" name="document" accept=".pdf,.doc,.docx,image/*">
                     </div>
 
-                    @if(session('success'))
-                        <div style="background:#e8f5e9;border:1px solid #a5d6a7;color:#2e7d32;padding:10px 14px;border-radius:7px;font-size:.8rem;margin-bottom:12px;font-weight:700;">
-                            {{ session('success') }}
-                        </div>
-                    @endif
                     @if($errors->any())
                         <div style="background:#ffebee;border:1px solid #ef9a9a;color:#c62828;padding:10px 14px;border-radius:7px;font-size:.8rem;margin-bottom:12px;">
                             @foreach($errors->all() as $e) <div>{{ $e }}</div> @endforeach
@@ -564,7 +566,7 @@
 
     <br>
 
-    
+
     {{-- ══ RANGÉE BAS ══════════════════════════════════ --}}
     <div class="contact-grid-3-bottom" style="margin-top: 0;">
 

@@ -630,7 +630,7 @@
           <div class="quick-icon quick-icon--blue"><i class="fas fa-folder-plus"></i></div>
           <div class="quick-label">Créer un projet</div>
         </a>
-        <a href="{{ route('admin.communaute') }}" class="quick-item">
+        <a href="{{ route('admin.communaute.index') }}" class="quick-item">
           <div class="quick-icon quick-icon--gold"><i class="fas fa-calendar-plus"></i></div>
           <div class="quick-label">Créer un événement</div>
         </a>
