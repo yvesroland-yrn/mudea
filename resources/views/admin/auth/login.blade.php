@@ -581,6 +581,14 @@
                 <p>Connectez-vous à votre espace sécurisé.</p>
             </div>
 
+            @if (app()->environment('local'))
+                <div style="background:#e8f5e9;border:1px solid #a5d6a7;color:#1b5e20;padding:10px 14px;border-radius:8px;font-size:.8rem;margin-bottom:14px;line-height:1.5;">
+                    <strong>Compte de démonstration</strong><br>
+                    Email : admin2026@mudea.com<br>
+                    Mot de passe : Mudea@2026!
+                </div>
+            @endif
+
             <form method="POST" action="{{ route('login.store') }}">
                 @csrf
 

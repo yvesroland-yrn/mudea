@@ -3,6 +3,7 @@
 @section('page-title','Projets')
 @section('page-subtitle','Gérer les projets de développement')
 
+
 @push('styles')
 <style>
 /* ── Variables ─────────────────────────────────────────────────────────── */
@@ -504,46 +505,57 @@ textarea.form-control {
   </thead>
   <tbody>
     @php
-      $projets = [
-        ['titre' => "Construction du Complexe Scolaire d'Excellence", 'statut' => 'en-cours', 'dates' => '2023–2026', 'budget' => '150 000 000 FCFA', 'pct' => 65],
-        ['titre' => "Adduction d'eau potable pour Andé",              'statut' => 'en-cours', 'dates' => '2023–2025', 'budget' => '80 000 000 FCFA',  'pct' => 65],
-        ['titre' => 'Construction du Centre de Santé Intégré',        'statut' => 'en-cours', 'dates' => '2024–2026', 'budget' => '120 000 000 FCFA', 'pct' => 40],
-        ['titre' => 'Réhabilitation des pistes rurales',              'statut' => 'en-cours', 'dates' => '2024–2025', 'budget' => '45 000 000 FCFA',  'pct' => 30],
-        ['titre' => 'Électrification solaire de 5 quartiers',        'statut' => 'en-cours', 'dates' => '2023–2025', 'budget' => '95 000 000 FCFA',  'pct' => 60],
-        ['titre' => "Réhabilitation de l'école primaire d'Andé",     'statut' => 'realise',  'dates' => '2001–2002', 'budget' => '12 000 000 FCFA',  'pct' => 100],
-        ['titre' => 'Aménagement de la place publique',              'statut' => 'realise',  'dates' => '2021–2021', 'budget' => '8 000 000 FCFA',   'pct' => 100],
-        ['titre' => 'Bitumage axe Andé–Carrefour',                   'statut' => 'futur',    'dates' => '2026–2027', 'budget' => '200 000 000 FCFA', 'pct' => 0],
-      ];
       $labels = ['en-cours' => 'En cours', 'realise' => 'Réalisé', 'futur' => 'Futur'];
     @endphp
 
-    @foreach($projets as $p)
-    <tr data-record='@json($p)'>
-      <td style="font-weight:800;color:var(--text);max-width:260px;">{{ $p['titre'] }}</td>
+    @forelse($projets as $project)
+      @php
+        $record = [
+          'id' => $project->id,
+          'titre' => $project->titre,
+          'statut' => $project->statut,
+          'dates' => optional($project->date_debut)->format('Y') . ($project->date_fin ? '–' . optional($project->date_fin)->format('Y') : ''),
+          'budget' => $project->budget,
+          'pct' => $project->avancement,
+          'description' => $project->description,
+          'secteur' => $project->secteur,
+          'date_debut' => optional($project->date_debut)->format('Y-m-d'),
+          'date_fin' => optional($project->date_fin)->format('Y-m-d'),
+          'media' => $project->media,
+        ];
+      @endphp
+    <tr data-record="{{ json_encode($record) }}">
+      <td style="font-weight:800;color:var(--text);max-width:260px;">{{ $project->titre }}</td>
       <td>
-        <span class="status-badge status--{{ $p['statut'] }}">
-          {{ $labels[$p['statut']] ?? $p['statut'] }}
+        <span class="status-badge status--{{ $project->statut }}">
+          {{ $labels[$project->statut] ?? $project->statut }}
         </span>
       </td>
-      <td style="font-size:.78rem;color:var(--text-light);">{{ $p['dates'] }}</td>
-      <td style="font-size:.8rem;font-weight:700;">{{ $p['budget'] }}</td>
+      <td style="font-size:.78rem;color:var(--text-light);">
+        {{ optional($project->date_debut)->format('Y') }}{{ $project->date_fin ? '–' . optional($project->date_fin)->format('Y') : '' }}
+      </td>
+      <td style="font-size:.8rem;font-weight:700;">{{ $project->budget }}</td>
       <td>
         <div class="progress-wrap">
           <div class="progress-bar">
-            <div class="progress-fill" style="width:{{ $p['pct'] }}%"></div>
+            <div class="progress-fill" style="width:{{ $project->avancement ?? 0 }}%"></div>
           </div>
-          <span class="progress-pct">{{ $p['pct'] }}%</span>
+          <span class="progress-pct">{{ $project->avancement ?? 0 }}%</span>
         </div>
       </td>
       <td>
         <div class="action-btns">
           <a href="#" class="btn-icon btn-icon--view"  title="Voir" onclick="openProjetRecordModal('view', this); return false;">     <i class="fas fa-eye"></i>    </a>
           <a href="#" class="btn-icon btn-icon--edit"  title="Modifier" onclick="openProjetRecordModal('edit', this); return false;"> <i class="fas fa-pen"></i>    </a>
-          <a href="#" class="btn-icon btn-icon--del"   title="Supprimer"><i class="fas fa-trash"></i>  </a>
+          <a href="#" class="btn-icon btn-icon--del"   title="Supprimer" onclick="deleteProjet(this); return false;"><i class="fas fa-trash"></i>  </a>
         </div>
       </td>
     </tr>
-    @endforeach
+    @empty
+      <tr>
+        <td colspan="6" style="padding:18px 16px; color:var(--text-light); text-align:center;">Aucun projet enregistré pour le moment.</td>
+      </tr>
+    @endforelse
   </tbody>
 </table>
 
@@ -577,8 +589,10 @@ textarea.form-control {
     </div>
 
     {{-- Formulaire --}}
-    <form action="{{ route('admin.projets.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('admin.projets.store') }}" method="POST" enctype="multipart/form-data" id="projetForm">
       @csrf
+      <input type="hidden" name="_method" id="projetFormMethod" value="POST">
+      <input type="hidden" name="projet_id" id="projetId" value="">
 
       <div class="modal-body">
 
@@ -666,10 +680,15 @@ textarea.form-control {
         <button type="button" class="btn-secondary" onclick="closeModal()">
           <i class="fas fa-times"></i> Annuler
         </button>
-        <button type="submit" class="btn-save">
+        <button type="submit" class="btn-save" id="projetSubmitBtn">
           <i class="fas fa-save"></i> Enregistrer
         </button>
       </div>
+    </form>
+
+    <form action="" method="POST" id="deleteProjetForm" style="display:none;">
+      @csrf
+      @method('DELETE')
     </form>
 
   </div>{{-- /.modal-box --}}
@@ -682,6 +701,13 @@ textarea.form-control {
 /* ── Modal ────────────────────────────────────────────────────────────────── */
 function openModal() {
   document.getElementById('modalOverlay').classList.add('open');
+  document.getElementById('projetForm').reset();
+  document.getElementById('projetId').value = '';
+  setProjetFormAction('create', {});
+  setProjetFormMode(false);
+  document.getElementById('modalTitle').textContent = 'Nouveau projet';
+  document.querySelector('#modalBox .modal-subtitle').textContent = 'Projets — Ajouter un projet de développement';
+  document.querySelector('#modalBox .modal-icon i').className = 'fas fa-folder-plus';
   document.getElementById('f-titre').focus();
 }
 
@@ -694,10 +720,15 @@ function handleOverlayClick(e) {
 }
 
 function fillProjetForm(record) {
+  document.getElementById('projetId').value = record.id || '';
   document.getElementById('f-titre').value = record.titre || '';
   document.getElementById('f-statut-sel').value = record.statut || '';
+  document.getElementById('f-secteur').value = record.secteur || '';
+  document.getElementById('f-description').value = record.description || '';
   document.getElementById('f-budget').value = record.budget || '';
   document.getElementById('f-avancement').value = record.pct || '';
+  document.getElementById('f-date-debut').value = record.date_debut || '';
+  document.getElementById('f-date-fin').value = record.date_fin || '';
 }
 
 function setProjetFormMode(isView) {
@@ -710,6 +741,24 @@ function setProjetFormMode(isView) {
       field.readOnly = isView;
     }
   });
+
+  document.getElementById('projetSubmitBtn').style.display = isView ? 'none' : 'inline-flex';
+}
+
+function setProjetFormAction(mode, record) {
+  var form = document.getElementById('projetForm');
+  var methodField = document.getElementById('projetFormMethod');
+  var submitBtn = document.getElementById('projetSubmitBtn');
+
+  if (mode === 'edit' && record.id) {
+    form.action = '/admin/projets/' + record.id;
+    methodField.value = 'PATCH';
+    submitBtn.textContent = 'Enregistrer';
+  } else {
+    form.action = '{{ route('admin.projets.store') }}';
+    methodField.value = 'POST';
+    submitBtn.textContent = 'Enregistrer';
+  }
 }
 
 window.openProjetRecordModal = function (mode, trigger) {
@@ -718,6 +767,8 @@ window.openProjetRecordModal = function (mode, trigger) {
 
   fillProjetForm(record);
   setProjetFormMode(mode === 'view');
+  setProjetFormAction(mode, record);
+
   document.getElementById('modalTitle').textContent = mode === 'view' ? 'Voir le projet' : 'Modifier le projet';
   document.querySelector('#modalBox .modal-subtitle').textContent = mode === 'view'
     ? 'Aperçu des informations du projet'
@@ -725,6 +776,19 @@ window.openProjetRecordModal = function (mode, trigger) {
   document.querySelector('#modalBox .modal-icon i').className = mode === 'view' ? 'fas fa-eye' : 'fas fa-pen';
   document.getElementById('modalOverlay').classList.add('open');
   document.getElementById('f-titre').focus();
+};
+
+window.deleteProjet = function (trigger) {
+  var row = trigger.closest('tr');
+  var record = row && row.dataset.record ? JSON.parse(row.dataset.record) : {};
+
+  if (!record.id || !confirm('Voulez-vous vraiment supprimer ce projet ?')) {
+    return;
+  }
+
+  var form = document.getElementById('deleteProjetForm');
+  form.action = '/admin/projets/' + record.id;
+  form.submit();
 };
 
 document.addEventListener('keydown', e => {

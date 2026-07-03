@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BureauMember;
 use App\Models\Message;
 use App\Models\Projet;
 use Illuminate\Http\Request;
@@ -364,11 +365,6 @@ class PageController extends Controller
         return $this->renderDetail('education', $slug);
     }
 
-    public function projetsDetail(string $slug)
-    {
-        return $this->renderDetail('projets', $slug);
-    }
-
     public function actualitesDetail(string $slug)
     {
         return $this->renderDetail('actualites', $slug);
@@ -381,7 +377,9 @@ class PageController extends Controller
 
     public function mutuelle()
     {
-        return view('pages.mutuelle');
+        return view('pages.mutuelle', [
+            'bureauMembers' => BureauMember::latest()->get(),
+        ]);
     }
 
     public function gouvernance()
@@ -416,10 +414,29 @@ class PageController extends Controller
 
     public function projets()
     {
+        $publishedProjets = Projet::query()->latest()->get();
+
         return view('pages.projets', [
-            'publishedProjets' => Projet::query()->latest()->get(),
-            'featuredProjet' => Projet::query()->where('featured', true)->latest()->first(),
+            'publishedProjets' => $publishedProjets,
+            'featuredProjet' => $publishedProjets->firstWhere('featured', true) ?? $publishedProjets->first(),
+            'enCours' => $publishedProjets->where('statut', 'en-cours'),
+            'realises' => $publishedProjets->where('statut', 'realise'),
+            'futurs' => $publishedProjets->where('statut', 'futur'),
         ]);
+    }
+
+    public function projetsDetail(string $slug)
+    {
+        $project = Projet::where('slug', $slug)->first();
+
+        if ($project) {
+            return view('pages.detail', [
+                'project' => $project,
+                'section' => 'projets',
+            ]);
+        }
+
+        return $this->renderDetail('projets', $slug);
     }
 
     public function transparence()

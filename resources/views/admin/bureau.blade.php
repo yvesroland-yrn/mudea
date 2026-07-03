@@ -3,6 +3,7 @@
 @section('page-title','Bureau')
 @section('page-subtitle','Gerer les membres du bureau')
 
+
 @push('styles')
 <style>
 :root {
@@ -26,6 +27,7 @@
   --radius-md    : 14px;
   --radius-lg    : 20px;
 }
+
 
 body, input, select, textarea, button {
   font-family: 'Nunito', sans-serif;
@@ -405,18 +407,29 @@ body, input, select, textarea, button {
 @endpush
 
 @section('content')
-@php
-  $members = [
-    ['role' => 'president', 'nom' => 'Kouadio Jean', 'prenom' => 'Emile', 'photo' => null, 'initials' => 'KJ', 'poste' => 'Président', 'date' => '2024'],
-    ['role' => 'vice-president', 'nom' => 'Yao Rosine', 'prenom' => 'Mariam', 'photo' => null, 'initials' => 'YR', 'poste' => 'Vice-présidente', 'date' => '2024'],
-    ['role' => 'secretaire', 'nom' => 'Kouassi Marie', 'prenom' => 'Aline', 'photo' => null, 'initials' => 'KM', 'poste' => 'Secrétaire générale', 'date' => '2024'],
-    ['role' => 'tresorier', 'nom' => 'N\'Guessan Marc', 'prenom' => 'Paul', 'photo' => null, 'initials' => 'NM', 'poste' => 'Trésorier', 'date' => '2024'],
-    ['role' => 'secretaire', 'nom' => 'Bamba Arlette', 'prenom' => 'Nadia', 'photo' => null, 'initials' => 'BA', 'poste' => 'Secrétaire adjointe', 'date' => '2024'],
-  ];
-@endphp
+
+@if(session('success'))
+  <div class="panel" style="border-color: #c8e6c9; background: #e8f5e9; margin-bottom: 20px;">
+    <div class="panel-head" style="border:none; color:#1b5e20;">
+      {{ session('success') }}
+    </div>
+  </div>
+@endif
+
+@if($errors->any())
+  <div class="panel" style="border-color: #ffcdd2; background: #ffebee; margin-bottom: 20px;">
+    <div class="panel-head" style="border:none; color:#b71c1c;">
+      <ul style="margin:0; padding-left: 18px;">
+        @foreach($errors->all() as $error)
+          <li>{{ $error }}</li>
+        @endforeach
+      </ul>
+    </div>
+  </div>
+@endif
 
 <div class="page-toolbar">
-  <h1>Bureau <span>(5 membres)</span></h1>
+  <h1>Bureau <span>({{ $members->count() }} membres)</span></h1>
   <button class="btn-primary" type="button" onclick="openModal()">
     <i class="fas fa-plus"></i> Nouveau membre
   </button>
@@ -479,33 +492,33 @@ body, input, select, textarea, button {
       </tr>
     </thead>
     <tbody>
-      @foreach($members as $member)
+      @forelse($members as $member)
       <tr data-record='@json($member)'>
         <td>
           <div class="member-cell">
             <div class="member-avatar">
-              @if($member['photo'])
-                <img src="{{ asset($member['photo']) }}" alt="{{ $member['prenom'] }} {{ $member['nom'] }}">
+              @if($member->photo)
+                <img src="{{ asset($member->photo) }}" alt="{{ $member->prenom }} {{ $member->nom }}">
               @else
-                {{ $member['initials'] }}
+                {{ $member->initials }}
               @endif
             </div>
             <div>
-              <div class="member-name">{{ $member['prenom'] }} {{ $member['nom'] }}</div>
-              <div class="member-meta">{{ $member['poste'] }}</div>
+              <div class="member-name">{{ $member->prenom }} {{ $member->nom }}</div>
+              <div class="member-meta">{{ $member->mandat ?? $member->role }}</div>
             </div>
           </div>
         </td>
         <td>
-          <span class="role-badge role--{{ $member['role'] }}">{{ $member['poste'] }}</span>
+          <span class="role-badge role--{{ \Illuminate\Support\Str::slug($member->role) }}">{{ $member->role }}</span>
         </td>
         <td>
           <span class="photo-chip">
             <i class="fas fa-image"></i>
-            {{ $member['photo'] ? 'Photo disponible' : 'Aucune photo' }}
+            {{ $member->photo ? 'Photo disponible' : 'Aucune photo' }}
           </span>
         </td>
-        <td>{{ $member['date'] }}</td>
+        <td>{{ $member->mandat ?? '-' }}</td>
         <td>
           <div class="action-btns">
             <a href="#" class="btn-icon btn-icon--view" title="Voir" onclick="openMemberModal('view', this); return false;"><i class="fas fa-eye"></i></a>
@@ -514,7 +527,11 @@ body, input, select, textarea, button {
           </div>
         </td>
       </tr>
-      @endforeach
+      @empty
+      <tr>
+        <td colspan="5" style="padding:18px 16px; color:var(--text-light); text-align:center;">Aucun membre du bureau trouvé. Ajoutez-en un nouveau.</td>
+      </tr>
+      @endforelse
     </tbody>
   </table>
 </div>
@@ -532,50 +549,44 @@ body, input, select, textarea, button {
     </div>
 
     <div class="modal-body">
-      <form onsubmit="return false;">
+      <form method="POST" action="{{ route('admin.bureau.store') }}" enctype="multipart/form-data">
+        @csrf
         <div class="form-grid">
           <div class="form-group">
             <label class="form-label" for="role">Role</label>
-            <select id="role" class="form-control">
-              <option value="">Selectionner un role</option>
-              <option value="president">Président</option>
-              <option value="vice-president">Vice-président</option>
-              <option value="secretaire">Secrétaire</option>
-              <option value="tresorier">Trésorier</option>
-            </select>
+            <input id="role" name="role" type="text" class="form-control" placeholder="Ex: Président" required>
           </div>
           <div class="form-group">
             <label class="form-label" for="prenom">Prenom</label>
-            <input id="prenom" type="text" class="form-control" placeholder="Prenom">
+            <input id="prenom" name="prenom" type="text" class="form-control" placeholder="Prenom" required>
           </div>
           <div class="form-group">
             <label class="form-label" for="nom">Nom</label>
-            <input id="nom" type="text" class="form-control" placeholder="Nom">
+            <input id="nom" name="nom" type="text" class="form-control" placeholder="Nom" required>
           </div>
           <div class="form-group">
             <label class="form-label" for="mandat">Mandat</label>
-            <input id="mandat" type="text" class="form-control" placeholder="Ex: 2024 - 2026">
+            <input id="mandat" name="mandat" type="text" class="form-control" placeholder="Ex: 2024 - 2026">
           </div>
           <div class="form-group full">
-            <label class="form-label">Photo</label>
+            <label class="form-label" for="photo">Photo</label>
             <div class="file-drop" onclick="document.getElementById('photo').click()">
               <i class="fas fa-cloud-upload-alt"></i>
               <strong>Cliquez pour ajouter une photo</strong>
               <span style="font-size:.8rem;color:var(--text-light);">JPG, PNG ou WEBP</span>
             </div>
-            <input id="photo" type="file" accept=".jpg,.jpeg,.png,.webp" style="display:none;">
+            <input id="photo" name="photo" type="file" accept=".jpg,.jpeg,.png,.webp" style="display:none;">
           </div>
         </div>
+        <div class="modal-footer">
+          <button class="btn-secondary" type="button" onclick="closeModal()">
+            Annuler
+          </button>
+          <button class="btn-primary" type="submit">
+            <i class="fas fa-save"></i> Enregistrer
+          </button>
+        </div>
       </form>
-    </div>
-
-    <div class="modal-footer">
-      <button class="btn-secondary" type="button" onclick="closeModal()">
-        Annuler
-      </button>
-      <button class="btn-primary" type="button" onclick="closeModal()">
-        <i class="fas fa-save"></i> Enregistrer
-      </button>
     </div>
   </div>
 </div>

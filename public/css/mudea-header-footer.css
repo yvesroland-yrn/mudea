@@ -1,10 +1,7 @@
 
-
-
-
-    /* =============================================
-   MUDEA — Header & Footer Styles
-   ============================================= */
+/* =============================================
+    MUDEA — Header & Footer Styles
+    ============================================= */
 
 :root {
     --mudea-green: #2e7d32;
@@ -59,7 +56,7 @@ img, svg {
     padding: 12px 24px;
     min-height: 82px;
     gap: 24px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
 /* --- Logo --- */
@@ -127,7 +124,7 @@ img, svg {
     gap: 4px;
     padding: 9px 12px;
     font-size: 0.8rem;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--mudea-dark);
     text-decoration: none;
     border-radius: 4px;
@@ -571,4 +568,5 @@ img, svg {
 }
 
 
+/*autre styles généraux pour les sections de la page d'accueil*/
 

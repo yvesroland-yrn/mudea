@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BureauMemberController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\PageController;
@@ -135,10 +136,13 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
 
     // Projets
     Route::get('/projets', [AdminController::class, 'projets'])->name('projets');
-
+    Route::post('/projets', [AdminController::class, 'storeProjet'])->name('projets.store');
+    Route::patch('/projets/{projet}', [AdminController::class, 'updateProjet'])->name('projets.update');
+    Route::delete('/projets/{projet}', [AdminController::class, 'destroyProjet'])->name('projets.destroy');
 
     // Bureau
-    Route::get('/bureau', [AdminController::class, 'bureau'])->name('bureau');
+    Route::get('/bureau', [BureauMemberController::class, 'index'])->name('bureau');
+    Route::post('/bureau', [BureauMemberController::class, 'store'])->name('bureau.store');
 
     // Messages
     Route::get('/messages', [AdminController::class, 'messages'])->name('messages');

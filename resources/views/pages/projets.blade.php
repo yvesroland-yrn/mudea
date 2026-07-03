@@ -266,21 +266,23 @@
 </section>
 
 <div class="pj-wrap" style="margin-top: 28px;">
-  <div class="section-block" id="projets-enregistres">
-    <div class="sec-title-row">
-      <div class="sec-title-left">
-        <i class="fas fa-folder-open icon"></i>
-        <h2>Projets enregistrés</h2>
-      </div>
-    </div>
-
-    @if($publishedProjets->isEmpty())
+  @if($publishedProjets->isEmpty())
+    <div class="section-block" style="margin-bottom:32px;">
       <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:20px;color:var(--text-mid);box-shadow:var(--shadow-sm);">
         Aucun projet n’a encore été publié depuis l’administration.
       </div>
-    @else
+    </div>
+  @else
+    <div class="section-block" id="projets-enregistres">
+      <div class="sec-title-row">
+        <div class="sec-title-left">
+          <i class="fas fa-folder-open icon"></i>
+          <h2>Projets enregistrés</h2>
+        </div>
+      </div>
+
       <div class="projets-grid" style="margin-bottom:0;">
-        @foreach($publishedProjets->take(4) as $project)
+        @foreach($publishedProjets as $project)
           <div class="projet-card">
             <div class="projet-img">
               @if($project->media && in_array(strtolower(pathinfo($project->media, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'webp']))
@@ -291,7 +293,7 @@
                      onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
               @endif
               <div class="projet-img-placeholder" style="display:none;"><i class="fas fa-city"></i></div>
-              <div class="projet-pct-badge">{{ $project->avancement }}%</div>
+              <div class="projet-pct-badge">{{ $project->avancement ?? 0 }}%</div>
             </div>
             <div class="projet-body">
               <div class="projet-title">{{ $project->titre }}</div>
@@ -305,206 +307,203 @@
               <div class="projet-progress">
                 <div class="progress-label">
                   <span>{{ $project->statut === 'realise' ? 'Réalisé' : 'Avancement' }}</span>
-                  <strong>{{ $project->avancement }}%</strong>
+                  <strong>{{ $project->avancement ?? 0 }}%</strong>
                 </div>
-                <div class="progress-bar"><div class="progress-fill" style="width:{{ $project->avancement }}%"></div></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:{{ $project->avancement ?? 0 }}%"></div></div>
               </div>
+              <a href="{{ route('projets.detail', $project->slug) }}" class="voir-details-link">Voir les détails &rarr;</a>
             </div>
           </div>
         @endforeach
       </div>
-    @endif
-  </div>
-</div>
-
-<div class="pj-wrap">
-
-  {{-- ══ PROJET À LA UNE ══ --}}
-  <div class="section-block" id="projet-a-la-une">
-    <div class="sec-title-row" style="margin-bottom:16px;">
-      <div class="sec-title-left">
-        <i class="fas fa-star icon" style="color:var(--green);"></i>
-        <h2>Projet à la Une</h2>
-      </div>
     </div>
 
-    <div class="une-card">
-      <div class="une-img">
-        <img src="{{ asset('images/projets/2.png') }}" alt="Complexe Scolaire"
-          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-        <div class="une-img-placeholder" style="display:none;"><i class="fas fa-school"></i></div>
-        <div class="une-badge">À la Une</div>
-      </div>
-      <div class="une-body">
-        <div class="une-title">Construction du Complexe Scolaire<br>d'Excellence d'Andé</div>
-        <div class="une-desc">Un cadre moderne et équipé pour offrir à nos enfants une éducation de qualité et les préparer à l'avenir.</div>
-        <div class="une-meta">
-          <div class="une-meta-item">
-            <i class="fas fa-calendar-days"></i>
-            <span>Durée</span>
-            <strong>2023 – 2026</strong>
-          </div>
-          <div class="une-meta-item">
-            <i class="fas fa-lock"></i>
-            <span>Budget</span>
-            <strong>150 000 000 FCFA</strong>
-          </div>
-          <div class="une-meta-item">
-            <i class="fas fa-user-tie"></i>
-            <span>Responsable</span>
-            <strong>Commission Éducation</strong>
-          </div>
-        </div>
-        <div class="progress-wrap">
-          <div class="progress-label">
-            <span>Avancement global</span>
-            <strong>65%</strong>
-          </div>
-          <div class="progress-bar"><div class="progress-fill" style="width:65%"></div></div>
-        </div>
-        <a href="{{ route('projets.detail', 'complexe-scolaire') }}" class="btn-details">Voir les détails &rarr;</a>
-      </div>
-      <div class="une-stats">
-        <div class="une-stat-item">
-          <div class="une-stat-icon"><i class="fas fa-spinner"></i></div>
-          <div>
-            <div class="une-stat-number">07</div>
-            <div class="une-stat-label">Projets en cours</div>
-          </div>
-        </div>
-        <div class="une-stat-item">
-          <div class="une-stat-icon"><i class="fas fa-circle-check"></i></div>
-          <div>
-            <div class="une-stat-number">15</div>
-            <div class="une-stat-label">Projets réalisés</div>
-          </div>
-        </div>
-        <div class="une-stat-item">
-          <div class="une-stat-icon"><i class="fas fa-hourglass-half"></i></div>
-          <div>
-            <div class="une-stat-number">05</div>
-            <div class="une-stat-label">Projets futurs</div>
-          </div>
+    <div class="section-block" id="projet-a-la-une">
+      <div class="sec-title-row" style="margin-bottom:16px;">
+        <div class="sec-title-left">
+          <i class="fas fa-star icon" style="color:var(--green);"></i>
+          <h2>Projet à la Une</h2>
         </div>
       </div>
-    </div>
-  </div>
 
-  {{-- ══ PROJETS EN COURS ══ --}}
-  <div class="section-block" id="projets-en-cours">
-    <div class="sec-title-row">
-      <div class="sec-title-left">
-        <i class="fas fa-rotate icon"></i>
-        <h2>Projets en Cours</h2>
-      </div>
-      <a href="{{ route('projets.detail', 'adduction-eau') }}" class="sec-see-all">Voir tous les projets en cours &rarr;</a>
-    </div>
-
-    @php
-      $en_cours = [
-        ['titre' => 'Adduction d\'eau potable pour Andé',        'dates' => '2023 – 2025', 'pct' => 65, 'img' => '1.JPG', 'slug' => 'adduction-eau'],
-        ['titre' => 'Construction du Centre de Santé Intégré',   'dates' => '2024 – 2026', 'pct' => 40, 'img' => '2.JPG', 'slug' => 'centre-sante'],
-        ['titre' => 'Réhabilitation des pistes rurales',         'dates' => '2024 – 2025', 'pct' => 30, 'img' => '3.JPG', 'slug' => 'pistes-rurales'],
-        ['titre' => 'Électrification solaire de 5 quartiers',    'dates' => '2023 – 2025', 'pct' => 60, 'img' => '4.JPG', 'slug' => 'electrification-solaire'],
-      ];
-    @endphp
-
-    <div class="projets-grid">
-      @foreach($en_cours as $p)
-      <div class="projet-card">
-        <div class="projet-img">
-          <img src="{{ asset('images/projets/' . $p['img']) }}" alt="{{ $p['titre'] }}"
-            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-          <div class="projet-img-placeholder" style="display:none;"><i class="fas fa-city"></i></div>
-          <div class="projet-pct-badge">{{ $p['pct'] }}%</div>
+      @php $hero = $featuredProjet ?? $publishedProjets->first(); @endphp
+      <div class="une-card">
+        <div class="une-img">
+          @if($hero && $hero->media && in_array(strtolower(pathinfo($hero->media, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'webp']))
+            <img src="{{ asset('storage/' . $hero->media) }}" alt="{{ $hero->titre }}"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+          @else
+            <img src="{{ asset('images/projets/1.png') }}" alt="{{ $hero->titre ?? 'Projet' }}"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+          @endif
+          <div class="une-img-placeholder" style="display:none;"><i class="fas fa-city"></i></div>
+          <div class="une-badge">À la Une</div>
         </div>
-        <div class="projet-body">
-          <div class="projet-title">{{ $p['titre'] }}</div>
-          <div class="projet-dates"><i class="fas fa-calendar-days"></i> {{ $p['dates'] }}</div>
-          <div class="projet-progress">
-            <div class="progress-label">
-              <span></span><strong>{{ $p['pct'] }}%</strong>
+        <div class="une-body">
+          <div class="une-title">{{ $hero->titre ?? 'Projet à la une' }}</div>
+          <div class="une-desc">{{ Str::limit($hero->description ?? 'Description non disponible.', 180) }}</div>
+          <div class="une-meta">
+            <div class="une-meta-item">
+              <i class="fas fa-calendar-days"></i>
+              <span>Durée</span>
+              <strong>{{ optional($hero->date_debut)->format('Y') }}{{ optional($hero->date_fin) ? ' – ' . optional($hero->date_fin)->format('Y') : '' }}</strong>
             </div>
-            <div class="progress-bar"><div class="progress-fill" style="width:{{ $p['pct'] }}%"></div></div>
+            <div class="une-meta-item">
+              <i class="fas fa-lock"></i>
+              <span>Budget</span>
+              <strong>{{ $hero->budget ?? 'Non renseigné' }}</strong>
+            </div>
+            <div class="une-meta-item">
+              <i class="fas fa-user-tie"></i>
+              <span>Statut</span>
+              <strong>{{ ucfirst(str_replace('-', ' ', $hero->statut ?? '')) }}</strong>
+            </div>
           </div>
-          <a href="{{ route('projets.detail', $p['slug']) }}" class="voir-details-link">Voir les détails &rarr;</a>
+          <div class="progress-wrap">
+            <div class="progress-label">
+              <span>Avancement global</span>
+              <strong>{{ $hero->avancement ?? 0 }}%</strong>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width:{{ $hero->avancement ?? 0 }}%"></div></div>
+          </div>
+          @if($hero)
+            <a href="{{ route('projets.detail', $hero->slug) }}" class="btn-details">Voir les détails &rarr;</a>
+          @endif
+        </div>
+        <div class="une-stats">
+          <div class="une-stat-item">
+            <div class="une-stat-icon"><i class="fas fa-spinner"></i></div>
+            <div>
+              <div class="une-stat-number">{{ $enCours->count() }}</div>
+              <div class="une-stat-label">Projets en cours</div>
+            </div>
+          </div>
+          <div class="une-stat-item">
+            <div class="une-stat-icon"><i class="fas fa-circle-check"></i></div>
+            <div>
+              <div class="une-stat-number">{{ $realises->count() }}</div>
+              <div class="une-stat-label">Projets réalisés</div>
+            </div>
+          </div>
+          <div class="une-stat-item">
+            <div class="une-stat-icon"><i class="fas fa-hourglass-half"></i></div>
+            <div>
+              <div class="une-stat-number">{{ $futurs->count() }}</div>
+              <div class="une-stat-label">Projets futurs</div>
+            </div>
+          </div>
         </div>
       </div>
-      @endforeach
-    </div>
-  </div>
-
-  {{-- ══ PROJETS RÉALISÉS ══ --}}
-  <div class="section-block" id="projets-realises">
-    <div class="sec-title-row">
-      <div class="sec-title-left">
-        <i class="fas fa-circle-check icon"></i>
-        <h2>Projets Réalisés</h2>
-      </div>
-      <a href="{{ route('projets.detail', 'ecole') }}" class="sec-see-all">Voir tous les projets réalisés &rarr;</a>
     </div>
 
-    @php
-      $realises = [
-        ['titre' => 'Réhabilitation de l\'école primaire d\'Andé', 'dates' => '2001 – 2002', 'img' => 'ecole.jpg', 'slug' => 'ecole'],
-        ['titre' => 'Construction de la Maison des Jeunes',        'dates' => '2020 – 2022', 'img' => 'chateau.jpg', 'slug' => 'chateau'],
-        ['titre' => 'Programme d\'appui à l\'agriculture locale',  'dates' => '2019 – 2021', 'img' => 'route.jpg', 'slug' => 'agriculture-locale'],
-        ['titre' => 'Aménagement de la place publique',            'dates' => '2021 – 2021', 'img' => '5.JPG', 'slug' => 'place-publique'],
-      ];
-    @endphp
-
-    <div class="realises-grid">
-      @foreach($realises as $r)
-      <div class="realise-card">
-        <div class="realise-img">
-          <img src="{{ asset('images/projets/' . $r['img']) }}" alt="{{ $r['titre'] }}"
-            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-          <div class="realise-img-placeholder" style="display:none;"><i class="fas fa-city"></i></div>
-          <div class="realise-badge">Réalisé</div>
-        </div>
-        <div class="realise-body">
-          <div class="realise-title">{{ $r['titre'] }}</div>
-          <div class="realise-dates"><i class="fas fa-calendar-days"></i> {{ $r['dates'] }}</div>
-          <a href="{{ route('projets.detail', $r['slug']) }}" class="voir-details-link">Voir les détails &rarr;</a>
+    <div class="section-block" id="projets-en-cours">
+      <div class="sec-title-row">
+        <div class="sec-title-left">
+          <i class="fas fa-rotate icon"></i>
+          <h2>Projets en Cours</h2>
         </div>
       </div>
-      @endforeach
-    </div>
-  </div>
 
-  {{-- ══ PROJETS FUTURS ══ --}}
-  <div class="section-block" style="padding-bottom:44px;" id="projets-futurs">
-    <div class="sec-title-row">
-      <div class="sec-title-left">
-        <i class="fas fa-hourglass-half icon"></i>
-        <h2>Projets Futurs</h2>
-      </div>
-      <a href="{{ route('projets.detail', 'complexe-sportif-culturel') }}" class="sec-see-all">Voir tous les projets futurs &rarr;</a>
-    </div>
-
-    @php
-      $futurs = [
-        ['titre' => 'Bitumage de l\'axe principal Andé – Carrefour',         'dates' => '2026 – 2027', 'icon' => 'fa-road', 'slug' => 'adduction-eau'],
-        ['titre' => 'Construction d\'un complexe sportif et culturel',        'dates' => '2026 – 2027', 'icon' => 'fa-futbol', 'slug' => 'complexe-sportif-culturel'],
-        ['titre' => 'Construction d\'un marché moderne',                      'dates' => '2026 – 2027', 'icon' => 'fa-store', 'slug' => 'place-publique'],
-        ['titre' => 'Programme de reboisement et protection de l\'environnement', 'dates' => '2026 – 2028', 'icon' => 'fa-seedling', 'slug' => 'agriculture-locale'],
-      ];
-    @endphp
-
-    <div class="futurs-grid">
-      @foreach($futurs as $f)
-      <div class="futur-card">
-        <div class="futur-icon-wrap">
-          <i class="fas {{ $f['icon'] }}"></i>
+      @if($enCours->isEmpty())
+        <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:20px;color:var(--text-mid);box-shadow:var(--shadow-sm);">
+          Aucun projet en cours pour le moment.
         </div>
-        <div class="futur-title">{{ $f['titre'] }}</div>
-        <div class="futur-dates"><i class="fas fa-calendar-days"></i> {{ $f['dates'] }}</div>
-        <a href="{{ route('projets.detail', $f['slug']) }}" class="futur-link">En savoir plus &rarr;</a>
-      </div>
-      @endforeach
+      @else
+        <div class="projets-grid">
+          @foreach($enCours as $project)
+            <div class="projet-card">
+              <div class="projet-img">
+                @if($project->media && in_array(strtolower(pathinfo($project->media, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'webp']))
+                  <img src="{{ asset('storage/' . $project->media) }}" alt="{{ $project->titre }}"
+                       onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                @else
+                  <img src="{{ asset('images/projets/1.png') }}" alt="{{ $project->titre }}"
+                       onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                @endif
+                <div class="projet-img-placeholder" style="display:none;"><i class="fas fa-city"></i></div>
+                <div class="projet-pct-badge">{{ $project->avancement ?? 0 }}%</div>
+              </div>
+              <div class="projet-body">
+                <div class="projet-title">{{ $project->titre }}</div>
+                <div class="projet-dates"><i class="fas fa-calendar-days"></i> {{ optional($project->date_debut)->format('Y') }}{{ optional($project->date_fin) ? ' – ' . optional($project->date_fin)->format('Y') : '' }}</div>
+                <div class="projet-progress">
+                  <div class="progress-label"><span></span><strong>{{ $project->avancement ?? 0 }}%</strong></div>
+                  <div class="progress-bar"><div class="progress-fill" style="width:{{ $project->avancement ?? 0 }}%"></div></div>
+                </div>
+                <a href="{{ route('projets.detail', $project->slug) }}" class="voir-details-link">Voir les détails &rarr;</a>
+              </div>
+            </div>
+          @endforeach
+        </div>
+      @endif
     </div>
-  </div>
 
+    <div class="section-block" id="projets-realises">
+      <div class="sec-title-row">
+        <div class="sec-title-left">
+          <i class="fas fa-circle-check icon"></i>
+          <h2>Projets Réalisés</h2>
+        </div>
+      </div>
+
+      @if($realises->isEmpty())
+        <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:20px;color:var(--text-mid);box-shadow:var(--shadow-sm);">
+          Aucun projet réalisé pour le moment.
+        </div>
+      @else
+        <div class="realises-grid">
+          @foreach($realises as $project)
+            <div class="realise-card">
+              <div class="realise-img">
+                @if($project->media && in_array(strtolower(pathinfo($project->media, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'webp']))
+                  <img src="{{ asset('storage/' . $project->media) }}" alt="{{ $project->titre }}"
+                       onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                @else
+                  <img src="{{ asset('images/projets/1.png') }}" alt="{{ $project->titre }}"
+                       onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                @endif
+                <div class="realise-img-placeholder" style="display:none;"><i class="fas fa-city"></i></div>
+                <div class="realise-badge">Réalisé</div>
+              </div>
+              <div class="realise-body">
+                <div class="realise-title">{{ $project->titre }}</div>
+                <div class="realise-dates"><i class="fas fa-calendar-days"></i> {{ optional($project->date_debut)->format('Y') }}{{ optional($project->date_fin) ? ' – ' . optional($project->date_fin)->format('Y') : '' }}</div>
+                <a href="{{ route('projets.detail', $project->slug) }}" class="voir-details-link">Voir les détails &rarr;</a>
+              </div>
+            </div>
+          @endforeach
+        </div>
+      @endif
+    </div>
+
+    <div class="section-block" style="padding-bottom:44px;" id="projets-futurs">
+      <div class="sec-title-row">
+        <div class="sec-title-left">
+          <i class="fas fa-hourglass-half icon"></i>
+          <h2>Projets Futurs</h2>
+        </div>
+      </div>
+
+      @if($futurs->isEmpty())
+        <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:20px;color:var(--text-mid);box-shadow:var(--shadow-sm);">
+          Aucun projet futur pour le moment.
+        </div>
+      @else
+        <div class="futurs-grid">
+          @foreach($futurs as $project)
+            <div class="futur-card">
+              <div class="futur-icon-wrap">
+                <i class="fas fa-project-diagram"></i>
+              </div>
+              <div class="futur-title">{{ $project->titre }}</div>
+              <div class="futur-dates"><i class="fas fa-calendar-days"></i> {{ optional($project->date_debut)->format('Y') }}{{ optional($project->date_fin) ? ' – ' . optional($project->date_fin)->format('Y') : '' }}</div>
+              <a href="{{ route('projets.detail', $project->slug) }}" class="futur-link">En savoir plus &rarr;</a>
+            </div>
+          @endforeach
+        </div>
+      @endif
+    </div>
+  @endif
 </div>
 
 {{-- ══ CTA FOOTER ══ --}}

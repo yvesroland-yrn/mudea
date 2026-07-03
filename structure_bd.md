@@ -305,8 +305,8 @@ php artisan migrate:status
 
 **Informations de connexion**:
 
-- **Email**: admin@mudea.com
-- **Mot de passe**: 12345
+- **Email**: admin2026@mudea.com
+- **Mot de passe**: Mudea@2026!
 - **Nom**: Admin MUDEA
 - **Téléphone**: +225 07 00 00 00 28
 - **Adresse**: Abidjan, Côte d'Ivoire

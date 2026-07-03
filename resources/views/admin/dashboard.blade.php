@@ -618,221 +618,31 @@
         </div>
     </div>
 
-    {{-- CHART + SIDE --}}
-    <div class="dashboard-grid">
-
-        <div style="display:flex;flex-direction:column;gap:20px;">
-
-            {{-- Chart --}}
-            <div class="chart-card">
-                <div class="card-header">
-                    <div class="card-title">Visites du portail</div>
-                    <select class="select-period">
-                        <option>6 derniers mois</option>
-                        <option>3 derniers mois</option>
-                        <option>12 derniers mois</option>
-                    </select>
-                </div>
-                <div class="chart-area">
-                    <canvas id="visitesChart"></canvas>
-                </div>
-            </div>
-
-            {{-- Accès rapide --}}
-            <div class="quick-card">
-                <div class="card-title">Accès rapide</div>
-                <div class="quick-grid">
-                    <a href="{{ route('admin.actualites.index') }}" class="quick-item">
-                        <div class="quick-icon quick-icon--green"><i class="fas fa-pencil"></i></div>
-                        <div class="quick-label">Créer une actualité</div>
-                    </a>
-                    <a href="{{ route('admin.projets') }}" class="quick-item">
-                        <div class="quick-icon quick-icon--blue"><i class="fas fa-folder-plus"></i></div>
-                        <div class="quick-label">Créer un projet</div>
-                    </a>
-                    <a href="{{ route('admin.communaute') }}" class="quick-item">
-                        <div class="quick-icon quick-icon--gold"><i class="fas fa-calendar-plus"></i></div>
-                        <div class="quick-label">Créer un événement</div>
-                    </a>
-                    <!-- <a href="{{ route('admin.pages') }}" class="quick-item">
-              <div class="quick-icon quick-icon--purple"><i class="fas fa-file-circle-plus"></i></div>
-              <div class="quick-label">Publier une page</div>
-            </a> -->
-                    <a href="{{ route('admin.messages') }}" class="quick-item">
-                        <div class="quick-icon quick-icon--dark"><i class="fas fa-envelope-open-text"></i></div>
-                        <div class="quick-label">Voir les messages</div>
-                    </a>
-                </div>
-            </div>
-
-            {{-- Mini stats --}}
-            <div class="mini-stats-grid">
-                @php
-                    $ministats = [
-                        [
-                            'label' => 'Actualités publiées',
-                            'val' => '125',
-                            'trend' => '+10 ce mois',
-                            'up' => true,
-                            'color' => '#1b5e20',
-                            'pts' => [10, 15, 12, 18, 14, 20, 22],
-                        ],
-                        [
-                            'label' => 'Projets en cours',
-                            'val' => '18',
-                            'trend' => '+2 ce mois',
-                            'up' => true,
-                            'color' => '#1565c0',
-                            'pts' => [8, 9, 10, 12, 13, 15, 18],
-                        ],
-                        [
-                            'label' => 'Membres',
-                            'val' => '520',
-                            'trend' => '+15 ce mois',
-                            'up' => true,
-                            'color' => '#e65100',
-                            'pts' => [460, 470, 480, 490, 500, 510, 520],
-                        ],
-                        [
-                            'label' => 'Taux d\'engagement',
-                            'val' => '68%',
-                            'trend' => '+5% ce mois',
-                            'up' => true,
-                            'color' => '#6a1b9a',
-                            'pts' => [50, 55, 58, 60, 62, 65, 68],
-                        ],
-                        [
-                            'label' => 'Messages non lus',
-                            'val' => '46',
-                            'trend' => '-3 ce mois',
-                            'up' => false,
-                            'color' => '#e53935',
-                            'pts' => [60, 55, 52, 50, 48, 49, 46],
-                        ],
-                    ];
-                @endphp
-                @foreach ($ministats as $s)
-                    <div class="mini-stat">
-                        <div class="mini-stat-label">{{ $s['label'] }}</div>
-                        <div class="mini-stat-number">{{ $s['val'] }}</div>
-                        <div class="mini-stat-trend {{ $s['up'] ? 'mini-stat-trend--up' : 'mini-stat-trend--down' }}">
-                            {{ $s['trend'] }}
-                        </div>
-                        <div class="mini-sparkline">
-                            @php
-                                $pts = $s['pts'];
-                                $min = min($pts);
-                                $max = max($pts);
-                                $range = $max - $min ?: 1;
-                                $w = 100 / (count($pts) - 1);
-                                $path = '';
-                                foreach ($pts as $i => $v) {
-                                    $x = $i * $w;
-                                    $y = 28 - (($v - $min) / $range) * 24;
-                                    $path .= $i === 0 ? "M $x,$y" : " L $x,$y";
-                                }
-                            @endphp
-                            <svg viewBox="0 0 100 32" preserveAspectRatio="none">
-                                <path d="{{ $path }}" fill="none" stroke="{{ $s['color'] }}" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-
-        </div>
-
-        {{-- Side col --}}
-        <div class="side-col">
-
-            {{-- Dernières activités --}}
-            <div class="info-card">
-                <div class="info-card-title">Dernières activités</div>
-                <div class="activity-list">
-                    <div class="activity-item">
-                        <div class="activity-icon activity-icon--green"><i class="fas fa-newspaper"></i></div>
-                        <div class="activity-body">
-                            <div class="activity-title">Nouvelle actualité publiée</div>
-                            <div class="activity-sub">Festival des Mangues d'Essa 2024</div>
-                        </div>
-                        <div class="activity-time">Il y a 1 heure</div>
-                    </div>
-                    <div class="activity-item">
-                        <div class="activity-icon activity-icon--blue"><i class="fas fa-folder-open"></i></div>
-                        <div class="activity-body">
-                            <div class="activity-title">Nouveau projet créé</div>
-                            <div class="activity-sub">Construction du Centre de Santé</div>
-                        </div>
-                        <div class="activity-time">Il y a 3 heures</div>
-                    </div>
-                    <div class="activity-item">
-                        <div class="activity-icon activity-icon--gold"><i class="fas fa-envelope"></i></div>
-                        <div class="activity-body">
-                            <div class="activity-title">Nouveau message reçu</div>
-                            <div class="activity-sub">Demande d'information sur l'adhésion</div>
-                        </div>
-                        <div class="activity-time">Il y a 7 heures</div>
-                    </div>
-                    <div class="activity-item">
-                        <div class="activity-icon activity-icon--purple"><i class="fas fa-comment-dots"></i></div>
-                        <div class="activity-body">
-                            <div class="activity-title">Nouveau témoignage publié</div>
-                            <div class="activity-sub">Témoignage de M. J. D. Amon</div>
-                        </div>
-                        <div class="activity-time">Il y a 1 jour</div>
-                    </div>
-                    <div class="activity-item">
-                        <div class="activity-icon activity-icon--teal"><i class="fas fa-user-plus"></i></div>
-                        <div class="activity-body">
-                            <div class="activity-title">Nouvel utilisateur inscrit</div>
-                            <div class="activity-sub">Awo Toure (membre)</div>
-                        </div>
-                        <div class="activity-time">Il y a 2 jours</div>
-                    </div>
-                </div>
-                <a href="#" class="see-all-link">Voir toutes les activités &rarr;</a>
-            </div>
-
-            {{-- Tâches --}}
-            <div class="info-card">
-                <div class="info-card-title">Tâches du jour</div>
-                <div class="tasks-list">
-                    <div class="task-item">
-                        <div class="task-left">
-                            <div class="task-check"><i class="fas fa-check"></i></div>
-                            <div class="task-name">Site en ligne</div>
-                        </div>
-                        <div class="task-status task-status--green">Actif</div>
-                    </div>
-                    <div class="task-item">
-                        <div class="task-left">
-                            <div class="task-check"><i class="fas fa-check"></i></div>
-                            <div class="task-name">Sauvegarde</div>
-                        </div>
-                        <div class="task-status task-status--blue">À jour</div>
-                    </div>
-                    <div class="task-item">
-                        <div class="task-left">
-                            <div class="task-check"><i class="fas fa-check"></i></div>
-                            <div class="task-name">Mises de données</div>
-                        </div>
-                        <div class="task-status task-status--teal">Connectée</div>
-                    </div>
-                    <div class="task-item">
-                        <div class="task-left">
-                            <div class="task-check"><i class="fas fa-check"></i></div>
-                            <div class="task-name">Espace disque</div>
-                        </div>
-                        <div class="task-status task-status--orange">72% utilisé</div>
-                    </div>
-                </div>
-                <a href="{{ route('admin.statistiques') }}" class="btn-stats">
-                    <i class="fas fa-chart-bar"></i> Voir les statistiques détaillées
-                </a>
-            </div>
-
-        </div>
+    {{-- Accès rapide --}}
+    <div class="quick-card">
+      <div class="card-title">Accès rapide</div>
+      <div class="quick-grid">
+        <a href="{{ route('admin.actualites.index') }}" class="quick-item">
+          <div class="quick-icon quick-icon--green"><i class="fas fa-pencil"></i></div>
+          <div class="quick-label">Créer une actualité</div>
+        </a>
+        <a href="{{ route('admin.projets') }}" class="quick-item">
+          <div class="quick-icon quick-icon--blue"><i class="fas fa-folder-plus"></i></div>
+          <div class="quick-label">Créer un projet</div>
+        </a>
+        <a href="{{ route('admin.communaute') }}" class="quick-item">
+          <div class="quick-icon quick-icon--gold"><i class="fas fa-calendar-plus"></i></div>
+          <div class="quick-label">Créer un événement</div>
+        </a>
+        <!-- <a href="{{ route('admin.pages') }}" class="quick-item">
+          <div class="quick-icon quick-icon--purple"><i class="fas fa-file-circle-plus"></i></div>
+          <div class="quick-label">Publier une page</div>
+        </a> -->
+        <a href="{{ route('admin.messages') }}" class="quick-item">
+          <div class="quick-icon quick-icon--dark"><i class="fas fa-envelope-open-text"></i></div>
+          <div class="quick-label">Voir les messages</div>
+        </a>
+      </div>
     </div>
 
 @endsection
