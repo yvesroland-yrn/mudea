@@ -3,39 +3,50 @@
 @section('title', 'Accueil - MUDEA')
 
 @push('styles')
-<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap"
+        rel="stylesheet">
     <style>
         /* ============================================================
-                               VARIABLES & RESET
-        ============================================================ */
+                                   VARIABLES & RESET
+            ============================================================ */
         :root {
-            --green:        #1e6b2e;
-            --green-mid:    #2e7d32;
-            --green-light:  #43a047;
-            --green-pale:   #e8f5e9;
-            --gold:         #f5a623;
-            --gold-dark:    #d4880a;
-            --white:        #ffffff;
-            --off-white:    #f7f9f7;
-            --dark:         #111a12;
-            --text:         #2c3e2d;
-            --muted:        #607063;
-            --border:       #dde8de;
-            --footer-bg:    #0f2313;
-            --shadow-sm:    0 2px 8px rgba(0,0,0,.08);
-            --shadow-md:    0 6px 24px rgba(0,0,0,.12);
-            --shadow-lg:    0 16px 48px rgba(0,0,0,.16);
-            --radius:       12px;
-            --radius-sm:    8px;
-            --transition:   .25s cubic-bezier(.4,0,.2,1);
-            --font-body:    'Nunito', sans-serif;
+            --green: #1e6b2e;
+            --green-mid: #2e7d32;
+            --green-light: #43a047;
+            --green-pale: #e8f5e9;
+            --gold: #f5a623;
+            --gold-dark: #d4880a;
+            --white: #ffffff;
+            --off-white: #f7f9f7;
+            --dark: #111a12;
+            --text: #2c3e2d;
+            --muted: #607063;
+            --border: #dde8de;
+            --footer-bg: #0f2313;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, .08);
+            --shadow-md: 0 6px 24px rgba(0, 0, 0, .12);
+            --shadow-lg: 0 16px 48px rgba(0, 0, 0, .16);
+            --radius: 12px;
+            --radius-sm: 8px;
+            --transition: .25s cubic-bezier(.4, 0, .2, 1);
+            --font-body: 'Nunito', sans-serif;
             --font-display: 'Playfair Display', serif;
         }
 
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
 
         body {
             font-family: var(--font-body);
@@ -45,9 +56,19 @@
             overflow-x: hidden;
         }
 
-        a { text-decoration: none; color: inherit; }
-        ul { list-style: none; }
-        img { max-width: 100%; display: block; }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
 
         .container {
             max-width: 1240px;
@@ -56,14 +77,14 @@
         }
 
         /* ============================================================
-           HEADER
-        ============================================================ */
+               HEADER
+            ============================================================ */
         .mudea-header {
             position: sticky;
             top: 0;
             z-index: 1000;
             background: var(--white);
-            box-shadow: 0 2px 16px rgba(0,0,0,.09);
+            box-shadow: 0 2px 16px rgba(0, 0, 0, .09);
             font-family: var(--font-body);
         }
 
@@ -93,7 +114,11 @@
             object-fit: contain;
         }
 
-        .logo-text { display: flex; flex-direction: column; line-height: 1.15; }
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.15;
+        }
 
         .logo-name {
             font-size: 1.3rem;
@@ -111,7 +136,10 @@
         }
 
         /* Nav */
-        .header-nav { flex: 1; min-width: 0; }
+        .header-nav {
+            flex: 1;
+            min-width: 0;
+        }
 
         .nav-list {
             display: flex;
@@ -120,7 +148,9 @@
             flex-wrap: wrap;
         }
 
-        .nav-item { position: relative; }
+        .nav-item {
+            position: relative;
+        }
 
         .nav-link {
             display: flex;
@@ -137,12 +167,12 @@
         }
 
         .nav-link:hover,
-        .nav-item.active > .nav-link {
+        .nav-item.active>.nav-link {
             color: var(--green);
-            background: rgba(46,125,50,0.07);
+            background: rgba(46, 125, 50, 0.07);
         }
 
-        .nav-item.active > .nav-link {
+        .nav-item.active>.nav-link {
             color: var(--mudea-dark);
         }
 
@@ -152,7 +182,9 @@
             transition: transform var(--transition);
         }
 
-        .nav-item.has-dropdown:hover .nav-arrow { transform: rotate(180deg); }
+        .nav-item.has-dropdown:hover .nav-arrow {
+            transform: rotate(180deg);
+        }
 
         /* Dropdown */
         .dropdown {
@@ -169,11 +201,21 @@
             z-index: 999;
         }
 
-        .nav-item.has-dropdown:hover .dropdown { display: block; animation: dropFade .18s ease; }
+        .nav-item.has-dropdown:hover .dropdown {
+            display: block;
+            animation: dropFade .18s ease;
+        }
 
         @keyframes dropFade {
-            from { opacity: 0; transform: translateY(-6px); }
-            to   { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .dropdown a {
@@ -211,7 +253,10 @@
             align-items: center;
         }
 
-        .btn-search:hover { background: var(--green-pale); color: var(--green); }
+        .btn-search:hover {
+            background: var(--green-pale);
+            color: var(--green);
+        }
 
         .btn-hero {
             display: inline-flex;
@@ -228,12 +273,28 @@
             transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
         }
 
-        .btn-hero:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .btn-hero:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
 
-        .btn-adherer  { background: var(--green); color: var(--white); }
-        .btn-adherer:hover  { background: var(--green-mid); }
-        .btn-contribuer { background: var(--gold); color: var(--white); }
-        .btn-contribuer:hover { background: var(--gold-dark); }
+        .btn-adherer {
+            background: var(--green);
+            color: var(--white);
+        }
+
+        .btn-adherer:hover {
+            background: var(--green-mid);
+        }
+
+        .btn-contribuer {
+            background: var(--gold);
+            color: var(--white);
+        }
+
+        .btn-contribuer:hover {
+            background: var(--gold-dark);
+        }
 
         /* Burger */
         .burger-btn {
@@ -245,9 +306,11 @@
             cursor: pointer;
             padding: 6px;
         }
+
         .burger-btn span {
             display: block;
-            width: 24px; height: 2px;
+            width: 24px;
+            height: 2px;
             background: var(--text);
             border-radius: 2px;
             transition: all var(--transition);
@@ -259,7 +322,12 @@
             background: var(--green);
             padding: 12px 24px;
         }
-        .search-bar.open { display: block; animation: dropFade .2s ease; }
+
+        .search-bar.open {
+            display: block;
+            animation: dropFade .2s ease;
+        }
+
         .search-bar-inner {
             display: flex;
             align-items: center;
@@ -267,6 +335,7 @@
             margin: 0 auto;
             gap: 10px;
         }
+
         .search-input {
             flex: 1;
             padding: 10px 18px;
@@ -276,6 +345,7 @@
             font-family: var(--font-body);
             outline: none;
         }
+
         .search-btn {
             background: var(--gold);
             color: white;
@@ -286,14 +356,19 @@
             cursor: pointer;
             font-size: .82rem;
         }
+
         .search-close {
-            background: none; border: none; color: white;
-            font-size: 1.5rem; cursor: pointer; line-height: 1;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            line-height: 1;
         }
 
         /* ============================================================
-           HERO
-        ============================================================ */
+               HERO
+            ============================================================ */
         .hero {
             position: relative;
             min-height: 620px;
@@ -306,7 +381,7 @@
         .hero-bg {
             position: absolute;
             inset: 0;
-            background-image: url('{{ asset("images/hero-ande.png") }}');
+            background-image: url('{{ asset('images/hero-ande.png') }}');
             background-size: cover;
             background-position: center;
             opacity: .42;
@@ -342,17 +417,23 @@
             margin-bottom: 6px;
         }
 
-        .hero-title .accent { color: var(--gold); }
+        .hero-title .accent {
+            color: var(--gold);
+        }
 
         .hero-desc {
-            color: rgba(255,255,255,.85);
+            color: rgba(255, 255, 255, .85);
             font-size: 1.05rem;
             line-height: 1.7;
             margin-bottom: 36px;
             max-width: 500px;
         }
 
-        .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+        .hero-btns {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
 
         .btn-outline-white {
             display: inline-flex;
@@ -369,7 +450,11 @@
             background: transparent;
             transition: background var(--transition), color var(--transition);
         }
-        .btn-outline-white:hover { background: var(--white); color: var(--green); }
+
+        .btn-outline-white:hover {
+            background: var(--white);
+            color: var(--green);
+        }
 
         .btn-gold-solid {
             display: inline-flex;
@@ -386,11 +471,15 @@
             border: 2px solid var(--gold);
             transition: background var(--transition);
         }
-        .btn-gold-solid:hover { background: var(--gold-dark); border-color: var(--gold-dark); }
+
+        .btn-gold-solid:hover {
+            background: var(--gold-dark);
+            border-color: var(--gold-dark);
+        }
 
         /* ============================================================
-           STATS BAR
-        ============================================================ */
+               STATS BAR
+            ============================================================ */
         .stats-bar {
             background: var(--white);
             box-shadow: var(--shadow-md);
@@ -412,8 +501,14 @@
             border-bottom: 1px solid transparent;
             transition: background var(--transition);
         }
-        .stat-item:last-child { border-right: none; }
-        .stat-item:hover { background: var(--green-pale); }
+
+        .stat-item:last-child {
+            border-right: none;
+        }
+
+        .stat-item:hover {
+            background: var(--green-pale);
+        }
 
         .stat-top {
             display: flex;
@@ -423,18 +518,36 @@
         }
 
         .stat-icon {
-            width: 52px; height: 52px;
+            width: 52px;
+            height: 52px;
             border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
         }
-        .stat-icon svg { width: 26px; height: 26px; fill: white; }
-        .stat-icon--green  { background: var(--green); }
-        .stat-icon--gold   { background: var(--gold); }
-        .stat-icon--blue   { background: #1565c0; }
-        .stat-icon--purple { background: #6a1b9a; }
+
+        .stat-icon svg {
+            width: 26px;
+            height: 26px;
+            fill: white;
+        }
+
+        .stat-icon--green {
+            background: var(--green);
+        }
+
+        .stat-icon--gold {
+            background: var(--gold);
+        }
+
+        .stat-icon--blue {
+            background: #1565c0;
+        }
+
+        .stat-icon--purple {
+            background: #6a1b9a;
+        }
 
         .stat-number {
             font-size: 2rem;
@@ -467,14 +580,25 @@
             gap: 5px;
             transition: gap var(--transition);
         }
-        .stat-item:nth-child(2) .stat-link { color: var(--gold); }
-        .stat-link:hover { gap: 10px; }
+
+        .stat-item:nth-child(2) .stat-link {
+            color: var(--gold);
+        }
+
+        .stat-link:hover {
+            gap: 10px;
+        }
 
         /* ============================================================
-           SECTIONS GÉNÉRALES
-        ============================================================ */
-        .section { padding: 72px 24px; }
-        .section--gray { background: var(--off-white); }
+               SECTIONS GÉNÉRALES
+            ============================================================ */
+        .section {
+            padding: 72px 24px;
+        }
+
+        .section--gray {
+            background: var(--off-white);
+        }
 
         .section-header {
             display: flex;
@@ -498,7 +622,8 @@
         .section-title::after {
             content: '';
             display: block;
-            width: 40px; height: 3px;
+            width: 40px;
+            height: 3px;
             background: var(--gold);
             margin-top: 6px;
             border-radius: 2px;
@@ -514,11 +639,14 @@
             white-space: nowrap;
             transition: gap var(--transition);
         }
-        .section-all:hover { gap: 10px; }
+
+        .section-all:hover {
+            gap: 10px;
+        }
 
         /* ============================================================
-           PROJETS
-        ============================================================ */
+               PROJETS
+            ============================================================ */
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -543,15 +671,26 @@
         .project-img {
             width: 100%;
             height: 190px;
-            object-fit: cover;
             background: linear-gradient(135deg, var(--green-pale), var(--green-light));
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 3rem;
+            overflow: hidden;
         }
 
-        .project-body { padding: 22px; }
+        .project-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center center;
+            image-rendering: auto;
+            display: block;
+        }
+
+        .project-body {
+            padding: 22px;
+        }
 
         .project-name {
             font-size: 1rem;
@@ -598,11 +737,14 @@
             gap: 5px;
             transition: gap var(--transition);
         }
-        .project-link:hover { gap: 10px; }
+
+        .project-link:hover {
+            gap: 10px;
+        }
 
         /* ============================================================
-           ACTUALITÉS
-        ============================================================ */
+               ACTUALITÉS
+            ============================================================ */
         .news-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -620,7 +762,11 @@
             box-shadow: var(--shadow-sm);
             transition: transform var(--transition), box-shadow var(--transition);
         }
-        .news-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+
+        .news-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
 
         .news-date-box {
             flex-shrink: 0;
@@ -636,19 +782,37 @@
             justify-content: center;
         }
 
-        .news-day { font-size: 1.5rem; font-weight: 900; line-height: 1; }
-        .news-month { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; opacity: .85; }
+        .news-day {
+            font-size: 1.5rem;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .news-month {
+            font-size: .75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            opacity: .85;
+        }
 
         .news-img {
             flex-shrink: 0;
-            width: 90px; height: 90px;
+            width: 90px;
+            height: 90px;
             border-radius: var(--radius-sm);
             object-fit: cover;
             background: var(--green-pale);
-            display: flex; align-items: center; justify-content: center; font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
         }
 
-        .news-body { flex: 1; min-width: 0; }
+        .news-body {
+            flex: 1;
+            min-width: 0;
+        }
 
         .news-title {
             font-size: 1.05rem;
@@ -674,11 +838,14 @@
             gap: 4px;
             transition: gap var(--transition);
         }
-        .news-link:hover { gap: 8px; }
+
+        .news-link:hover {
+            gap: 8px;
+        }
 
         /* ============================================================
-           BLOCS ÉDUC + COMMUNAUTÉ
-        ============================================================ */
+               BLOCS ÉDUC + COMMUNAUTÉ
+            ============================================================ */
         .duo-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -696,7 +863,11 @@
             box-shadow: var(--shadow-sm);
             transition: transform var(--transition), box-shadow var(--transition);
         }
-        .duo-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+
+        .duo-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
 
         .duo-card-image {
             flex-shrink: 0;
@@ -725,8 +896,13 @@
             letter-spacing: .4px;
         }
 
-        .duo-card--educ      .duo-card-title { color: var(--gold-dark); }
-        .duo-card--community .duo-card-title { color: var(--green); }
+        .duo-card--educ .duo-card-title {
+            color: var(--gold-dark);
+        }
+
+        .duo-card--community .duo-card-title {
+            color: var(--green);
+        }
 
         .duo-card-desc {
             font-size: .88rem;
@@ -750,15 +926,27 @@
             transition: background var(--transition), transform var(--transition);
         }
 
-        .btn-duo-gold  { background: var(--gold); }
-        .btn-duo-gold:hover  { background: var(--gold-dark); transform: translateY(-2px); }
+        .btn-duo-gold {
+            background: var(--gold);
+        }
 
-        .btn-duo-green { background: var(--green); }
-        .btn-duo-green:hover { background: var(--green-mid); transform: translateY(-2px); }
+        .btn-duo-gold:hover {
+            background: var(--gold-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-duo-green {
+            background: var(--green);
+        }
+
+        .btn-duo-green:hover {
+            background: var(--green-mid);
+            transform: translateY(-2px);
+        }
 
         /* ============================================================
-           CTA BANNER
-        ============================================================ */
+               CTA BANNER
+            ============================================================ */
         .cta-banner {
             background: linear-gradient(135deg, var(--green-mid) 0%, var(--green) 100%);
             padding: 50px 24px;
@@ -777,15 +965,21 @@
         }
 
         .cta-icon {
-            width: 64px; height: 64px;
-            background: rgba(255,255,255,.15);
+            width: 64px;
+            height: 64px;
+            background: rgba(255, 255, 255, .15);
             border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
         }
-        .cta-icon svg { width: 32px; height: 32px; fill: white; }
+
+        .cta-icon svg {
+            width: 32px;
+            height: 32px;
+            fill: white;
+        }
 
         .cta-title {
             font-family: var(--font-display);
@@ -794,7 +988,12 @@
             color: white;
             margin-bottom: 4px;
         }
-        .cta-desc { font-size: .88rem; color: rgba(255,255,255,.8); line-height: 1.5; }
+
+        .cta-desc {
+            font-size: .88rem;
+            color: rgba(255, 255, 255, .8);
+            line-height: 1.5;
+        }
 
         .cta-btns {
             display: flex;
@@ -819,7 +1018,12 @@
             border: 2px solid var(--gold);
             transition: background var(--transition), transform var(--transition);
         }
-        .btn-cta-primary:hover { background: var(--gold-dark); border-color: var(--gold-dark); transform: translateY(-2px); }
+
+        .btn-cta-primary:hover {
+            background: var(--gold-dark);
+            border-color: var(--gold-dark);
+            transform: translateY(-2px);
+        }
 
         .btn-cta-outline {
             display: inline-flex;
@@ -834,14 +1038,18 @@
             letter-spacing: .5px;
             background: transparent;
             color: white;
-            border: 2px solid rgba(255,255,255,.6);
+            border: 2px solid rgba(255, 255, 255, .6);
             transition: border-color var(--transition), background var(--transition);
         }
-        .btn-cta-outline:hover { border-color: white; background: rgba(255,255,255,.08); }
+
+        .btn-cta-outline:hover {
+            border-color: white;
+            background: rgba(255, 255, 255, .08);
+        }
 
         /* ============================================================
-           FOOTER
-        ============================================================ */
+               FOOTER
+            ============================================================ */
         .mudea-footer {
             background: var(--footer-bg);
             color: #c8d8ca;
@@ -900,14 +1108,22 @@
             display: inline-block;
         }
 
-        .footer-links { display: flex; flex-direction: column; gap: 8px; }
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
 
         .footer-links a {
             font-size: .83rem;
             color: #c8d8ca;
             transition: color var(--transition), padding-left var(--transition);
         }
-        .footer-links a:hover { color: var(--gold); padding-left: 5px; }
+
+        .footer-links a:hover {
+            color: var(--gold);
+            padding-left: 5px;
+        }
 
         .footer-links--cols {
             display: grid;
@@ -915,7 +1131,11 @@
             gap: 6px 12px;
         }
 
-        .footer-contact { display: flex; flex-direction: column; gap: 10px; }
+        .footer-contact {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
 
         .footer-contact-item {
             display: flex;
@@ -925,54 +1145,95 @@
         }
 
         .footer-contact-item svg {
-            width: 14px; height: 14px;
+            width: 14px;
+            height: 14px;
             fill: var(--green-light);
             margin-top: 2px;
             flex-shrink: 0;
         }
 
-        .footer-social { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+        .footer-social {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 4px;
+        }
 
         .social-btn {
-            width: 40px; height: 40px;
+            width: 40px;
+            height: 40px;
             border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: transform var(--transition), opacity var(--transition);
             text-decoration: none;
         }
-        .social-btn:hover { transform: translateY(-3px); opacity: .85; }
-        .social-btn svg { width: 18px; height: 18px; fill: white; }
 
-        .social-btn--fb { background: #1877f2; }
-        .social-btn--wa { background: #25d366; }
-        .social-btn--yt { background: #ff0000; }
+        .social-btn:hover {
+            transform: translateY(-3px);
+            opacity: .85;
+        }
+
+        .social-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: white;
+        }
+
+        .social-btn--fb {
+            background: #1877f2;
+        }
+
+        .social-btn--wa {
+            background: #25d366;
+        }
+
+        .social-btn--yt {
+            background: #ff0000;
+        }
 
         .footer-bottom {
-            border-top: 1px solid rgba(255,255,255,.07);
+            border-top: 1px solid rgba(255, 255, 255, .07);
             text-align: center;
             padding: 16px 24px;
             font-size: .75rem;
-            color: rgba(255,255,255,.35);
+            color: rgba(255, 255, 255, .35);
         }
 
         /* ============================================================
-           RESPONSIVE
-           Repères : 1024px (tablette paysage) · 900px (tablette/menu burger)
-                     640px (mobile) · 480px (petit mobile)
-        ============================================================ */
+               RESPONSIVE
+               Repères : 1024px (tablette paysage) · 900px (tablette/menu burger)
+                         640px (mobile) · 480px (petit mobile)
+            ============================================================ */
         @media (max-width: 1024px) {
-            .projects-grid { grid-template-columns: 1fr 1fr; }
-            .footer-main   { grid-template-columns: 1fr 1fr; }
+            .projects-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .footer-main {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
         @media (max-width: 1180px) {
-            .header-nav  { display: none; }
-            .header-nav.open { display: flex; }
-            .burger-btn  { display: flex; }
+            .header-nav {
+                display: none;
+            }
+
+            .header-nav.open {
+                display: flex;
+            }
+
+            .burger-btn {
+                display: flex;
+            }
 
             .header-nav.open {
                 position: fixed;
-                top: 82px; left: 0; right: 0;
+                top: 82px;
+                left: 0;
+                right: 0;
                 background: white;
                 flex-direction: column;
                 padding: 16px 24px 28px;
@@ -982,77 +1243,230 @@
                 overflow-y: auto;
             }
 
-            .nav-list { flex-direction: column; width: 100%; gap: 4px; }
-            .nav-link  { width: 100%; font-size: .9rem; padding: 10px 12px; }
-            .dropdown  { position: static; box-shadow: none; border-top: none; border-left: 3px solid var(--green); margin-left: 16px; }
-            .nav-item.has-dropdown.open .dropdown { display: block; }
-            .btn-adherer, .btn-contribuer { display: none; }
+            .nav-list {
+                flex-direction: column;
+                width: 100%;
+                gap: 4px;
+            }
 
-            .hero { min-height: 560px; }
+            .nav-link {
+                width: 100%;
+                font-size: .9rem;
+                padding: 10px 12px;
+            }
 
-            .stats-bar   { grid-template-columns: 1fr 1fr; }
-            .stat-item   { border-right: none; border-bottom: 1px solid var(--border); }
-            .stat-item:nth-child(2n) { border-right: none; }
-            .stat-item:nth-last-child(-n+2) { border-bottom: none; }
+            .dropdown {
+                position: static;
+                box-shadow: none;
+                border-top: none;
+                border-left: 3px solid var(--green);
+                margin-left: 16px;
+            }
 
-            .duo-grid    { grid-template-columns: 1fr; max-width: 640px; }
-            .news-grid   { grid-template-columns: 1fr; }
-            .home-stats-wrap { margin-top: -28px; }
+            .nav-item.has-dropdown.open .dropdown {
+                display: block;
+            }
+
+            .btn-adherer,
+            .btn-contribuer {
+                display: none;
+            }
+
+            .hero {
+                min-height: 560px;
+            }
+
+            .stats-bar {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .stat-item {
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .stat-item:nth-child(2n) {
+                border-right: none;
+            }
+
+            .stat-item:nth-last-child(-n+2) {
+                border-bottom: none;
+            }
+
+            .duo-grid {
+                grid-template-columns: 1fr;
+                max-width: 640px;
+            }
+
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .home-stats-wrap {
+                margin-top: -28px;
+            }
         }
 
         @media (max-width: 640px) {
-            .section { padding: 56px 20px; }
+            .section {
+                padding: 56px 20px;
+            }
 
-            .header-inner { padding: 10px 16px; gap: 12px; }
-            .header-logo { gap: 8px; }
-            .logo-img { height: 48px; }
-            .logo-name { font-size: 1.08rem; }
-            .logo-subtitle { display: none; }
-            .header-actions { gap: 8px; margin-left: auto; }
+            .header-inner {
+                padding: 10px 16px;
+                gap: 12px;
+            }
 
-            .hero-content { margin-left: 0; padding: 64px 20px; }
+            .header-logo {
+                gap: 8px;
+            }
+
+            .logo-img {
+                height: 48px;
+            }
+
+            .logo-name {
+                font-size: 1.08rem;
+            }
+
+            .logo-subtitle {
+                display: none;
+            }
+
+            .header-actions {
+                gap: 8px;
+                margin-left: auto;
+            }
+
+            .hero-content {
+                margin-left: 0;
+                padding: 64px 20px;
+            }
+
             .hero-btns .btn-outline-white,
-            .hero-btns .btn-gold-solid { flex: 1 1 auto; justify-content: center; }
+            .hero-btns .btn-gold-solid {
+                flex: 1 1 auto;
+                justify-content: center;
+            }
 
-            .stats-bar { border-radius: var(--radius-sm); }
-            .stat-item { padding: 22px 18px; }
+            .stats-bar {
+                border-radius: var(--radius-sm);
+            }
 
-            .section-header { margin-bottom: 24px; }
+            .stat-item {
+                padding: 22px 18px;
+            }
 
-            .projects-grid { grid-template-columns: 1fr; gap: 20px; }
-            .news-grid     { gap: 20px; }
-            .duo-grid      { gap: 20px; max-width: 100%; }
+            .section-header {
+                margin-bottom: 24px;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .news-grid {
+                gap: 20px;
+            }
+
+            .duo-grid {
+                gap: 20px;
+                max-width: 100%;
+            }
 
             /* Les cartes éduc/communauté passent en colonne : image au-dessus, texte en dessous */
-            .duo-card { flex-direction: column; align-items: stretch; }
-            .duo-card-image   { width: 100%; height: 200px; }
-            .duo-card-content { width: 100%; padding: 22px; }
+            .duo-card {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .duo-card-image {
+                width: 100%;
+                height: 200px;
+            }
+
+            .duo-card-content {
+                width: 100%;
+                padding: 22px;
+            }
 
             /* La carte actu garde date + photo sur une ligne, le texte passe en dessous */
-            .news-card { flex-wrap: wrap; padding: 18px; gap: 14px 16px; }
-            .news-body { flex: 1 1 100%; }
+            .news-card {
+                flex-wrap: wrap;
+                padding: 18px;
+                gap: 14px 16px;
+            }
 
-            .cta-banner { padding: 36px 20px; text-align: center; }
-            .cta-banner-left { flex-direction: column; min-width: 0; }
-            .cta-btns { width: 100%; justify-content: center; }
+            .news-body {
+                flex: 1 1 100%;
+            }
+
+            .cta-banner {
+                padding: 36px 20px;
+                text-align: center;
+            }
+
+            .cta-banner-left {
+                flex-direction: column;
+                min-width: 0;
+            }
+
+            .cta-btns {
+                width: 100%;
+                justify-content: center;
+            }
         }
 
         @media (max-width: 480px) {
-            .hero-title { font-size: 1.9rem; }
-            .hero-desc  { font-size: .95rem; }
+            .hero-title {
+                font-size: 1.9rem;
+            }
 
-            .stats-bar { grid-template-columns: 1fr; }
-            .stat-item { border-right: none !important; border-bottom: 1px solid var(--border) !important; }
-            .stat-item:last-child { border-bottom: none !important; }
+            .hero-desc {
+                font-size: .95rem;
+            }
 
-            .news-img      { width: 64px; height: 64px; }
-            .news-date-box { width: 52px; padding: 8px 4px; }
-            .news-day      { font-size: 1.25rem; }
+            .stats-bar {
+                grid-template-columns: 1fr;
+            }
 
-            .footer-links--cols { grid-template-columns: 1fr; }
+            .stat-item {
+                border-right: none !important;
+                border-bottom: 1px solid var(--border) !important;
+            }
 
-            .cta-btns { flex-direction: column; width: 100%; }
-            .btn-cta-primary, .btn-cta-outline { width: 100%; }
+            .stat-item:last-child {
+                border-bottom: none !important;
+            }
+
+            .news-img {
+                width: 64px;
+                height: 64px;
+            }
+
+            .news-date-box {
+                width: 52px;
+                padding: 8px 4px;
+            }
+
+            .news-day {
+                font-size: 1.25rem;
+            }
+
+            .footer-links--cols {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-btns {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn-cta-primary,
+            .btn-cta-outline {
+                width: 100%;
+            }
         }
     </style>
 @endpush
@@ -1063,220 +1477,164 @@
                    PROJETS PRIORITAIRES
 ================================================================ --}}
 
-<section class="section section--gray">
-    <div class="container">
-        <div class="section-header">
-            <h2 class="section-title">Projets Prioritaires</h2>
-            <a href="{{ url('/projets-de-developpement') }}" class="section-all">Voir tous les projets &rarr;</a>
+    <section class="section section--gray">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Projets Prioritaires</h2>
+                <a href="{{ url('/projets-de-developpement') }}" class="section-all">Voir tous les projets &rarr;</a>
+            </div>
+            <div class="projects-grid">
+                @forelse($latestProjects as $project)
+                    <div class="project-card">
+                        <div class="project-img">
+                            @if($project->media)
+                                <img src="{{ asset('storage/' . $project->media) }}" alt="{{ $project->titre }}"
+                                    style="width:100%;height:100%;object-fit:cover;object-position:center center;image-rendering:auto;" onerror="this.parentElement.innerHTML='🖼️'">
+                            @else
+                                <div style="width:100%;height:190px;display:flex;align-items:center;justify-content:center;font-size:2rem;">🖼️</div>
+                            @endif
+                        </div>
+                        <div class="project-body">
+                            <h3 class="project-name">{{ $project->titre }}</h3>
+                            <p class="project-desc">{{ \Illuminate\Support\Str::limit($project->description ?? 'Aucun descriptif disponible.', 110) }}</p>
+                            <div class="project-progress-bar">
+                                <div class="project-progress-fill" style="width:{{ $project->avancement ?? 0 }}%"></div>
+                            </div>
+                            <div class="project-progress-label">{{ $project->avancement ?? 0 }}%</div>
+                            <a href="{{ route('projets.detail', $project->slug) }}" class="project-link">Voir le projet &rarr;</a>
+                        </div>
+                    </div>
+                @empty
+                    <div style="grid-column: 1 / -1; padding: 24px; background: #fff; border: 1px solid #e0e9e2; border-radius: 16px; text-align:center; color:#4b6154;">
+                        Aucun projet récent n'est encore disponible. Revenez bientôt.
+                    </div>
+                @endforelse
+            </div>
         </div>
-        <div class="projects-grid">
+    </section>
 
-            <div class="project-card">
-                <div class="project-img">
-                    <img src="{{ asset('images/projets/ecole.jpg') }}" alt="EPP Andé" style="width:100%;height:190px;object-fit:cover;" onerror="this.parentElement.innerHTML='🏫'">
-                </div>
-                <div class="project-body">
-                    <h3 class="project-name">Réhabilitation de l'EPP Andé</h3>
-                    <p class="project-desc">Améliorer les conditions d'apprentissage de nos enfants.</p>
-                    <div class="project-progress-bar">
-                        <div class="project-progress-fill" style="width:70%"></div>
-                    </div>
-                    <div class="project-progress-label">70%</div>
-                    <a href="{{ url('/projets/ecole') }}" class="project-link">Voir le projet &rarr;</a>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-img">
-                    <img src="{{ asset('images/projets/chateau.jpg') }}" alt="Eau potable" style="width:100%;height:190px;object-fit:cover;" onerror="this.parentElement.innerHTML='💧'">
-                </div>
-                <div class="project-body">
-                    <h3 class="project-name">Accès à l'eau potable</h3>
-                    <p class="project-desc">Fournir de l'eau potable à tous les quartiers du village.</p>
-                    <div class="project-progress-bar">
-                        <div class="project-progress-fill" style="width:45%"></div>
-                    </div>
-                    <div class="project-progress-label">45%</div>
-                    <a href="{{ url('/projets/chateau') }}" class="project-link">Voir le projet &rarr;</a>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-img">
-                    <img src="{{ asset('images/projets/route.jpg') }}" alt="Voies" style="width:100%;height:190px;object-fit:cover;" onerror="this.parentElement.innerHTML='🛤️'">
-                </div>
-                <div class="project-body">
-                    <h3 class="project-name">Aménagement des voies</h3>
-                    <p class="project-desc">Faciliter la mobilité et désenclaver nos communautés.</p>
-                    <div class="project-progress-bar">
-                        <div class="project-progress-fill" style="width:60%"></div>
-                    </div>
-                    <div class="project-progress-label">60%</div>
-                    <a href="{{ url('/projets/route') }}" class="project-link">Voir le projet &rarr;</a>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-{{-- ================================================================
+    {{-- ================================================================
                          ACTUALITÉS
 ================================================================ --}}
 
-<section class="section">
-    <div class="container">
-        <div class="section-header">
-            <h2 class="section-title">Actualités</h2>
-            <a href="{{ url('/actualites') }}" class="section-all">Voir toutes les actualités &rarr;</a>
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Actualités</h2>
+                <a href="{{ url('/actualites') }}" class="section-all">Voir toutes les actualités &rarr;</a>
+            </div>
+            <div class="news-grid">
+                @foreach($latestActualites as $act)
+                    <div class="news-card">
+                        <div class="news-date-box">
+                            <span class="news-day">{{ $act->date_publication ? $act->date_publication->format('d') : $act->created_at->format('d') }}</span>
+                            <span class="news-month">{{ $act->date_publication ? $act->date_publication->format('M') : $act->created_at->format('M') }}</span>
+                        </div>
+                        <div class="news-img">
+                            @if($act->image)
+                                <img src="{{ asset('storage/' . $act->image) }}" alt="{{ $act->titre }}"
+                                    style="width:70px;height:70px;object-fit:cover;border-radius:8px;" onerror="this.parentElement.innerHTML='📰'">
+                            @else
+                                <div style="width:70px;height:70px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:var(--off-white);">📰</div>
+                            @endif
+                        </div>
+                        <div class="news-body">
+                            <h4 class="news-title">{{ Illuminate\Support\Str::limit($act->titre, 60) }}</h4>
+                            <p class="news-excerpt">{{ Illuminate\Support\Str::limit($act->resume ?? $act->contenu, 80) }}</p>
+                            <a href="{{ route('actualites.detail', $act->slug) }}" class="news-link">Lire la suite &rarr;</a>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
         </div>
-        <div class="news-grid">
+    </section>
 
-            <div class="news-card">
-                <div class="news-date-box">
-                    <span class="news-day">12</span>
-                    <span class="news-month">Mai</span>
-                </div>
-                <div class="news-img">
-                    <img src="{{ asset('images/actualites/reunion.png') }}" alt="" style="width:70px;height:70px;object-fit:cover;border-radius:8px;" onerror="this.parentElement.innerHTML='📋'">
-                </div>
-                <div class="news-body">
-                    <h4 class="news-title">Réunion du Bureau Exécutif</h4>
-                    <p class="news-excerpt">Le Bureau Exécutif a tenu sa réunion mensuelle.</p>
-                    <a href="{{ url('/actualites/reunion') }}" class="news-link">Lire la suite &rarr;</a>
-                </div>
-            </div>
-
-            <div class="news-card">
-                <div class="news-date-box" style="background:var(--gold);">
-                    <span class="news-day">05</span>
-                    <span class="news-month">Mai</span>
-                </div>
-                <div class="news-img">
-                    <img src="{{ asset('images/actualites/solidarite.png') }}" alt="" style="width:70px;height:70px;object-fit:cover;border-radius:8px;" onerror="this.parentElement.innerHTML='🌿'">
-                </div>
-                <div class="news-body">
-                    <h4 class="news-title">Journée de solidarité</h4>
-                    <p class="news-excerpt">Une journée citoyenne pour un village propre et accueillant.</p>
-                    <a href="{{ url('/actualites/journee-solidarite') }}" class="news-link">Lire la suite &rarr;</a>
-                </div>
-            </div>
-
-            <div class="news-card">
-                <div class="news-date-box" style="background:#1565c0;">
-                    <span class="news-day">28</span>
-                    <span class="news-month">Avr</span>
-                </div>
-                <div class="news-img">
-                    <img src="{{ asset('images/actualites/examen.png') }}" alt="" style="width:70px;height:70px;object-fit:cover;border-radius:8px;" onerror="this.parentElement.innerHTML='🎓'">
-                </div>
-                <div class="news-body">
-                    <h4 class="news-title">Résultats des examens</h4>
-                    <p class="news-excerpt">Félicitations à tous nos élèves pour leurs brillants résultats.</p>
-                    <a href="{{ url('/actualites/resultats-examens') }}" class="news-link">Lire la suite &rarr;</a>
-                </div>
-            </div>
-
-             <div class="news-card">
-                <div class="news-date-box" style="background:#1565c0;">
-                    <span class="news-day">30</span>
-                    <span class="news-month">juin</span>
-                </div>
-                <div class="news-img">
-                    <img src="{{ asset('images/actualites/examen.png') }}" alt="" style="width:70px;height:70px;object-fit:cover;border-radius:8px;" onerror="this.parentElement.innerHTML='🎓'">
-                </div>
-                <div class="news-body">
-                    <h4 class="news-title">Action de fin d'année</h4>
-                    <p class="news-excerpt">Félicitations à tous nos élèves pour leurs brillants résultats.</p>
-                    <a href="{{ url('/actualites/action-fin-annee') }}" class="news-link">Lire la suite &rarr;</a>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-{{-- ================================================================
+    {{-- ================================================================
                    ÉDUCATION + COMMUNAUTÉ
 ================================================================ --}}
 
-<section class="section section--gray">
-    <div class="container">
-        <div class="duo-grid">
+    <section class="section section--gray">
+        <div class="container">
+            <div class="duo-grid">
 
-            <!-- EDUCATION -->
-            <div class="duo-card duo-card--educ">
+                <!-- EDUCATION -->
+                <div class="duo-card duo-card--educ">
 
-                <div class="duo-card-image">
-                    <img src="{{ asset('images/actualites/eleve.JPG') }}" alt="Education">
+                    <div class="duo-card-image">
+                        <img src="{{ asset('images/actualites/eleve.JPG') }}" alt="Education">
+                    </div>
+
+                    <div class="duo-card-content">
+                        <div class="duo-card-title">Éducation & Excellence</div>
+
+                        <p class="duo-card-desc">
+                            Soutenir la réussite scolaire et universitaire de nos enfants,
+                            encourager l'excellence et préparer l'avenir.
+                        </p>
+
+                        <a href="{{ url('/education-excellence') }}" class="btn-duo-gold">
+                            Découvrir l'espace éducation
+                        </a>
+                    </div>
                 </div>
 
-                <div class="duo-card-content">
-                    <div class="duo-card-title">Éducation & Excellence</div>
+                <!-- COMMUNAUTE -->
+                <div class="duo-card duo-card--community">
 
-                    <p class="duo-card-desc">
-                        Soutenir la réussite scolaire et universitaire de nos enfants,
-                        encourager l'excellence et préparer l'avenir.
-                    </p>
+                    <div class="duo-card-image">
+                        <img src="{{ asset('images/actualites/union.png') }}" alt="Communauté">
+                    </div>
 
-                    <a href="{{ url('/education-excellence') }}"
-                       class="btn-duo-gold">
-                        Découvrir l'espace éducation
-                    </a>
+                    <div class="duo-card-content">
+                        <div class="duo-card-title">Espace Communautaire</div>
+
+                        <p class="duo-card-desc">
+                            Échanger, partager, renforcer les liens et construire ensemble
+                            le développement de notre village.
+                        </p>
+
+                        <a href="{{ url('/chefferie-patrimoine') }}" class="btn-duo-green">
+                            Rejoindre les échanges
+                        </a>
+                    </div>
                 </div>
+
             </div>
-
-            <!-- COMMUNAUTE -->
-            <div class="duo-card duo-card--community">
-
-                <div class="duo-card-image">
-                    <img src="{{ asset('images/actualites/union.png') }}" alt="Communauté">
-                </div>
-
-                <div class="duo-card-content">
-                    <div class="duo-card-title">Espace Communautaire</div>
-
-                    <p class="duo-card-desc">
-                        Échanger, partager, renforcer les liens et construire ensemble
-                        le développement de notre village.
-                    </p>
-
-                    <a href="{{ url('/chefferie-patrimoine') }}"
-                       class="btn-duo-green">
-                        Rejoindre les échanges
-                    </a>
-                </div>
-            </div>
-
         </div>
-    </div>
-</section>
+    </section>
 
-{{-- ================================================================
+    {{-- ================================================================
                         CTA BANNER
 ================================================================ --}}
 
-<div class="cta-banner">
-    <div class="container" style="display:flex;align-items:center;gap:32px;flex-wrap:wrap;width:100%;">
-        <div class="cta-banner-left">
-            <div class="cta-icon">
-                <svg viewBox="0 0 24 24"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg>
+    <div class="cta-banner">
+        <div class="container" style="display:flex;align-items:center;gap:32px;flex-wrap:wrap;width:100%;">
+            <div class="cta-banner-left">
+                <div class="cta-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path
+                            d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z" />
+                    </svg>
+                </div>
+                <div>
+                    <div class="cta-title">Chaque contribution compte !</div>
+                    <p class="cta-desc">Votre soutien permet de réaliser nos projets et d'améliorer durablement les
+                        conditions de vie à Andé.</p>
+                </div>
             </div>
-            <div>
-                <div class="cta-title">Chaque contribution compte !</div>
-                <p class="cta-desc">Votre soutien permet de réaliser nos projets et d'améliorer durablement les conditions de vie à Andé.</p>
+            <div class="cta-btns">
+                <a href="{{ url('/contact') }}" class="btn-cta-primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z" />
+                    </svg>
+                    Contribuer maintenant
+                </a>
+                <a href="{{ url('/contact') }}" class="btn-cta-outline">
+                    En savoir plus
+                </a>
             </div>
-        </div>
-        <div class="cta-btns">
-            <a href="{{ url('/contact') }}" class="btn-cta-primary">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg>
-                Contribuer maintenant
-            </a>
-            <a href="{{ url('/contact') }}" class="btn-cta-outline">
-                En savoir plus
-            </a>
         </div>
     </div>
-</div>
 
 @endsection

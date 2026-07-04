@@ -164,10 +164,17 @@
             Veuillez vous connecter avec un compte autorisé.
         </p>
 
-        <a href="{{ url('/') }}" class="home-btn">
-            <i class="fas fa-home"></i>
-            Retour à l'accueil
-        </a>
+        @auth
+            <a href="{{ url('/admin/dashboard') }}" class="home-btn">
+                <i class="fas fa-home"></i>
+                Retour au tableau de bord
+            </a>
+        @else
+            <a href="{{ url('/') }}" class="home-btn">
+                <i class="fas fa-home"></i>
+                Retour à l'accueil
+            </a>
+        @endauth
 
         <p class="footer-text">
             MUDEA © {{ date('Y') }}

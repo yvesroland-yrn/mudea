@@ -437,23 +437,23 @@
                 class="nav-item {{ request()->routeIs('admin.pages*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-file-lines"></i></span>
                 <span>Pages</span>
-            </a> -->  
-            <a href="{{ route('admin.vie-coutumes') }}"
+            </a> -->
+            <a href="{{ route('admin.vie-coutumes.index') }}"
                 class="nav-item {{ request()->routeIs('admin.vie-coutumes*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-masks-theater"></i></span>
                 <span>Vie &amp; Coutumes</span>
             </a>
-            <a href="{{ route('admin.education') }}"
+            <a href="{{ route('admin.education.index') }}"
                 class="nav-item {{ request()->routeIs('admin.education*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-graduation-cap"></i></span>
                 <span>Éducation &amp; Excellence</span>
             </a>
-            <a href="{{ route('admin.communaute') }}"
+            {{-- <a href="{{ route('admin.communaute.index') }}"
                 class="nav-item {{ request()->routeIs('admin.communaute*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-people-group"></i></span>
                 <span>Espace Communautaire</span>
-            </a>
-            <a href="{{ route('admin.bureau') }}"
+            </a> --}}
+            <a href="{{ route('admin.bureau.index') }}"
                 class="nav-item {{ request()->routeIs('admin.bureau*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-user-tie"></i></span>
                 <span>Bureau</span>
@@ -463,25 +463,29 @@
                 <span class="nav-icon"><i class="fas fa-diagram-project"></i></span>
                 <span>Projets</span>
             </a>
-            <a href="{{ route('admin.messages') }}"
+            {{-- <a href="{{ route('admin.messages') }}"
                 class="nav-item {{ request()->routeIs('admin.messages*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-envelope"></i></span>
                 <span>Messages</span>
                 <span class="nav-badge">46</span>
-            </a>
+            </a> --}}
 
             <div class="nav-separator"></div>
 
-            <a href="{{ route('admin.utilisateurs') }}"
-                class="nav-item {{ request()->routeIs('admin.utilisateurs*') ? 'active' : '' }}">
-                <span class="nav-icon"><i class="fas fa-users"></i></span>
-                <span>Utilisateurs</span>
-            </a>
+            @if (Auth::user()->role !== 'moderateur')
+                <a href="{{ route('admin.utilisateurs') }}"
+                    class="nav-item {{ request()->routeIs('admin.utilisateurs*') ? 'active' : '' }}">
+                    <span class="nav-icon"><i class="fas fa-users"></i></span>
+                    <span>Utilisateurs</span>
+                </a>
+            @endif
+
             <a href="{{ route('admin.parametres') }}"
                 class="nav-item {{ request()->routeIs('admin.parametres*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-gear"></i></span>
                 <span>Paramètres</span>
             </a>
+            
             <a href="{{ route('admin.statistiques') }}"
                 class="nav-item {{ request()->routeIs('admin.statistiques*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-chart-line"></i></span>
@@ -524,10 +528,11 @@
                     <div class="topbar-avatar">
                         <img src="{{ asset('images/admin/avatar-default.jpg') }}" alt="Photo de profil admin"
                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                        <div class="topbar-avatar-placeholder" style="display:none;"><i class="fas fa-user"></i></div>
+                        <div class="topbar-avatar-placeholder" style="display:none;"><i class="fas fa-user"></i>
+                        </div>
                     </div>
                     <div class="topbar-user-info">
-                        <strong>{{ Auth::user()->nom . ' ' . Auth::user()->prenom }}</strong>
+                        <strong>{{ Auth::user()->nom_complet }}</strong>
                         <span>{{ Auth::user()->role === 'admin' ? 'Administrateur' : Auth::user()->role }}</span>
                     </div>
                     <i class="fas fa-chevron-down topbar-chevron"></i>

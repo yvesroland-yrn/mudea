@@ -35,7 +35,8 @@
     </button>
 
     {{-- Fenêtre de chat (état ouvert) --}}
-    <div id="mudea-chatbox-window" class="mudea-chatbox-window" role="dialog" aria-modal="false" aria-labelledby="mudea-chatbox-title" aria-hidden="true">
+    <div id="mudea-chatbox-window" class="mudea-chatbox-window" role="dialog" aria-modal="false"
+        aria-labelledby="mudea-chatbox-title" aria-hidden="true">
 
         <div class="mudea-chatbox-header">
             <div class="mudea-chatbox-header-left">
@@ -47,7 +48,8 @@
                     <p class="mudea-chatbox-header-status"><span class="mudea-chatbox-status-dot"></span>En ligne</p>
                 </div>
             </div>
-            <button type="button" id="mudea-chatbox-close" class="mudea-chatbox-header-close" aria-label="Fermer le chat">
+            <button type="button" id="mudea-chatbox-close" class="mudea-chatbox-header-close"
+                aria-label="Fermer le chat">
                 <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
@@ -56,9 +58,11 @@
 
         <div id="mudea-chatbox-quickreplies" class="mudea-chatbox-quickreplies"></div>
 
-        <form id="mudea-chat-form" class="mudea-chatbox-input-area" action="{{ route('contact.store') }}" method="POST">
+        <form id="mudea-chat-form" class="mudea-chatbox-input-area" action="{{ route('contact.store') }}"
+            method="POST">
             @csrf
-            <input type="text" id="mudea-chat-input" class="mudea-chatbox-input" placeholder="L'assistant arrive..." autocomplete="off" disabled>
+            <input type="text" id="mudea-chat-input" class="mudea-chatbox-input" placeholder="L'assistant arrive..."
+                autocomplete="off" disabled>
             <button type="submit" class="mudea-chatbox-send" aria-label="Envoyer">
                 <i class="fa-solid fa-paper-plane"></i>
             </button>
@@ -69,7 +73,8 @@
 
 <style>
     /* ---------- Variables (reprises de ton design system, avec valeurs de repli) ---------- */
-    .mudea-chatbox, .mudea-chatbox-window {
+    .mudea-chatbox,
+    .mudea-chatbox-window {
         --chat-green: var(--primary-color, #1B5E3C);
         --chat-green-dark: var(--primary-dark, #123F29);
         --chat-green-light: #E8F3EC;
@@ -81,7 +86,11 @@
         --chat-radius: 18px;
         font-family: 'Nunito', sans-serif;
     }
-    .mudea-chatbox *, .mudea-chatbox-window * { box-sizing: border-box; }
+
+    .mudea-chatbox *,
+    .mudea-chatbox-window * {
+        box-sizing: border-box;
+    }
 
     /* ---------- Conteneur fixe sur toutes les pages ---------- */
     .mudea-chatbox {
@@ -105,14 +114,19 @@
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        box-shadow: 0 8px 22px rgba(18,63,41,0.35);
+        box-shadow: 0 8px 22px rgba(18, 63, 41, 0.35);
         transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
+
     .mudea-chatbox-bubble:hover {
         transform: scale(1.07) translateY(-1px);
-        box-shadow: 0 12px 26px rgba(18,63,41,0.4);
+        box-shadow: 0 12px 26px rgba(18, 63, 41, 0.4);
     }
-    .mudea-chatbox-bubble:active { transform: scale(0.96); }
+
+    .mudea-chatbox-bubble:active {
+        transform: scale(0.96);
+    }
+
     .mudea-chatbox-bubble-ping {
         position: absolute;
         inset: 0;
@@ -120,10 +134,19 @@
         border: 2px solid var(--chat-green);
         animation: mudea-ping 2.2s ease-out infinite;
     }
+
     @keyframes mudea-ping {
-        0%   { transform: scale(1);   opacity: 0.7; }
-        100% { transform: scale(1.6); opacity: 0;   }
+        0% {
+            transform: scale(1);
+            opacity: 0.7;
+        }
+
+        100% {
+            transform: scale(1.6);
+            opacity: 0;
+        }
     }
+
     .mudea-chatbox-bubble-badge {
         position: absolute;
         top: -2px;
@@ -135,11 +158,22 @@
         border: 2px solid #fff;
         animation: mudea-badge-pulse 1.8s infinite;
     }
+
     @keyframes mudea-badge-pulse {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.2); }
+
+        0%,
+        100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.2);
+        }
     }
-    .mudea-chatbox.is-open .mudea-chatbox-bubble { display: none; }
+
+    .mudea-chatbox.is-open .mudea-chatbox-bubble {
+        display: none;
+    }
 
     /* ---------- Fenêtre de chat ---------- */
     .mudea-chatbox-window {
@@ -151,7 +185,7 @@
         max-height: calc(100vh - 110px);
         background: var(--chat-white);
         border-radius: var(--chat-radius);
-        box-shadow: 0 20px 50px rgba(18,63,41,0.28);
+        box-shadow: 0 20px 50px rgba(18, 63, 41, 0.28);
         display: flex;
         flex-direction: column;
         overflow: hidden;
@@ -159,8 +193,9 @@
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
-        transition: transform 0.28s cubic-bezier(.22,1,.36,1), opacity 0.22s ease;
+        transition: transform 0.28s cubic-bezier(.22, 1, .36, 1), opacity 0.22s ease;
     }
+
     .mudea-chatbox.is-open .mudea-chatbox-window {
         opacity: 1;
         visibility: visible;
@@ -180,21 +215,32 @@
         justify-content: space-between;
         overflow: hidden;
     }
+
     .mudea-chatbox-header::after {
         content: '';
         position: absolute;
-        top: -40px; right: -30px;
-        width: 130px; height: 130px;
+        top: -40px;
+        right: -30px;
+        width: 130px;
+        height: 130px;
         border-radius: 50%;
-        background: radial-gradient(circle, rgba(201,162,39,0.22), transparent 70%);
+        background: radial-gradient(circle, rgba(201, 162, 39, 0.22), transparent 70%);
         pointer-events: none;
     }
-    .mudea-chatbox-header-left { display: flex; align-items: center; gap: 12px; position: relative; z-index: 1; }
+
+    .mudea-chatbox-header-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        position: relative;
+        z-index: 1;
+    }
+
     .mudea-chatbox-header-avatar {
         width: 42px;
         height: 42px;
         border-radius: 50%;
-        background: rgba(255,255,255,0.15);
+        background: rgba(255, 255, 255, 0.15);
         border: 2px solid var(--chat-gold);
         display: flex;
         align-items: center;
@@ -202,12 +248,14 @@
         font-size: 1.05rem;
         flex-shrink: 0;
     }
+
     .mudea-chatbox-header-title {
         font-family: 'Playfair Display', serif;
         font-size: 1.02rem;
         font-weight: 700;
         margin: 0;
     }
+
     .mudea-chatbox-header-status {
         font-size: 0.78rem;
         margin: 3px 0 0;
@@ -216,6 +264,7 @@
         align-items: center;
         gap: 6px;
     }
+
     .mudea-chatbox-status-dot {
         width: 8px;
         height: 8px;
@@ -223,15 +272,25 @@
         background: #6FCF97;
         animation: mudea-dot-pulse 2s infinite;
     }
+
     @keyframes mudea-dot-pulse {
-        0%   { box-shadow: 0 0 0 0 rgba(111,207,151,0.6); }
-        70%  { box-shadow: 0 0 0 6px rgba(111,207,151,0); }
-        100% { box-shadow: 0 0 0 0 rgba(111,207,151,0); }
+        0% {
+            box-shadow: 0 0 0 0 rgba(111, 207, 151, 0.6);
+        }
+
+        70% {
+            box-shadow: 0 0 0 6px rgba(111, 207, 151, 0);
+        }
+
+        100% {
+            box-shadow: 0 0 0 0 rgba(111, 207, 151, 0);
+        }
     }
+
     .mudea-chatbox-header-close {
         position: relative;
         z-index: 1;
-        background: rgba(255,255,255,0.08);
+        background: rgba(255, 255, 255, 0.08);
         border: none;
         border-radius: 50%;
         width: 30px;
@@ -245,7 +304,11 @@
         justify-content: center;
         transition: background 0.18s ease, opacity 0.18s ease;
     }
-    .mudea-chatbox-header-close:hover { opacity: 1; background: rgba(255,255,255,0.18); }
+
+    .mudea-chatbox-header-close:hover {
+        opacity: 1;
+        background: rgba(255, 255, 255, 0.18);
+    }
 
     /* Zone des messages */
     .mudea-chatbox-messages {
@@ -257,6 +320,7 @@
         flex-direction: column;
         gap: 10px;
     }
+
     .mudea-msg {
         max-width: 82%;
         padding: 10px 14px;
@@ -267,17 +331,27 @@
         white-space: pre-line;
         animation: mudea-msg-in 0.25s ease both;
     }
+
     @keyframes mudea-msg-in {
-        from { opacity: 0; transform: translateY(6px); }
-        to   { opacity: 1; transform: translateY(0); }
+        from {
+            opacity: 0;
+            transform: translateY(6px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
+
     .mudea-msg-bot {
         align-self: flex-start;
         background: var(--chat-white);
         color: var(--chat-text);
         border-bottom-left-radius: 4px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     }
+
     .mudea-msg-user {
         align-self: flex-end;
         background: var(--chat-green);
@@ -286,7 +360,13 @@
     }
 
     /* Indicateur "en train d'écrire" */
-    .mudea-typing { display: flex; gap: 4px; align-items: center; padding: 13px 16px; }
+    .mudea-typing {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+        padding: 13px 16px;
+    }
+
     .mudea-typing span {
         width: 6px;
         height: 6px;
@@ -294,11 +374,28 @@
         background: #bbb;
         animation: mudea-typing-bounce 1.2s infinite ease-in-out;
     }
-    .mudea-typing span:nth-child(2) { animation-delay: 0.15s; }
-    .mudea-typing span:nth-child(3) { animation-delay: 0.3s; }
+
+    .mudea-typing span:nth-child(2) {
+        animation-delay: 0.15s;
+    }
+
+    .mudea-typing span:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+
     @keyframes mudea-typing-bounce {
-        0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
-        30% { transform: translateY(-4px); opacity: 1; }
+
+        0%,
+        60%,
+        100% {
+            transform: translateY(0);
+            opacity: 0.5;
+        }
+
+        30% {
+            transform: translateY(-4px);
+            opacity: 1;
+        }
     }
 
     /* Réponses rapides */
@@ -309,6 +406,7 @@
         padding: 0 16px 12px;
         background: var(--chat-bg);
     }
+
     .mudea-chatbox-quickreply {
         background: var(--chat-white);
         border: 1.5px solid var(--chat-green);
@@ -321,16 +419,19 @@
         cursor: pointer;
         transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
     }
+
     .mudea-chatbox-quickreply:hover {
         background: var(--chat-green);
         color: var(--chat-white);
         transform: translateY(-1px);
-        box-shadow: 0 4px 10px rgba(18,63,41,0.22);
+        box-shadow: 0 4px 10px rgba(18, 63, 41, 0.22);
     }
+
     .mudea-chatbox-quickreply--ghost {
         border-color: var(--border, #d8e0db);
         color: var(--chat-text-light);
     }
+
     .mudea-chatbox-quickreply--ghost:hover {
         background: var(--chat-text-light);
         color: var(--chat-white);
@@ -347,6 +448,7 @@
         background: var(--chat-white);
         border-top: 1px solid #eee;
     }
+
     .mudea-chatbox-input {
         flex: 1;
         border: 1px solid #ddd;
@@ -357,8 +459,17 @@
         min-width: 0;
         transition: border-color 0.18s ease;
     }
-    .mudea-chatbox-input:focus { outline: none; border-color: var(--chat-green); }
-    .mudea-chatbox-input:disabled { background: #f5f5f5; cursor: not-allowed; }
+
+    .mudea-chatbox-input:focus {
+        outline: none;
+        border-color: var(--chat-green);
+    }
+
+    .mudea-chatbox-input:disabled {
+        background: #f5f5f5;
+        cursor: not-allowed;
+    }
+
     .mudea-chatbox-send {
         width: 38px;
         height: 38px;
@@ -374,8 +485,16 @@
         font-size: 0.9rem;
         transition: background 0.18s ease, transform 0.18s ease;
     }
-    .mudea-chatbox-send:hover:not(:disabled) { background: var(--chat-green-dark); transform: scale(1.05); }
-    .mudea-chatbox-send:disabled { background: #bbb; cursor: not-allowed; }
+
+    .mudea-chatbox-send:hover:not(:disabled) {
+        background: var(--chat-green-dark);
+        transform: scale(1.05);
+    }
+
+    .mudea-chatbox-send:disabled {
+        background: #bbb;
+        cursor: not-allowed;
+    }
 
     /* ---------- Accessibilité : focus clavier visible ---------- */
     .mudea-chatbox-bubble:focus-visible,
@@ -389,6 +508,7 @@
 
     /* ---------- Respect du mode "réduire les animations" ---------- */
     @media (prefers-reduced-motion: reduce) {
+
         .mudea-chatbox-bubble-ping,
         .mudea-chatbox-bubble-badge,
         .mudea-chatbox-status-dot,
@@ -396,6 +516,7 @@
         .mudea-typing span {
             animation: none !important;
         }
+
         .mudea-chatbox-window,
         .mudea-chatbox-bubble,
         .mudea-chatbox-quickreply,
@@ -406,7 +527,11 @@
 
     /* ---------- Responsive ---------- */
     @media (max-width: 480px) {
-        .mudea-chatbox { right: 14px; bottom: 14px; }
+        .mudea-chatbox {
+            right: 14px;
+            bottom: 14px;
+        }
+
         .mudea-chatbox-window {
             width: calc(100vw - 28px);
             height: calc(100vh - 100px);
@@ -416,21 +541,21 @@
 </style>
 
 <script>
-    (function () {
-        const chatbox     = document.getElementById('mudea-chatbox');
-        const bubble      = document.getElementById('mudea-chatbox-bubble');
-        const badge       = document.getElementById('mudea-chatbox-badge');
-        const win         = document.getElementById('mudea-chatbox-window');
-        const closeBtn    = document.getElementById('mudea-chatbox-close');
+    (function() {
+        const chatbox = document.getElementById('mudea-chatbox');
+        const bubble = document.getElementById('mudea-chatbox-bubble');
+        const badge = document.getElementById('mudea-chatbox-badge');
+        const win = document.getElementById('mudea-chatbox-window');
+        const closeBtn = document.getElementById('mudea-chatbox-close');
         const messagesBox = document.getElementById('mudea-chatbox-messages');
-        const quickBox    = document.getElementById('mudea-chatbox-quickreplies');
-        const form        = document.getElementById('mudea-chat-form');
-        const input       = document.getElementById('mudea-chat-input');
+        const quickBox = document.getElementById('mudea-chatbox-quickreplies');
+        const form = document.getElementById('mudea-chat-form');
+        const input = document.getElementById('mudea-chat-input');
 
         const CONTACT_URL = form.getAttribute('action');
-        const csrfMeta     = document.querySelector('meta[name="csrf-token"]');
-        const tokenInput   = form.querySelector('input[name="_token"]');
-        const CSRF_TOKEN   = csrfMeta ? csrfMeta.getAttribute('content') : (tokenInput ? tokenInput.value : '');
+        const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+        const tokenInput = form.querySelector('input[name="_token"]');
+        const CSRF_TOKEN = csrfMeta ? csrfMeta.getAttribute('content') : (tokenInput ? tokenInput.value : '');
 
         // Réponses informatives du menu principal. A adapter avec tes textes officiels.
         const FAQ = {
@@ -441,27 +566,66 @@
             general: "La MUDEA (Mutuelle de Développement d'Andé) est une association de solidarité communautaire qui accompagne ses membres dans les domaines de l'entraide, de l'éducation et du développement local. Parcourez les rubriques du site pour en savoir plus, ou posez-moi une question précise."
         };
 
-        const MENU_OPTIONS = [
-            { value: 'adhesion',     label: 'Adhésion' },
-            { value: 'contribution', label: 'Contribution' },
-            { value: 'projet',       label: 'Projet' },
-            { value: 'education',    label: 'Éducation' },
-            { value: 'general',      label: 'Information générale' },
-            { value: 'assistance',   label: 'Assistance' },
+        const MENU_OPTIONS = [{
+                value: 'adhesion',
+                label: 'Adhésion'
+            },
+            {
+                value: 'contribution',
+                label: 'Contribution'
+            },
+            {
+                value: 'projet',
+                label: 'Projet'
+            },
+            {
+                value: 'education',
+                label: 'Éducation'
+            },
+            {
+                value: 'general',
+                label: 'Information générale'
+            },
+            {
+                value: 'assistance',
+                label: 'Assistance'
+            },
         ];
 
-        const SUBJECTS = [
-            { value: 'adhesion',     label: 'Adhésion' },
-            { value: 'contribution', label: 'Contribution' },
-            { value: 'projet',       label: 'Projet' },
-            { value: 'education',    label: 'Éducation' },
-            { value: 'general',      label: 'Information générale' },
-            { value: 'autre',        label: 'Autre' },
+        const SUBJECTS = [{
+                value: 'adhesion',
+                label: 'Adhésion'
+            },
+            {
+                value: 'contribution',
+                label: 'Contribution'
+            },
+            {
+                value: 'projet',
+                label: 'Projet'
+            },
+            {
+                value: 'education',
+                label: 'Éducation'
+            },
+            {
+                value: 'general',
+                label: 'Information générale'
+            },
+            {
+                value: 'autre',
+                label: 'Autre'
+            },
         ];
 
         let started = false;
         let step = 'menu'; // menu -> name -> contact -> subject -> message -> done
-        const answers = { name: '', contact: '', subject: '', message: '' };
+        const answers = {
+            name: '',
+            contact: '',
+            subject: '',
+            message: ''
+        };
 
         bubble.addEventListener('click', openChat);
         closeBtn.addEventListener('click', closeChat);
@@ -519,6 +683,7 @@
         // Affiche un message du bot après un court délai de "frappe", façon vrai chat.
         // Les appels successifs s'enchaînent (chaque botSay attend la fin du précédent).
         let botQueue = Promise.resolve();
+
         function botSay(text, callback) {
             botQueue = botQueue.then(() => new Promise((resolve) => {
                 showTyping();
@@ -550,7 +715,8 @@
         function addQuickReply(label, onClick, variant) {
             const btn = document.createElement('button');
             btn.type = 'button';
-            btn.className = 'mudea-chatbox-quickreply' + (variant === 'ghost' ? ' mudea-chatbox-quickreply--ghost' : '');
+            btn.className = 'mudea-chatbox-quickreply' + (variant === 'ghost' ? ' mudea-chatbox-quickreply--ghost' :
+                '');
             btn.textContent = label;
             btn.addEventListener('click', onClick);
             quickBox.appendChild(btn);
@@ -576,7 +742,8 @@
             // le formulaire de prise en charge (nom -> contact -> sujet -> message).
             if (opt.value === 'assistance') {
                 step = 'name';
-                botSay("Très bien, je vous mets en relation avec notre équipe. Comment puis-je vous appeler ?", () => enableInput('Votre nom...'));
+                botSay("Très bien, je vous mets en relation avec notre équipe. Quel est votre nom complet ?",
+                () => enableInput('Votre nom complet...'));
                 return;
             }
 
@@ -584,7 +751,10 @@
                 botSay("Souhaitez-vous autre chose ?", () => {
                     clearQuickReplies();
                     addQuickReply('Poser une autre question', showMenu);
-                    addQuickReply("Demander de l'assistance", () => handleMenuChoice({ value: 'assistance', label: 'Assistance' }));
+                    addQuickReply("Demander de l'assistance", () => handleMenuChoice({
+                        value: 'assistance',
+                        label: 'Assistance'
+                    }));
                     addQuickReply('Terminer la discussion', endConversation, 'ghost');
                 });
             });
@@ -603,7 +773,7 @@
         }
 
         /* ── Formulaire de contact (nom / contact / sujet / message) ──── */
-        form.addEventListener('submit', function (e) {
+        form.addEventListener('submit', function(e) {
             e.preventDefault();
             const value = input.value.trim();
             if (!value || input.disabled) return;
@@ -617,7 +787,8 @@
                 answers.name = value;
                 step = 'contact';
                 disableInput();
-                botSay(`Merci ${value} ! Quel est votre email ou numéro de téléphone pour vous recontacter ?`, () => enableInput('Email ou téléphone...'));
+                botSay(`Merci ${value} ! Quel est votre email ou numéro de téléphone pour vous recontacter ?`, () =>
+                    enableInput('Email ou téléphone...'));
             } else if (step === 'contact') {
                 answers.contact = value;
                 step = 'subject';
@@ -640,7 +811,8 @@
                     answers.subject = opt.value;
                     addMessage(opt.label, 'user');
                     step = 'message';
-                    botSay('Je vous écoute, décrivez votre besoin en quelques mots :', () => enableInput('Votre message...'));
+                    botSay('Je vous écoute, décrivez votre besoin en quelques mots :', () =>
+                        enableInput('Votre message...'));
                 });
             });
             addQuickReply('Terminer la discussion', endConversation, 'ghost');
@@ -656,26 +828,36 @@
             data.append('message', answers.message);
 
             fetch(CONTACT_URL, {
-                method: 'POST',
-                headers: { 'X-CSRF-TOKEN': CSRF_TOKEN, 'Accept': 'application/json' },
-                body: data
-            })
-            .then(res => { if (!res.ok) throw new Error('network'); return res.json(); })
-            .then(() => {
-                botSay('Merci ! Votre message a bien été envoyé ✅. Notre équipe vous répondra rapidement.', () => {
-                    clearQuickReplies();
-                    addQuickReply('Poser une autre question', showMenu);
-                    addQuickReply('Terminer la discussion', endConversation, 'ghost');
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': CSRF_TOKEN,
+                        'Accept': 'application/json'
+                    },
+                    body: data
+                })
+                .then(res => {
+                    if (!res.ok) throw new Error('network');
+                    return res.json();
+                })
+                .then(() => {
+                    botSay('Merci ! Votre message a bien été envoyé ✅. Notre équipe vous répondra rapidement.',
+                        () => {
+                            clearQuickReplies();
+                            addQuickReply('Poser une autre question', showMenu);
+                            addQuickReply('Terminer la discussion', endConversation, 'ghost');
+                        });
+                })
+                .catch(() => {
+                    botSay("Le message n'a pas pu être envoyé. Voulez-vous réessayer ?", showRetry);
                 });
-            })
-            .catch(() => {
-                botSay("Le message n'a pas pu être envoyé. Voulez-vous réessayer ?", showRetry);
-            });
         }
 
         function showRetry() {
             clearQuickReplies();
-            addQuickReply('Réessayer', () => { clearQuickReplies(); sendToServer(); });
+            addQuickReply('Réessayer', () => {
+                clearQuickReplies();
+                sendToServer();
+            });
             addQuickReply('Terminer la discussion', endConversation, 'ghost');
         }
     })();
