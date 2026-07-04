@@ -460,7 +460,7 @@
             </a>
             <a href="{{ route('admin.projets') }}"
                 class="nav-item {{ request()->routeIs('admin.projets*') ? 'active' : '' }}">
-                    <span class="nav-icon"><i class="fas fa-diagram-project"></i></span>
+                <span class="nav-icon"><i class="fas fa-diagram-project"></i></span>
                 <span>Projets</span>
             </a>
             {{-- <a href="{{ route('admin.messages') }}"
@@ -472,16 +472,20 @@
 
             <div class="nav-separator"></div>
 
-            <a href="{{ route('admin.utilisateurs') }}"
-                class="nav-item {{ request()->routeIs('admin.utilisateurs*') ? 'active' : '' }}">
-                <span class="nav-icon"><i class="fas fa-users"></i></span>
-                <span>Utilisateurs</span>
-            </a>
-            {{-- <a href="{{ route('admin.parametres') }}"
+            @if (Auth::user()->role !== 'moderateur')
+                <a href="{{ route('admin.utilisateurs') }}"
+                    class="nav-item {{ request()->routeIs('admin.utilisateurs*') ? 'active' : '' }}">
+                    <span class="nav-icon"><i class="fas fa-users"></i></span>
+                    <span>Utilisateurs</span>
+                </a>
+            @endif
+
+            <a href="{{ route('admin.parametres') }}"
                 class="nav-item {{ request()->routeIs('admin.parametres*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-gear"></i></span>
                 <span>Paramètres</span>
-            </a> --}}
+            </a>
+            
             <a href="{{ route('admin.statistiques') }}"
                 class="nav-item {{ request()->routeIs('admin.statistiques*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-chart-line"></i></span>

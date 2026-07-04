@@ -159,12 +159,17 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
 
 
     // Utilisateurs
-    Route::post('/utilisateurs', [AdminController::class, 'storeUtilisateur'])->name('utilisateurs.store');
-    Route::get('/utilisateurs', [AdminController::class, 'utilisateurs'])->name('utilisateurs');
+    Route::middleware('admin')->group(function () {
+        Route::get('/utilisateurs', [AdminController::class, 'utilisateurs'])->name('utilisateurs');
+        Route::post('/utilisateurs', [AdminController::class, 'storeUtilisateur'])->name('utilisateurs.store');
+        Route::put('/utilisateurs/{id}', [AdminController::class, 'updateUtilisateur'])->name('utilisateurs.update');
+        Route::delete('/utilisateurs/{id}', [AdminController::class, 'destroyUtilisateur'])->name('utilisateurs.destroy');
+    });
 
 
     // Paramètres
     Route::get('/parametres', [AdminController::class, 'parametres'])->name('parametres');
+    Route::post('/parametres/profil', [AdminController::class, 'updateProfile'])->name('parametres.profile.update');
     Route::post('/parametres/mot-de-passe', [AdminController::class, 'updatePassword'])->name('parametres.password.update');
 
 

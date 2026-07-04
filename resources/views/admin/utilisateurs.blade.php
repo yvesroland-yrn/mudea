@@ -59,7 +59,7 @@
 
         .kpi-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 16px;
             margin-bottom: 22px;
         }
@@ -310,6 +310,11 @@
             border-color: #ef9a9a;
         }
 
+        .btn-icon:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
         .pagination {
             display: flex;
             align-items: center;
@@ -472,6 +477,16 @@
             {{ session('success') }}
         </div>
     @endif
+    @if (session('error'))
+        <div class="alert alert-danger" role="alert" style="margin-bottom:18px;">
+            {{ session('error') }}
+        </div>
+    @endif
+    @if (session('warning'))
+        <div class="alert alert-warning" role="alert" style="margin-bottom:18px;">
+            {{ session('warning') }}
+        </div>
+    @endif
     @if ($errors->any())
         <div class="alert alert-danger" role="alert" style="margin-bottom:18px;">
             <ul style="margin:0;padding-left:18px;">
@@ -503,32 +518,33 @@
                 <div class="kpi-label">Ce mois</div>
             </div>
         </div>
-        <div class="kpi-card">
-            <div class="kpi-icon kpi-icon--purple"><i class="fas fa-user-shield"></i></div>
-            <div>
-                <div class="kpi-number">{{ $adminsCount }}</div>
-                <div class="kpi-label">Admins</div>
-            </div>
-        </div>
     </div>
-    <div class="filters-bar">
-        <input class="filter-input filter-input--search" type="text" placeholder="Rechercher un utilisateur...">
-        <select class="filter-input">
-            <option>Tous les rôles</option>
-            <option>Admin</option>
-            <option>Membre</option>
-            <option>Modérateur</option>
+    <form action="{{ route('admin.utilisateurs') }}" method="GET" class="filters-bar">
+        <input class="filter-input filter-input--search" type="text" name="search"
+            placeholder="Rechercher un utilisateur..." value="{{ request('search') }}">
+        <select class="filter-input" name="role">
+            <option value="">Tous les rôles</option>
+            <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+            <option value="moderateur" {{ request('role') == 'moderateur' ? 'selected' : '' }}>Modérateur</option>
         </select>
-        <select class="filter-input">
-            <option>Tous les statuts</option>
-            <option>Actif</option>
-            <option>Inactif</option>
+        <select class="filter-input" name="statut">
+            <option value="">Tous les statuts</option>
+            <option value="actif" {{ request('statut') == 'actif' ? 'selected' : '' }}>Actif</option>
+            <option value="inactif" {{ request('statut') == 'inactif' ? 'selected' : '' }}>Inactif</option>
         </select>
-    </div>
+        <button type="submit" class="btn-primary" style="padding: 8px 16px;">
+            <i class="fas fa-search"></i> Filtrer
+        </button>
+        @if (request()->hasAny(['search', 'role', 'statut']))
+            <a href="{{ route('admin.utilisateurs') }}" class="btn-primary"
+                style="background: var(--text-light); padding: 8px 16px;">
+                <i class="fas fa-times"></i> Réinitialiser
+            </a>
+        @endif
+    </form>
     <table class="data-table">
         <thead>
             <tr>
-                <th><input type="checkbox"></th>
                 <th>Utilisateur</th>
                 <th>Rôle</th>
                 <th>Statut</th>
@@ -540,7 +556,6 @@
         <tbody>
             @forelse($users as $key => $user)
                 <tr>
-                    <td><input type="checkbox"></td>
                     <td>
                         <div class="user-cell">
                             <div class="user-avatar">{{ strtoupper(substr($user->nom_complet, 0, 1)) }}</div>
@@ -557,11 +572,32 @@
                     <td style="font-size:.78rem;color:var(--text-light);">
                         {{ $user->last_login_at ? $user->last_login_at->diffForHumans() : 'Jamais' }}</td>
                     <td>
-                        <div class="action-btns"><button type="button" class="btn-icon btn-icon--edit"
-                                data-bs-toggle="modal" data-bs-target="#editModal{{ $key }}" title="Modifier"><i
-                                    class="fas fa-pen"></i></button><button type="button" class="btn-icon btn-icon--del"
-                                data-bs-toggle="modal" data-bs-target="#deleteModal{{ $key }}"
-                                title="Supprimer"><i class="fas fa-trash"></i></button></div>
+                        <div class="action-btns">
+                            @if ($user->id === auth()->id())
+                                <button type="button" class="btn-icon btn-icon--edit" disabled
+                                    title="Non modifiable (votre compte)">
+                                    <i class="fas fa-pen"></i>
+                                </button>
+                                <button type="button" class="btn-icon btn-icon--del" disabled
+                                    title="Non supprimable (votre compte)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            @else
+                                <button type="button" class="btn-icon btn-icon--edit" data-bs-toggle="modal"
+                                    data-bs-target="#editModal{{ $key }}" title="Modifier">
+                                    <i class="fas fa-pen"></i>
+                                </button>
+                                <form action="{{ route('admin.utilisateurs.destroy', $user->id) }}" method="POST"
+                                    style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-icon btn-icon--del" title="Supprimer"
+                                        onclick="return confirm('Êtes-vous sûr de vouloir supprimer {{ $user->nom_complet }} ? Cette action est irréversible.');">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            @endif
+                        </div>
                     </td>
                 </tr>
             @empty
@@ -597,9 +633,17 @@
 
                         <div class="row g-3">
 
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <label class="form-label">Nom complet</label>
                                 <input type="text" name="nom_complet" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Rôle</label>
+                                <select name="role" class="form-select" required>
+                                    <option value="moderateur">Modérateur</option>
+                                    <option value="admin">Administrateur</option>
+                                </select>
                             </div>
 
                             <div class="col-md-6">
@@ -611,8 +655,6 @@
                                 <label class="form-label">Téléphone</label>
                                 <input type="text" name="telephone" class="form-control">
                             </div>
-
-
 
                             <div class="col-md-6">
                                 <label class="form-label">Mot de passe</label>
@@ -669,24 +711,26 @@
                                         value="{{ $user->nom_complet }}" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label">Email</label>
-                                    <input type="email" name="email" class="form-control"
-                                        value="{{ $user->email }}" required>
-                                </div>
-                                <div class="col-md-6">
                                     <label class="form-label">Rôle</label>
                                     <select name="role" class="form-select">
-                                        <option value="membre" {{ $user->role == 'membre' ? 'selected' : '' }}>Membre</option>
                                         <option value="moderateur" {{ $user->role == 'moderateur' ? 'selected' : '' }}>
                                             Modérateur</option>
-                                        <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Administrateur
+                                        <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>
+                                            Administrateur
                                         </option>
                                     </select>
                                 </div>
                                 <div class="col-md-6">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" name="email" class="form-control"
+                                        value="{{ $user->email }}" required>
+                                </div>
+
+                                <div class="col-md-6">
                                     <label class="form-label">Statut</label>
                                     <select name="statut" class="form-select">
-                                        <option value="actif" {{ $user->statut == 'actif' ? 'selected' : '' }}>Actif</option>
+                                        <option value="actif" {{ $user->statut == 'actif' ? 'selected' : '' }}>Actif
+                                        </option>
                                         <option value="inactif" {{ $user->statut == 'inactif' ? 'selected' : '' }}>Inactif
                                         </option>
                                     </select>
@@ -708,34 +752,6 @@
                             <button type="submit" class="btn-save"><i class="fas fa-save"></i> Enregistrer</button>
                         </div>
                     </form>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal Suppression Utilisateur {{ $key }} -->
-        <div class="modal fade" id="deleteModal{{ $key }}" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">
-                            <i class="fas fa-trash me-2"></i>
-                            Confirmer la suppression
-                        </h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p style="margin:0;color:var(--text);">Êtes-vous sûr de vouloir supprimer
-                            <strong>{{ $user->nom_complet }}</strong> ?</p>
-                        <p style="margin:8px 0 0;color:var(--text-light);font-size:.85rem;">Cette action est irréversible.
-                        </p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn-cancel" data-bs-dismiss="modal">Annuler</button>
-                        <button type="button" class="btn-save" style="background:#e53935;"
-                            onclick="alert('Utilisateur supprimé');new bootstrap.Modal(document.getElementById('deleteModal{{ $key }}')).hide();">
-                            <i class="fas fa-check"></i> Confirmer
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>

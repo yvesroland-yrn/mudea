@@ -73,7 +73,7 @@
             border-radius: var(--radius-lg);
             padding: 28px;
             box-shadow: var(--shadow-sm);
-            margin-bottom: 20px; 
+            margin-bottom: 20px;
         }
 
         .params-section-title {
@@ -219,50 +219,106 @@
             background: var(--green-dark);
         }
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navItems = document.querySelectorAll('.params-nav-item');
+            const sections = document.querySelectorAll('.params-section');
+
+            function showSection(sectionId) {
+                // Hide all sections
+                sections.forEach(section => {
+                    section.style.display = 'none';
+                });
+
+                // Show selected section
+                const targetSection = document.querySelector(sectionId);
+                if (targetSection) {
+                    targetSection.style.display = 'block';
+                }
+
+                // Update active nav item
+                navItems.forEach(item => {
+                    item.classList.remove('active');
+                    if (item.getAttribute('href') === sectionId) {
+                        item.classList.add('active');
+                    }
+                });
+            }
+
+            // Add click handlers
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const sectionId = this.getAttribute('href');
+                    showSection(sectionId);
+                });
+            });
+
+            // Show general section by default
+            showSection('#general');
+        });
+    </script>
 @endpush
+
 @section('content')
+    @if (session('success'))
+        <div class="alert alert-success" role="alert" style="margin-bottom: 20px;">
+            {{ session('success') }}
+        </div>
+    @endif
+    @if (session('error'))
+        <div class="alert alert-danger" role="alert" style="margin-bottom: 20px;">
+            {{ session('error') }}
+        </div>
+    @endif
+    @if ($errors->any())
+        <div class="alert alert-danger" role="alert" style="margin-bottom: 20px;">
+            <ul style="margin: 0; padding-left: 18px;">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <div class="params-layout">
         <nav class="params-nav">
-            <!-- <a href="#" class="params-nav-item active"><i class="fas fa-globe"></i> Général</a>
-        <a href="#" class="params-nav-item"><i class="fas fa-palette"></i> Apparence</a>
-        <a href="#" class="params-nav-item"><i class="fas fa-envelope"></i> Email</a>
-        <a href="#" class="params-nav-item"><i class="fas fa-bell"></i> Notifications</a>
-        <a href="#" class="params-nav-item"><i class="fas fa-share-nodes"></i> Réseaux sociaux</a>
-        <a href="#" class="params-nav-item"><i class="fas fa-shield-halved"></i> Sécurité</a>
-        <a href="#" class="params-nav-item"><i class="fas fa-database"></i> Sauvegarde</a> -->
+            <a href="#general" class="params-nav-item"><i class="fas fa-globe"></i> Général</a>
+            <a href="#security" class="params-nav-item"><i class="fas fa-shield-halved"></i> Sécurité</a>
         </nav>
         <div>
-            <div class="params-section">
-                <div class="params-section-title">Informations générales du site</div>
-                <div class="form-grid">
-                    <div class="form-group"><label class="form-label">Nom du site</label><input class="form-input"
-                            type="text" value="MUDEA – Mutuelle de Développement Durable"></div>
-                    <div class="form-group"><label class="form-label">Email de contact</label><input class="form-input"
-                            type="email" value="contact@mudea-ande.ci"></div>
-                    <div class="form-group"><label class="form-label">Téléphone</label><input class="form-input"
-                            type="text" value="+225 07 00 00 00 00"></div>
-                    <div class="form-group"><label class="form-label">Localisation</label><input class="form-input"
-                            type="text" value="Village d'Andé, Côte d'Ivoire"></div>
-                    <div class="form-group full"><label class="form-label">Description du site</label>
-                        <textarea class="form-input form-textarea">La MUDEA œuvre pour le bien-être des populations d'Andé à travers la solidarité, l'éducation, la culture et le développement durable.</textarea>
+            <div class="params-section" id="general">
+                <div class="params-section-title">Informations générales</div>
+                <form action="{{ route('admin.parametres.profile.update') }}" method="POST">
+                    @csrf
+                    <div class="form-grid">
+                        <div class="form-group"><label class="form-label">Nom complet</label><input class="form-input"
+                                type="text" name="nom_complet" value="{{ Auth::user()->nom_complet }}" required></div>
+                        <div class="form-group"><label class="form-label">Email</label><input class="form-input"
+                                type="email" name="email" value="{{ Auth::user()->email }}" required></div>
+                        <div class="form-group"><label class="form-label">Téléphone</label><input class="form-input"
+                                type="text" name="telephone" value="{{ Auth::user()->telephone }}"></div>
+                        <div class="form-group"><label class="form-label">Adresse</label><input class="form-input"
+                                type="text" name="adresse" value="{{ Auth::user()->adresse }}"></div>
                     </div>
-                </div>
-                <button class="btn-save"><i class="fas fa-floppy-disk"></i> Sauvegarder</button>
+                    <button type="submit" class="btn-save"><i class="fas fa-floppy-disk"></i> Sauvegarder</button>
+                </form>
             </div>
 
-            <div class="params-section">
+            <div class="params-section" id="security">
                 <div class="params-section-title">Modification de mot de passe</div>
-                <div class="form-grid">
-                    <div class="form-group"><label class="form-label">Ancien mot de passe </label><input class="form-input"
-                            type="text" value="MUDEA – Mutuelle de Développement Durable"></div>
-                    <div class="form-group"><label class="form-label">Nouveau mot de passe</label><input class="form-input"
-                            type="email" value="contact@mudea-ande.ci"></div>
-                    <div class="form-group"><label class="form-label">Modification de mot de passe</label><input
-                            class="form-input" type="text" value="+225 07 00 00 00 00"></div>
-                </div>
-                <button class="btn-save"><i class="fas fa-floppy-disk"></i> Sauvegarder</button>
+                <form action="{{ route('admin.parametres.password.update') }}" method="POST">
+                    @csrf
+                    <div class="form-grid">
+                        <div class="form-group"><label class="form-label">Ancien mot de passe</label><input
+                                class="form-input" type="password" name="current_password" required></div>
+                        <div class="form-group"><label class="form-label">Nouveau mot de passe</label><input
+                                class="form-input" type="password" name="password" required></div>
+                        <div class="form-group"><label class="form-label">Confirmation mot de passe</label><input
+                                class="form-input" type="password" name="password_confirmation" required></div>
+                    </div>
+                    <button type="submit" class="btn-save"><i class="fas fa-floppy-disk"></i> Mettre à jour</button>
+                </form>
             </div>
-
 
         </div>
     </div>
