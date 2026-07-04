@@ -123,7 +123,7 @@ class AdminController extends Controller
 
     public function messages(Request $request)
     {
-        $query = Message::orderByRaw("CASE WHEN statut = 'nouveau' THEN 0 ELSE 1 END")->latest();
+        $query = Message::latest()->orderByRaw("CASE WHEN statut = 'nouveau' THEN 0 ELSE 1 END");
 
         // Filtrage par statut
         if ($request->filled('statut')) {
@@ -142,7 +142,7 @@ class AdminController extends Controller
             });
         }
 
-        $messages = $query->get();
+        $messages = $query->paginate(8)->appends($request->query());
         $selectedMessage = null;
         $unreadCount = Message::where('statut', 'nouveau')->count();
 
@@ -285,7 +285,7 @@ class AdminController extends Controller
         $isUpdate = $user !== null;
 
         return $request->validate([
-            'bureau_member_id' => 'nullable|exists:bureau_members,id',
+            'bureau_member_id' => 'required|exists:bureau_members,id',
             'email' => [
                 'required',
                 'email',
@@ -296,6 +296,7 @@ class AdminController extends Controller
             'statut' => $isUpdate ? 'required|in:actif,inactif' : 'nullable|in:actif,inactif',
             'password' => $isUpdate ? 'nullable|string|min:8|confirmed' : 'required|string|min:8|confirmed',
         ], [
+            'bureau_member_id.required' => 'Veuillez selectionner un membre svp .',
             'bureau_member_id.exists' => 'Le membre du bureau sélectionné n\'existe pas.',
             'email.required' => 'L\'email est requis.',
             'email.email' => 'L\'email doit être une adresse email valide.',

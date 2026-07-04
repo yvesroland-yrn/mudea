@@ -14,21 +14,21 @@ class AnswerContactMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $nom;
-    public $reply;
-    public $subject;
-    public $attachments;
-    public $attachmentPaths;
+    public string $recipientName;
+    public string $replyText;
+    public string $mailSubject;
+    public array $attachmentNames;
+    public array $attachmentPaths;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($nom, $reply, $subject, $attachments = [], $attachmentPaths = [])
+    public function __construct(string $recipientName, string $replyText, string $mailSubject, array $attachmentNames = [], array $attachmentPaths = [])
     {
-        $this->nom = $nom;
-        $this->reply = $reply;
-        $this->subject = $subject;
-        $this->attachments = $attachments;
+        $this->recipientName = $recipientName;
+        $this->replyText = $replyText;
+        $this->mailSubject = $mailSubject;
+        $this->attachmentNames = $attachmentNames;
         $this->attachmentPaths = $attachmentPaths;
     }
 
@@ -38,7 +38,7 @@ class AnswerContactMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: $this->subject,
+            subject: $this->mailSubject,
         );
     }
 
@@ -49,6 +49,12 @@ class AnswerContactMail extends Mailable
     {
         return new Content(
             view: 'emails.contact.answer',
+            with: [
+                'nom' => $this->recipientName,
+                'reply' => $this->replyText,
+                'subject' => $this->mailSubject,
+                'attachments' => $this->attachmentNames,
+            ],
         );
     }
 

@@ -357,6 +357,85 @@
         .topbar-chevron {
             color: var(--text-light);
             font-size: .75rem;
+            transition: transform .2s;
+        }
+
+        /* ─── PROFILE DROPDOWN ─── */
+        .profile-dropdown {
+            position: relative;
+        }
+
+        .profile-dropdown-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0;
+            width: 100%;
+        }
+
+        .profile-dropdown-toggle:hover {
+            opacity: .8;
+        }
+
+        .profile-dropdown-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            min-width: 220px;
+            z-index: 1000;
+            overflow: hidden;
+            display: none;
+        }
+
+        .profile-dropdown-menu.show {
+            display: block;
+        }
+
+        .profile-dropdown-menu .dropdown-item {
+            padding: 12px 18px;
+            text-decoration: none;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: .9rem;
+            transition: background .2s;
+            border: none;
+            width: 100%;
+            text-align: left;
+            background: none;
+            cursor: pointer;
+        }
+
+        .profile-dropdown-menu .dropdown-item:hover {
+            background: var(--cream);
+        }
+
+        .profile-dropdown-menu .dropdown-item i {
+            width: 18px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .profile-dropdown-menu .dropdown-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 6px 0;
+        }
+
+        .profile-dropdown-menu .dropdown-item--logout {
+            color: #d32f2f;
+        }
+
+        .profile-dropdown-menu .dropdown-item--logout:hover {
+            background: #ffebee;
         }
 
         /* ─── PAGE CONTENT ─── */
@@ -523,18 +602,40 @@
                 </div>
             </div>
             <div class="topbar-right">
-                <div class="topbar-user">
-                    <div class="topbar-avatar">
-                        <img src="{{ asset('images/admin/avatar-default.jpg') }}" alt="Photo de profil admin"
-                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                        <div class="topbar-avatar-placeholder" style="display:none;"><i class="fas fa-user"></i>
+                <div class="profile-dropdown">
+                    <button class="profile-dropdown-toggle" onclick="toggleProfileMenu(event)">
+                        <div class="topbar-avatar">
+                            <img src="{{ asset('images/admin/avatar-default.jpg') }}" alt="Photo de profil admin"
+                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                            <div class="topbar-avatar-placeholder" style="display:none;"><i class="fas fa-user"></i>
+                            </div>
                         </div>
+                        <div class="topbar-user-info">
+                            <strong>{{ Auth::user()->nom_complet }}</strong>
+                            <span>{{ Auth::user()->role === 'admin' ? 'Administrateur' : Auth::user()->role }}</span>
+                        </div>
+                        <i class="fas fa-chevron-down topbar-chevron"></i>
+                    </button>
+
+                    <div class="profile-dropdown-menu" id="profileMenu">
+                        <a href="{{ route('admin.dashboard') }}" class="dropdown-item">
+                            <i class="fas fa-user-circle"></i>
+                            <span>Mon Profil</span>
+                        </a>
+                        <a href="{{ route('admin.parametres') }}" class="dropdown-item">
+                            <i class="fas fa-sliders"></i>
+                            <span>Paramètres</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="{{ route('logout') }}" class="dropdown-item dropdown-item--logout"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Déconnexion</span>
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
+                            @csrf
+                        </form>
                     </div>
-                    <div class="topbar-user-info">
-                        <strong>{{ Auth::user()->nom_complet }}</strong>
-                        <span>{{ Auth::user()->role === 'admin' ? 'Administrateur' : Auth::user()->role }}</span>
-                    </div>
-                    <i class="fas fa-chevron-down topbar-chevron"></i>
                 </div>
             </div>
         </header>
@@ -550,6 +651,41 @@
     </div>
 
     @stack('scripts')
+
+    <script>
+        // Toggle Profile Dropdown
+        function toggleProfileMenu(event) {
+            event.preventDefault();
+            const menu = document.getElementById('profileMenu');
+            menu.classList.toggle('show');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('profileMenu');
+            const dropdown = event.target.closest('.profile-dropdown');
+            if (!dropdown && menu.classList.contains('show')) {
+                menu.classList.remove('show');
+            }
+        });
+
+        // Close dropdown with chevron rotation
+        const profileToggle = document.querySelector('.profile-dropdown-toggle');
+        if (profileToggle) {
+            const observer = new MutationObserver(() => {
+                const menu = document.getElementById('profileMenu');
+                const chevron = profileToggle.querySelector('.topbar-chevron');
+                if (menu && chevron) {
+                    if (menu.classList.contains('show')) {
+                        chevron.style.transform = 'rotate(180deg)';
+                    } else {
+                        chevron.style.transform = 'rotate(0)';
+                    }
+                }
+            });
+            observer.observe(document.getElementById('profileMenu'), { attributes: true });
+        }
+    </script>
 </body>
 
 </html>

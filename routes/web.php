@@ -162,7 +162,6 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/messages/{id}/file/{action}', [AdminController::class, 'downloadAttachment'])->name('messages.file');
     Route::delete('/messages/{id}', [AdminController::class, 'destroyMessage'])->name('messages.destroy');
 
-
     // Utilisateurs
     Route::middleware('admin')->group(function () {
         Route::get('/utilisateurs', [AdminController::class, 'utilisateurs'])->name('utilisateurs');

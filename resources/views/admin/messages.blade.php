@@ -96,6 +96,58 @@
             gap: 8px;
         }
 
+        .msg-pagination {
+            padding: 12px 16px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            flex-wrap: wrap;
+            background: var(--cream);
+        }
+
+        .msg-pagination a,
+        .msg-pagination span {
+            padding: 6px 10px;
+            border-radius: var(--radius-sm);
+            font-size: .75rem;
+            font-weight: 700;
+            color: var(--text-mid);
+            text-decoration: none;
+            border: 1px solid var(--border);
+            background: white;
+            transition: all .2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 32px;
+            text-align: center;
+        }
+
+        .msg-pagination a:hover {
+            background: var(--green);
+            color: white;
+            border-color: var(--green);
+        }
+
+        .msg-pagination .active span {
+            background: var(--green);
+            color: white;
+            border-color: var(--green);
+        }
+
+        .msg-pagination .disabled {
+            opacity: .5;
+            cursor: not-allowed;
+        }
+
+        .msg-pagination .disabled:hover {
+            background: white;
+            color: var(--text-mid);
+            border-color: var(--border);
+        }
+
         .msg-search {
             flex: 1;
             border: 1px solid var(--border);
@@ -115,6 +167,8 @@
             display: flex;
             align-items: flex-start;
             gap: 12px;
+            text-decoration: none;
+            color: inherit;
         }
 
         .msg-item:hover {
@@ -446,6 +500,41 @@
             @empty
                 <div style="padding:20px 16px;color:var(--text-light);font-size:.85rem;">Aucun message pour le moment.</div>
             @endforelse
+
+            @if ($messages->hasPages())
+                <div class="msg-pagination">
+                    {{-- Lien précédent --}}
+                    @if ($messages->onFirstPage())
+                        <span class="disabled">
+                            <i class="fas fa-chevron-left"></i>
+                        </span>
+                    @else
+                        <a href="{{ $messages->previousPageUrl() }}">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    @endif
+
+                    {{-- Numéros de pages --}}
+                    @foreach ($messages->getUrlRange(1, $messages->lastPage()) as $page => $url)
+                        @if ($page == $messages->currentPage())
+                            <span class="active"><span>{{ $page }}</span></span>
+                        @else
+                            <a href="{{ $url }}">{{ $page }}</a>
+                        @endif
+                    @endforeach
+
+                    {{-- Lien suivant --}}
+                    @if ($messages->hasMorePages())
+                        <a href="{{ $messages->nextPageUrl() }}">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    @else
+                        <span class="disabled">
+                            <i class="fas fa-chevron-right"></i>
+                        </span>
+                    @endif
+                </div>
+            @endif
         </div>
 
         <div class="msg-main">
