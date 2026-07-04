@@ -22,6 +22,7 @@ class User extends Authenticatable
         'photo',
         'adresse',
         'last_login_at',
+        'bureau_member_id',
     ];
 
     protected $hidden = [
@@ -41,6 +42,11 @@ class User extends Authenticatable
     public function actualites()
     {
         return $this->hasMany(Actualite::class);
+    }
+
+    public function bureauMember()
+    {
+        return $this->belongsTo(BureauMember::class);
     }
 
     public function projets()

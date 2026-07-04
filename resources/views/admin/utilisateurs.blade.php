@@ -634,8 +634,17 @@
                         <div class="row g-3">
 
                             <div class="col-md-6">
-                                <label class="form-label">Nom complet</label>
-                                <input type="text" name="nom_complet" class="form-control" required>
+                                <label class="form-label">Membre du bureau</label>
+                                <select name="bureau_member_id" class="form-select">
+                                    <option value="">-- Sélectionner un membre --</option>
+                                    @foreach ($bureauMembers as $member)
+                                        <option value="{{ $member->id }}">{{ $member->nom }} {{ $member->prenom }}
+                                            ({{ $member->role_name }})
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <small class="text-muted">Laissez vide si l'utilisateur n'est pas un membre du
+                                    bureau</small>
                             </div>
 
                             <div class="col-md-6">
@@ -706,9 +715,18 @@
                         <div class="modal-body">
                             <div class="row g-3">
                                 <div class="col-md-6">
-                                    <label class="form-label">Nom complet</label>
-                                    <input type="text" name="nom_complet" class="form-control"
-                                        value="{{ $user->nom_complet }}" required>
+                                    <label class="form-label">Membre du bureau</label>
+                                    <select name="bureau_member_id" class="form-select">
+                                        <option value="">-- Sélectionner un membre --</option>
+                                        @foreach ($allBureauMembers as $member)
+                                            <option value="{{ $member->id }}"
+                                                {{ $user->bureau_member_id == $member->id ? 'selected' : '' }}>
+                                                {{ $member->nom }} {{ $member->prenom }} ({{ $member->role_name }})
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <small class="text-muted">Laissez vide si l'utilisateur n'est pas un membre du
+                                        bureau</small>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">Rôle</label>

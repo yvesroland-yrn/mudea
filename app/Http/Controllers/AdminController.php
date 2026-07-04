@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Actualite;
+use App\Models\BureauMember;
 use App\Models\Message;
 use App\Models\Projet;
 use App\Models\User;
@@ -17,7 +18,14 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
-        return view('admin.dashboard');
+        return view('admin.dashboard', [
+            'actualitesCount' => Actualite::count(),
+            'projetsCount' => Projet::count(),
+            'usersCount' => User::count(),
+            'messagesCount' => Message::count(),
+            'recentUsers' => User::latest()->take(5)->get(),
+            'recentMessages' => Message::latest()->take(5)->get(),
+        ]);
     }
 
     public function actualites()
@@ -121,7 +129,7 @@ class AdminController extends Controller
         $isUpdate = $user !== null;
 
         return $request->validate([
-            'nom_complet' => 'required|string|max:255',
+            'bureau_member_id' => 'nullable|exists:bureau_members,id',
             'email' => [
                 'required',
                 'email',
@@ -132,7 +140,7 @@ class AdminController extends Controller
             'statut' => $isUpdate ? 'required|in:actif,inactif' : 'nullable|in:actif,inactif',
             'password' => $isUpdate ? 'nullable|string|min:8|confirmed' : 'required|string|min:8|confirmed',
         ], [
-            'nom_complet.required' => 'Le nom est requis.',
+            'bureau_member_id.exists' => 'Le membre du bureau sélectionné n\'existe pas.',
             'email.required' => 'L\'email est requis.',
             'email.email' => 'L\'email doit être une adresse email valide.',
             'email.unique' => 'Cet email est déjà utilisé.',
@@ -150,6 +158,14 @@ class AdminController extends Controller
 
         $validated['statut'] = $validated['statut'] ?? 'actif';
         $validated['password'] = Hash::make($validated['password']);
+
+        // Si un membre du bureau est sélectionné, utiliser son nom complet
+        if (!empty($validated['bureau_member_id'])) {
+            $bureauMember = BureauMember::find($validated['bureau_member_id']);
+            if ($bureauMember) {
+                $validated['nom_complet'] = $bureauMember->nom . ' ' . $bureauMember->prenom;
+            }
+        }
 
         User::create($validated);
 
@@ -170,6 +186,14 @@ class AdminController extends Controller
             $validated['password'] = Hash::make($validated['password']);
         } else {
             unset($validated['password']);
+        }
+
+        // Si un membre du bureau est sélectionné, utiliser son nom complet
+        if (!empty($validated['bureau_member_id'])) {
+            $bureauMember = BureauMember::find($validated['bureau_member_id']);
+            if ($bureauMember) {
+                $validated['nom_complet'] = $bureauMember->nom . ' ' . $bureauMember->prenom;
+            }
         }
 
         $user->update($validated);
@@ -212,18 +236,29 @@ class AdminController extends Controller
 
         $users = $query->get();
 
+        // Récupérer les IDs des membres du bureau qui ont déjà un compte
+        $usedBureauMemberIds = User::whereNotNull('bureau_member_id')->pluck('bureau_member_id')->toArray();
+
+        // Filtrer les membres du bureau pour n'afficher que ceux sans compte (pour la création)
+        $availableBureauMembers = BureauMember::whereNotIn('id', $usedBureauMemberIds)->get();
+
+        // Tous les membres du bureau pour l'édition
+        $allBureauMembers = BureauMember::all();
+
         return view('admin.utilisateurs', [
             'users' => $users,
             'totalUsers' => User::count(),
             'activeUsers' => User::where('statut', 'actif')->count(),
             'newThisMonth' => User::whereMonth('created_at', now()->month)->count(),
+            'bureauMembers' => $availableBureauMembers,
+            'allBureauMembers' => $allBureauMembers,
         ]);
     }
 
     public function parametres()
     {
         return view('admin.parametres', [
-            'currentUser' => auth()->user(),
+            'currentUser' => Auth::user(),
         ]);
     }
 
@@ -241,7 +276,7 @@ class AdminController extends Controller
             'email.unique' => 'Cet email est déjà utilisé.',
         ]);
 
-        auth()->user()->update($validated);
+        Auth::user()->update($validated);
 
         return redirect()->route('admin.parametres')->with('success', 'Informations mises à jour avec succès.');
     }
