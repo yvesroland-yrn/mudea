@@ -23,6 +23,11 @@ class BureauMember extends Model
         return $this->belongsTo(Role::class);
     }
 
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
     public function getFullNameAttribute(): string
     {
         return trim($this->prenom . ' ' . $this->nom);

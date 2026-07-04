@@ -394,7 +394,7 @@
 
         .quick-grid {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 14px;
             margin-top: 16px;
         }
@@ -588,7 +588,7 @@
             <div class="kpi-icon kpi-icon--green"><i class="fas fa-newspaper"></i></div>
             <div>
                 <div class="kpi-label">Actualités</div>
-                <div class="kpi-number">125</div>
+                <div class="kpi-number">{{ $actualitesCount }}</div>
                 <a href="{{ route('admin.actualites.index') }}" class="kpi-link kpi-link--green">Voir tous &rarr;</a>
             </div>
         </div>
@@ -596,7 +596,7 @@
             <div class="kpi-icon kpi-icon--blue"><i class="fas fa-folder-open"></i></div>
             <div>
                 <div class="kpi-label">Projets</div>
-                <div class="kpi-number">18</div>
+                <div class="kpi-number">{{ $projetsCount }}</div>
                 <a href="{{ route('admin.projets') }}" class="kpi-link kpi-link--blue">Voir tous &rarr;</a>
             </div>
         </div>
@@ -604,7 +604,7 @@
             <div class="kpi-icon kpi-icon--gold"><i class="fas fa-people-group"></i></div>
             <div>
                 <div class="kpi-label">Membres</div>
-                <div class="kpi-number">520</div>
+                <div class="kpi-number">{{ $usersCount }}</div>
                 <a href="{{ route('admin.utilisateurs') }}" class="kpi-link kpi-link--gold">Voir tous &rarr;</a>
             </div>
         </div>
@@ -612,7 +612,7 @@
             <div class="kpi-icon kpi-icon--purple"><i class="fas fa-envelope"></i></div>
             <div>
                 <div class="kpi-label">Messages</div>
-                <div class="kpi-number">46</div>
+                <div class="kpi-number">{{ $messagesCount }}</div>
                 <a href="{{ route('admin.messages') }}" class="kpi-link kpi-link--purple">Voir tous &rarr;</a>
             </div>
         </div>
@@ -620,29 +620,87 @@
 
     {{-- Accès rapide --}}
     <div class="quick-card">
-      <div class="card-title">Accès rapide</div>
-      <div class="quick-grid">
-        <a href="{{ route('admin.actualites.index') }}" class="quick-item">
-          <div class="quick-icon quick-icon--green"><i class="fas fa-pencil"></i></div>
-          <div class="quick-label">Créer une actualité</div>
-        </a>
-        <a href="{{ route('admin.projets') }}" class="quick-item">
-          <div class="quick-icon quick-icon--blue"><i class="fas fa-folder-plus"></i></div>
-          <div class="quick-label">Créer un projet</div>
-        </a>
-        <a href="{{ route('admin.communaute.index') }}" class="quick-item">
-          <div class="quick-icon quick-icon--gold"><i class="fas fa-calendar-plus"></i></div>
-          <div class="quick-label">Créer un événement</div>
-        </a>
-        <!-- <a href="{{ route('admin.pages') }}" class="quick-item">
-          <div class="quick-icon quick-icon--purple"><i class="fas fa-file-circle-plus"></i></div>
-          <div class="quick-label">Publier une page</div>
-        </a> -->
-        <a href="{{ route('admin.messages') }}" class="quick-item">
-          <div class="quick-icon quick-icon--dark"><i class="fas fa-envelope-open-text"></i></div>
-          <div class="quick-label">Voir les messages</div>
-        </a>
-      </div>
+        <div class="card-title">Accès rapide</div>
+        <div class="quick-grid">
+            <a href="{{ route('admin.actualites.index') }}" class="quick-item">
+                <div class="quick-icon quick-icon--green"><i class="fas fa-pencil"></i></div>
+                <div class="quick-label">Créer une actualité</div>
+            </a>
+            <a href="{{ route('admin.projets') }}" class="quick-item">
+                <div class="quick-icon quick-icon--blue"><i class="fas fa-folder-plus"></i></div>
+                <div class="quick-label">Créer un projet</div>
+            </a>
+            <a href="{{ route('admin.bureau.index') }}" class="quick-item">
+                <div class="quick-icon quick-icon--gold"><i class="fas fa-user-plus"></i></div>
+                <div class="quick-label">Ajouter un membre du bureau</div>
+            </a>
+            <!-- <a href="{{ route('admin.pages') }}" class="quick-item">
+                      <div class="quick-icon quick-icon--purple"><i class="fas fa-file-circle-plus"></i></div>
+                      <div class="quick-label">Publier une page</div>
+                    </a> -->
+            <a href="{{ route('admin.utilisateurs') }}" class="quick-item">
+                <div class="quick-icon quick-icon--dark"><i class="fas fa-users"></i></div>
+                <div class="quick-label">Gérer les utilisateurs</div>
+            </a>
+        </div>
+    </div>
+
+    {{-- Activités récentes --}}
+    <div class="dashboard-grid">
+        <div class="chart-card">
+            <div class="card-header">
+                <div class="card-title">Derniers utilisateurs inscrits</div>
+            </div>
+            @if ($recentUsers->count() > 0)
+                <div class="activity-list">
+                    @foreach ($recentUsers as $user)
+                        <div class="activity-item">
+                            <div class="activity-icon activity-icon--green">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="activity-body">
+                                <div class="activity-title">{{ $user->nom_complet }}</div>
+                                <div class="activity-sub">{{ $user->email }}</div>
+                            </div>
+                            <div class="activity-time">
+                                {{ $user->created_at ? $user->created_at->diffForHumans() : 'N/A' }}
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                <p style="color: var(--text-light); font-size: .85rem;">Aucun utilisateur récent.</p>
+            @endif
+        </div>
+
+        <div class="side-col">
+            <div class="info-card">
+                <div class="info-card-title">Derniers messages</div>
+                @if ($recentMessages->count() > 0)
+                    <div class="activity-list">
+                        @foreach ($recentMessages as $message)
+                            <div class="activity-item">
+                                <div class="activity-icon activity-icon--purple">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="activity-body">
+                                    <div class="activity-title">{{ $message->nom ?? 'Anonyme' }}</div>
+                                    <div class="activity-sub">{{ Str::limit($message->message ?? '', 30) }}</div>
+                                </div>
+                                <div class="activity-time">
+                                    {{ $message->created_at ? $message->created_at->diffForHumans() : 'N/A' }}
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <a href="{{ route('admin.messages') }}" class="see-all-link">
+                        Voir tous <i class="fas fa-arrow-right"></i>
+                    </a>
+                @else
+                    <p style="color: var(--text-light); font-size: .85rem;">Aucun message récent.</p>
+                @endif
+            </div>
+        </div>
     </div>
 
 @endsection
