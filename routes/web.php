@@ -156,6 +156,11 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
 
     // Messages
     Route::get('/messages', [AdminController::class, 'messages'])->name('messages');
+    Route::get('/messages/{id}', [AdminController::class, 'showMessage'])->name('messages.show');
+    Route::post('/messages/{id}/status', [AdminController::class, 'updateMessageStatus'])->name('messages.status');
+    Route::post('/messages/{id}/reply', [AdminController::class, 'replyMessage'])->name('messages.reply');
+    Route::get('/messages/{id}/file/{action}', [AdminController::class, 'downloadAttachment'])->name('messages.file');
+    Route::delete('/messages/{id}', [AdminController::class, 'destroyMessage'])->name('messages.destroy');
 
 
     // Utilisateurs

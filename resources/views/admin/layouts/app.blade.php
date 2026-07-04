@@ -463,12 +463,15 @@
                 <span class="nav-icon"><i class="fas fa-diagram-project"></i></span>
                 <span>Projets</span>
             </a>
-            {{-- <a href="{{ route('admin.messages') }}"
+            <a href="{{ route('admin.messages') }}"
                 class="nav-item {{ request()->routeIs('admin.messages*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-envelope"></i></span>
                 <span>Messages</span>
-                <span class="nav-badge">46</span>
-            </a> --}}
+                @php $unreadCount = \App\Models\Message::where('statut', 'nouveau')->count(); @endphp
+                @if ($unreadCount > 0)
+                    <span class="nav-badge">{{ $unreadCount }}</span>
+                @endif
+            </a>
 
             <div class="nav-separator"></div>
 
@@ -485,7 +488,7 @@
                 <span class="nav-icon"><i class="fas fa-gear"></i></span>
                 <span>Paramètres</span>
             </a>
-            
+
             <a href="{{ route('admin.statistiques') }}"
                 class="nav-item {{ request()->routeIs('admin.statistiques*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-chart-line"></i></span>
@@ -520,10 +523,6 @@
                 </div>
             </div>
             <div class="topbar-right">
-                <div class="topbar-notif">
-                    <i class="fas fa-bell"></i>
-                    <div class="topbar-notif-badge">2</div>
-                </div>
                 <div class="topbar-user">
                     <div class="topbar-avatar">
                         <img src="{{ asset('images/admin/avatar-default.jpg') }}" alt="Photo de profil admin"

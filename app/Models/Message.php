@@ -17,12 +17,13 @@ class Message extends Model
         'email',
         'objet',
         'message',
+        'fichier',
         'statut',
         'lu_at',
         'traite_at',
     ];
 
-     protected $casts = [
+    protected $casts = [
         'lu_at' => 'datetime',
         'traite_at' => 'datetime',
     ];

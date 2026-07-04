@@ -65,16 +65,14 @@ class ContactController extends Controller
         ]);
 
         $documentPath = null;
-        $documentName = null;
 
         if ($request->hasFile('document')) {
             $file = $request->file('document');
-            $documentPath = $file->store('contact-documents', 'public');
-            $documentName = $file->getClientOriginalName();
+            $documentPath = $file->store('messages', 'public');
         }
 
         $messageText = $validated['message'];
-        
+
         $message = Message::create([
             'nom' => $validated['nom'],
             'prenom' => $validated['prenom'],
@@ -82,6 +80,7 @@ class ContactController extends Controller
             'email' => $validated['email'],
             'objet' => $validated['objet'],
             'message' => $messageText,
+            'fichier' => $documentPath,
             'statut' => 'nouveau',
         ]);
 
@@ -95,42 +94,42 @@ class ContactController extends Controller
         return back()->with('success', $successMessage);
     }
 
-   private function sendNotifications(Message $message): void
-{
-    $adminEmails = User::where('role', 'admin')
-        ->whereNotNull('email')
-        ->pluck('email')
-        ->filter()
-        ->unique()
-        ->values()
-        ->toArray();
+    private function sendNotifications(Message $message): void
+    {
+        $adminEmails = User::where('role', 'admin')
+            ->whereNotNull('email')
+            ->pluck('email')
+            ->filter()
+            ->unique()
+            ->values()
+            ->toArray();
 
 
-    if (! empty($adminEmails)) {
-        try {
-            Mail::to($adminEmails)->send(new NewContactMail($message));
-        } catch (\Throwable $e) {
-            Log::warning('Erreur d’envoi de l’e-mail aux administrateurs pour un message de contact', [
+        if (! empty($adminEmails)) {
+            try {
+                Mail::to($adminEmails)->send(new NewContactMail($message));
+            } catch (\Throwable $e) {
+                Log::warning('Erreur d’envoi de l’e-mail aux administrateurs pour un message de contact', [
+                    'message_id' => $message->id,
+                    'error' => $e->getMessage(),
+                ]);
+            }
+        } else {
+            Log::warning('Aucun administrateur avec une adresse e-mail valide trouvé', [
                 'message_id' => $message->id,
-                'error' => $e->getMessage(),
             ]);
         }
-    } else {
-        Log::warning('Aucun administrateur avec une adresse e-mail valide trouvé', [
-            'message_id' => $message->id,
-        ]);
-    }
 
-    if (! empty($message->email)) {
-        try {
-            Mail::to($message->email)->send(new ContactReceivedMail($message));
-        } catch (\Throwable $e) {
-            Log::warning('Erreur d’envoi de l’e-mail de confirmation au contact', [
-                'message_id' => $message->id,
-                'email' => $message->email,
-                'error' => $e->getMessage(),
-            ]);
+        if (! empty($message->email)) {
+            try {
+                Mail::to($message->email)->send(new ContactReceivedMail($message));
+            } catch (\Throwable $e) {
+                Log::warning('Erreur d’envoi de l’e-mail de confirmation au contact', [
+                    'message_id' => $message->id,
+                    'email' => $message->email,
+                    'error' => $e->getMessage(),
+                ]);
+            }
         }
     }
-}
 }
