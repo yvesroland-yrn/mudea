@@ -357,6 +357,85 @@
         .topbar-chevron {
             color: var(--text-light);
             font-size: .75rem;
+            transition: transform .2s;
+        }
+
+        /* ─── PROFILE DROPDOWN ─── */
+        .profile-dropdown {
+            position: relative;
+        }
+
+        .profile-dropdown-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0;
+            width: 100%;
+        }
+
+        .profile-dropdown-toggle:hover {
+            opacity: .8;
+        }
+
+        .profile-dropdown-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            min-width: 220px;
+            z-index: 1000;
+            overflow: hidden;
+            display: none;
+        }
+
+        .profile-dropdown-menu.show {
+            display: block;
+        }
+
+        .profile-dropdown-menu .dropdown-item {
+            padding: 12px 18px;
+            text-decoration: none;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: .9rem;
+            transition: background .2s;
+            border: none;
+            width: 100%;
+            text-align: left;
+            background: none;
+            cursor: pointer;
+        }
+
+        .profile-dropdown-menu .dropdown-item:hover {
+            background: var(--cream);
+        }
+
+        .profile-dropdown-menu .dropdown-item i {
+            width: 18px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .profile-dropdown-menu .dropdown-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 6px 0;
+        }
+
+        .profile-dropdown-menu .dropdown-item--logout {
+            color: #d32f2f;
+        }
+
+        .profile-dropdown-menu .dropdown-item--logout:hover {
+            background: #ffebee;
         }
 
         /* ─── PAGE CONTENT ─── */
@@ -437,23 +516,23 @@
                 class="nav-item {{ request()->routeIs('admin.pages*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-file-lines"></i></span>
                 <span>Pages</span>
-            </a> -->  
-            <a href="{{ route('admin.vie-coutumes') }}"
+            </a> -->
+            <a href="{{ route('admin.vie-coutumes.index') }}"
                 class="nav-item {{ request()->routeIs('admin.vie-coutumes*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-masks-theater"></i></span>
                 <span>Vie &amp; Coutumes</span>
             </a>
-            <a href="{{ route('admin.education') }}"
+            <a href="{{ route('admin.education.index') }}"
                 class="nav-item {{ request()->routeIs('admin.education*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-graduation-cap"></i></span>
                 <span>Éducation &amp; Excellence</span>
             </a>
-            <a href="{{ route('admin.communaute') }}"
+            {{-- <a href="{{ route('admin.communaute.index') }}"
                 class="nav-item {{ request()->routeIs('admin.communaute*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-people-group"></i></span>
                 <span>Espace Communautaire</span>
-            </a>
-            <a href="{{ route('admin.bureau') }}"
+            </a> --}}
+            <a href="{{ route('admin.bureau.index') }}"
                 class="nav-item {{ request()->routeIs('admin.bureau*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-user-tie"></i></span>
                 <span>Bureau</span>
@@ -467,26 +546,33 @@
                 class="nav-item {{ request()->routeIs('admin.messages*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-envelope"></i></span>
                 <span>Messages</span>
-                <span class="nav-badge">46</span>
+                @php $unreadCount = \App\Models\Message::where('statut', 'nouveau')->count(); @endphp
+                @if ($unreadCount > 0)
+                    <span class="nav-badge">{{ $unreadCount }}</span>
+                @endif
             </a>
 
             <div class="nav-separator"></div>
 
-            <a href="{{ route('admin.utilisateurs') }}"
-                class="nav-item {{ request()->routeIs('admin.utilisateurs*') ? 'active' : '' }}">
-                <span class="nav-icon"><i class="fas fa-users"></i></span>
-                <span>Utilisateurs</span>
-            </a>
+            @if (Auth::user()->role !== 'moderateur')
+                <a href="{{ route('admin.utilisateurs') }}"
+                    class="nav-item {{ request()->routeIs('admin.utilisateurs*') ? 'active' : '' }}">
+                    <span class="nav-icon"><i class="fas fa-users"></i></span>
+                    <span>Utilisateurs</span>
+                </a>
+            @endif
+
             <a href="{{ route('admin.parametres') }}"
                 class="nav-item {{ request()->routeIs('admin.parametres*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-gear"></i></span>
                 <span>Paramètres</span>
             </a>
-            <a href="{{ route('admin.statistiques') }}"
+
+            <!-- <a href="{{ route('admin.statistiques') }}"
                 class="nav-item {{ request()->routeIs('admin.statistiques*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-chart-line"></i></span>
                 <span>Statistiques</span>
-            </a>
+            </a> -->
         </nav>
 
         <div class="sidebar-bottom">
@@ -516,21 +602,40 @@
                 </div>
             </div>
             <div class="topbar-right">
-                <div class="topbar-notif">
-                    <i class="fas fa-bell"></i>
-                    <div class="topbar-notif-badge">2</div>
-                </div>
-                <div class="topbar-user">
-                    <div class="topbar-avatar">
-                        <img src="{{ asset('images/admin/avatar-default.jpg') }}" alt="Photo de profil admin"
-                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                        <div class="topbar-avatar-placeholder" style="display:none;"><i class="fas fa-user"></i></div>
+                <div class="profile-dropdown">
+                    <button class="profile-dropdown-toggle" onclick="toggleProfileMenu(event)">
+                        <div class="topbar-avatar">
+                            <img src="{{ asset('images/admin/avatar-default.jpg') }}" alt="Photo de profil admin"
+                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                            <div class="topbar-avatar-placeholder" style="display:none;"><i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <div class="topbar-user-info">
+                            <strong>{{ Auth::user()->nom_complet }}</strong>
+                            <span>{{ Auth::user()->role === 'admin' ? 'Administrateur' : Auth::user()->role }}</span>
+                        </div>
+                        <i class="fas fa-chevron-down topbar-chevron"></i>
+                    </button>
+
+                    <div class="profile-dropdown-menu" id="profileMenu">
+                        <a href="{{ route('admin.dashboard') }}" class="dropdown-item">
+                            <i class="fas fa-user-circle"></i>
+                            <span>Mon Profil</span>
+                        </a>
+                        <a href="{{ route('admin.parametres') }}" class="dropdown-item">
+                            <i class="fas fa-sliders"></i>
+                            <span>Paramètres</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="{{ route('logout') }}" class="dropdown-item dropdown-item--logout"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Déconnexion</span>
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
+                            @csrf
+                        </form>
                     </div>
-                    <div class="topbar-user-info">
-                        <strong>{{ Auth::user()->nom . ' ' . Auth::user()->prenom }}</strong>
-                        <span>{{ Auth::user()->role === 'admin' ? 'Administrateur' : Auth::user()->role }}</span>
-                    </div>
-                    <i class="fas fa-chevron-down topbar-chevron"></i>
                 </div>
             </div>
         </header>
@@ -546,6 +651,41 @@
     </div>
 
     @stack('scripts')
+
+    <script>
+        // Toggle Profile Dropdown
+        function toggleProfileMenu(event) {
+            event.preventDefault();
+            const menu = document.getElementById('profileMenu');
+            menu.classList.toggle('show');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('profileMenu');
+            const dropdown = event.target.closest('.profile-dropdown');
+            if (!dropdown && menu.classList.contains('show')) {
+                menu.classList.remove('show');
+            }
+        });
+
+        // Close dropdown with chevron rotation
+        const profileToggle = document.querySelector('.profile-dropdown-toggle');
+        if (profileToggle) {
+            const observer = new MutationObserver(() => {
+                const menu = document.getElementById('profileMenu');
+                const chevron = profileToggle.querySelector('.topbar-chevron');
+                if (menu && chevron) {
+                    if (menu.classList.contains('show')) {
+                        chevron.style.transform = 'rotate(180deg)';
+                    } else {
+                        chevron.style.transform = 'rotate(0)';
+                    }
+                }
+            });
+            observer.observe(document.getElementById('profileMenu'), { attributes: true });
+        }
+    </script>
 </body>
 
 </html>

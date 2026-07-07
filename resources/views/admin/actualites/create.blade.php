@@ -498,7 +498,7 @@
 
     {{-- ── Toolbar ── --}}
     <div class="page-toolbar">
-        <div></div> 
+        <div></div>
         <a href="{{ route('admin.actualites.index') }}" class="btn-ghost">
             <i class="fas fa-arrow-left"></i> Retour
         </a>
@@ -579,12 +579,12 @@
                                         Actualité</option>
                                 </select>
                             </div>
-                            <div class="field">
+                            {{-- <div class="field">
                                 <label for="date_publication">Date de publication</label>
                                 <input type="date" id="date_publication" name="date_publication"
                                     value="{{ old('date_publication') ? old('date_publication') : date('Y-m-d') }}"
                                     readonly>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="form-row">
                             <div class="field">

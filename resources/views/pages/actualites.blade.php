@@ -464,7 +464,7 @@
 </section>
 
 <!-- ======== CONTENU PRINCIPAL ======== -->
- 
+
 <div class="page-actualites">
 
     <!-- ===== VEDETTE + ÉVÉNEMENTS ===== -->
@@ -478,7 +478,12 @@
             </div>
             <div class="vedette-card">
                 <div class="vedette-img">
-                    <img src="{{ asset('images/actualites/eleve.JPG') }}" alt="Inauguration du Complexe Scolaire">
+                    @if($vedette)
+                        <img src="{{ $vedette->image ? asset('storage/' . $vedette->image) : asset('images/actualites/eleve.JPG') }}"
+                            alt="{{ $vedette->titre }}" onerror="this.src='{{ asset('images/actualites/eleve.JPG') }}'">
+                    @else
+                        <img src="{{ asset('images/actualites/eleve.JPG') }}" alt="Aucune actualité vedette">
+                    @endif
                     <div class="vedette-dots">
                         <span class="active"></span>
                         <span></span>
@@ -486,35 +491,50 @@
                     </div>
                 </div>
                 <div class="vedette-body">
-                    <span class="badge education">Éducation</span>
-                    <h2>Inauguration du Complexe Scolaire d'Excellence d'Andé</h2>
-                    <p>Le nouveau complexe scolaire a été officiellement inauguré en présence des autorités locales, des membres de la MUDEA et des populations.</p>
-                    <div class="vedette-meta">
-                        <span>
-                            <!-- Calendrier SVG -->
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                            12 Mai 2024
-                        </span>
-                        <span>
-                            <!-- Personne SVG -->
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M5.2 20c.4-3.4 3.4-6 6.8-6s6.4 2.6 6.8 6"/></svg>
-                            Admin MUDEA
-                        </span>
-                    </div>
-                    <a href="{{ route('actualites.detail', 'inauguration-complexe-scolaire') }}" class="btn-lire">
-                        Lire l'article
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                    </a>
+                    @if($vedette)
+                        @if($vedette->categorie)
+                            <span class="badge" style="background: var(--vert);">{{ $vedette->categorie }}</span>
+                        @endif
+                        <h2>{{ $vedette->titre }}</h2>
+                        {{-- Tags de l'actualité vedette --}}
+                        @if(!empty($vedette->tags) && is_array($vedette->tags) && count($vedette->tags) > 0)
+                            <div class="vedette-tags" style="margin-bottom:10px;display:flex;flex-wrap:wrap;gap:8px;">
+                                @foreach($vedette->tags as $tag)
+                                    <span style="background: #eef7ee; color: var(--vert-fonce); padding:4px 8px; border-radius:12px; font-size:0.75rem;">{{ $tag }}</span>
+                                @endforeach
+                            </div>
+                        @endif
+                        <p>{{ $vedette->resume ?? Illuminate\Support\Str::limit($vedette->contenu, 150) }}</p>
+                        <div class="vedette-meta">
+                            <span>
+                                <!-- Calendrier SVG -->
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                {{ $vedette->date_publication ? $vedette->date_publication->format('d M Y') : $vedette->created_at->format('d M Y') }}
+                            </span>
+                            <span>
+                                <!-- Personne SVG -->
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M5.2 20c.4-3.4 3.4-6 6.8-6s6.4 2.6 6.8 6"/></svg>
+                                {{ $vedette->user?->name ?? ($vedette->auteur ?? 'Admin MUDEA') }}
+                            </span>
+                        </div>
+                        <a href="{{ route('actualites.detail', $vedette->slug) }}" class="btn-lire">
+                            Lire l'article
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        </a>
+                    @else
+                        <h2>Aucune actualité disponible</h2>
+                        <p>Les actualités seront bientôt mises à jour.</p>
+                    @endif
                 </div>
             </div>
         </div>
 
         <!-- Événements à venir -->
-        <div class="evenements-aside">
+        {{-- <div class="evenements-aside">
             <div class="section-title">
                 <!-- Calendrier SVG -->
                 <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f5c518" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                Événements à venir
+                Projet à venir
             </div>
 
             <!-- Événement 1 -->
@@ -577,11 +597,11 @@
                 </div>
             </div>
 
-            <a href="#dernieres-actualites" class="btn-events">
-                Voir tous les événements
+            <a href="{{ route('projets') }}" class="btn-events">
+                Voir tous les projets
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </a>
-        </div>
+        </div> --}}
     </div>
 
     <!-- ===== DERNIÈRES ACTUALITÉS ===== -->
@@ -589,80 +609,50 @@
         <!-- Icône journal SVG -->
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f5c518" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M8 4v16"/><line x1="12" y1="8" x2="18" y2="8"/><line x1="12" y1="12" x2="18" y2="12"/><line x1="12" y1="16" x2="18" y2="16"/></svg>
         Dernières actualités
-            <a href="#dernieres-actualites">Voir toutes les actualités →</a>
     </div>
 
-    <div class="news-grid">
-
-        <!-- Article 1 -->
-        <div class="news-card">
-            <img src="{{ asset('images/actualites/reunion.png') }}" alt="Avancement des travaux du château d'eau">
-            <div class="news-card-body">
-                <span class="badge projet">Projet</span>
-                <h3>Avancement des travaux du château d'eau</h3>
-                <p>Les travaux avancent bien et la livraison est prévue pour juillet 2024.</p>
-                <div class="news-meta">
-                    <span>
-                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                        08 Mai 2024
-                    </span>
-                    <a href="{{ route('actualites.detail', 'avancement-travaux-chateau-eau') }}">Lire la suite →</a>
+    @if($actualites->count() > 0)
+        <div class="news-grid">
+            @foreach($actualites as $actualite)
+                <div class="news-card">
+                    @if($actualite->image)
+                        <img src="{{ asset('storage/' . $actualite->image) }}" alt="{{ $actualite->titre }}"
+                            onerror="this.src='{{ asset('images/actualites/reunion.png') }}'">
+                    @else
+                        <div style="width:100%;height:155px;background:var(--gris-fond);display:flex;align-items:center;justify-content:center;color:#ccc;font-size:3rem;">
+                            <i class="fas fa-newspaper"></i>
+                        </div>
+                    @endif
+                    <div class="news-card-body">
+                        @if($actualite->categorie)
+                            <span class="badge" style="background: var(--vert);">{{ $actualite->categorie }}</span>
+                        @endif
+                        {{-- Tags article --}}
+                        @if(!empty($actualite->tags) && is_array($actualite->tags) && count($actualite->tags) > 0)
+                            <div style="margin-top:8px; margin-bottom:8px; display:flex; gap:6px; flex-wrap:wrap;">
+                                @foreach($actualite->tags as $tag)
+                                    <span style="background:#f0f6f0; color:var(--vert-fonce); padding:3px 8px; border-radius:10px; font-size:0.72rem;">{{ $tag }}</span>
+                                @endforeach
+                            </div>
+                        @endif
+                        <h3>{{ Illuminate\Support\Str::limit($actualite->titre, 60) }}</h3>
+                        <p>{{ Illuminate\Support\Str::limit($actualite->resume ?? $actualite->contenu, 100) }}</p>
+                        <div class="news-meta">
+                            <span>
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                {{ $actualite->date_publication ? $actualite->date_publication->format('d M Y') : $actualite->created_at->format('d M Y') }}
+                            </span>
+                            <a href="{{ route('actualites.detail', $actualite->slug) }}">Lire la suite →</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            @endforeach
         </div>
-
-        <!-- Article 2 -->
-        <div class="news-card">
-            <img src="{{ asset('images/actualites/examen.png') }}" alt="Lancement des cours de soutien pour les examens">
-            <div class="news-card-body">
-                <span class="badge education">Éducation</span>
-                <h3>Lancement des cours de soutien pour les examens</h3>
-                <p>La MUDEA accompagne les élèves dans leur préparation aux examens scolaires.</p>
-                <div class="news-meta">
-                    <span>
-                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                        05 Mai 2024
-                    </span>
-                    <a href="{{ route('actualites.detail', 'cours-soutien-examens') }}">Lire la suite →</a>
-                </div>
-            </div>
+    @else
+        <div style="padding: 40px; text-align: center; color: var(--texte-sec);">
+            <p>Aucune actualité disponible pour le moment.</p>
         </div>
-
-        <!-- Article 3 -->
-        <div class="news-card">
-            <img src="{{ asset('images/actualites/solidarite.png') }}" alt="Rencontre d'échanges avec les chefs de familles">
-            <div class="news-card-body">
-                <span class="badge communaute">Communauté</span>
-                <h3>Rencontre d'échanges avec les chefs de familles</h3>
-                <p>Une rencontre fructueuse pour discuter des priorités de développement du village.</p>
-                <div class="news-meta">
-                    <span>
-                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                        02 Mai 2024
-                    </span>
-                    <a href="{{ route('actualites.detail', 'rencontre-chefs-familles') }}">Lire la suite →</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Article 4 -->
-        <div class="news-card">
-            <img src="{{ asset('images/actualites/union.png') }}" alt="Festival des masques d'Andé 2024">
-            <div class="news-card-body">
-                <span class="badge culture">Culture</span>
-                <h3>Festival des masques d'Andé 2024</h3>
-                <p>Une édition réussie qui célèbre notre riche patrimoine culturel.</p>
-                <div class="news-meta">
-                    <span>
-                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                        28 Avr. 2024
-                    </span>
-                    <a href="{{ route('actualites.detail', 'festival-masques-2024') }}">Lire la suite →</a>
-                </div>
-            </div>
-        </div>
-
-    </div>
+    @endif
 
     <!-- ===== GALERIE PHOTOS ===== -->
     <div class="galerie-section">
@@ -675,39 +665,31 @@
                 <span class="expanded-label">Replier la galerie →</span>
             </button>
         </div>
-        <div class="galerie-grid" id="galerie-photos">
-            <img src="{{ asset('images/actualites/eleve.JPG') }}" alt="Photo galerie 1">
-            <img src="{{ asset('images/actualites/examen.png') }}" alt="Photo galerie 2">
-            <img src="{{ asset('images/actualites/reunion.png') }}" alt="Photo galerie 3">
-            <img src="{{ asset('images/actualites/solidarite.png') }}" alt="Photo galerie 4">
-            <img src="{{ asset('images/actualites/union.png') }}" alt="Photo galerie 5">
-        </div>
-        <div class="galerie-grid galerie-grid--full">
-            <div class="galerie-card">
-                <img src="{{ asset('images/actualites/eleve.JPG') }}" alt="Inauguration du complexe scolaire">
-                <span>Inauguration du complexe scolaire</span>
+        @if($galerie->count() > 0)
+            <div class="galerie-grid" id="galerie-photos">
+                @foreach($galerie->take(5) as $photo)
+                    <img src="{{ asset('storage/' . $photo->image) }}" alt="{{ $photo->titre }}"
+                        onerror="this.src='{{ asset('images/actualites/eleve.JPG') }}'">
+                @endforeach
             </div>
-            <div class="galerie-card">
-                <img src="{{ asset('images/actualites/examen.png') }}" alt="Cours de soutien">
-                <span>Cours de soutien</span>
-            </div>
-            <div class="galerie-card">
-                <img src="{{ asset('images/actualites/reunion.png') }}" alt="Réunion d'avancement">
-                <span>Réunion d'avancement</span>
-            </div>
-            <div class="galerie-card">
-                <img src="{{ asset('images/actualites/solidarite.png') }}" alt="Journée de solidarité">
-                <span>Journée de solidarité</span>
-            </div>
-            <div class="galerie-card">
-                <img src="{{ asset('images/actualites/union.png') }}" alt="Festival des masques">
-                <span>Festival des masques</span>
-            </div>
-        </div>
+            @if($galerie->count() > 5)
+                <div class="galerie-grid galerie-grid--full">
+                    @foreach($galerie as $photo)
+                        <div class="galerie-card">
+                            <img src="{{ asset('storage/' . $photo->image) }}" alt="{{ $photo->titre }}"
+                                onerror="this.src='{{ asset('images/actualites/eleve.JPG') }}'">
+                            <span>{{ Illuminate\Support\Str::limit($photo->titre, 30) }}</span>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+        @else
+            <p style="color: var(--texte-sec); text-align: center; padding: 30px;">Aucune photo disponible pour le moment.</p>
+        @endif
     </div>
 
     <!-- ===== NEWSLETTER ===== -->
-    <div class="newsletter-banner">
+    {{-- <div class="newsletter-banner">
         <div class="nl-icon">
             <!-- Enveloppe SVG -->
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a4a1a" stroke-width="2.5"><path d="M4 4h16v16H4z"/><polyline points="22 6 12 13 2 6"/></svg>
@@ -724,7 +706,7 @@
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </button>
         </form>
-    </div>
+    </div> --}}
 
     @if(session('success'))
         <div style="margin-top:14px;padding:12px 16px;border:1px solid #c8e6c9;background:#f1f8f1;color:#1b5e20;border-radius:8px;font-size:.9rem;">

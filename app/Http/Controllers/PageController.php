@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Actualite;
 use App\Models\BureauMember;
 use App\Models\Message;
 use App\Models\Projet;
+use App\Models\Education;
+use App\Models\VieCoutume;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -355,9 +358,17 @@ class PageController extends Controller
         ]);
     }
 
-    public function chefferieDetail(string $slug)
+    public function chefferieDetail(int $id)
     {
-        return $this->renderDetail('chefferie', $slug);
+        // Si une entrée VieCoutume publie existe pour ce id, l'afficher
+        $vie = VieCoutume::publie()->where('id', $id)->first();
+        if ($vie) {
+            return view('pages.vie.show', [
+                'vie' => $vie,
+            ]);
+        }
+
+        return $this->renderDetail('chefferie', $id);
     }
 
     public function educationDetail(string $slug)
@@ -367,12 +378,52 @@ class PageController extends Controller
 
     public function actualitesDetail(string $slug)
     {
-        return $this->renderDetail('actualites', $slug);
+        // Récupère l'actualité publiée par son slug depuis la base
+        $actualite = Actualite::publie()
+            ->where('slug', $slug)
+            ->firstOrFail();
+
+        // Incrémente le compteur de vues (non bloquant)
+        try {
+            $actualite->increment('vues');
+        } catch (\Exception $e) {
+            // Ne pas bloquer l'affichage si l'incrément échoue
+        }
+
+        // Articles connexes (même catégorie si disponible)
+        $connexes = Actualite::publie()
+            ->where('id', '!=', $actualite->id)
+            ->when($actualite->categorie, function ($q) use ($actualite) {
+                $q->where('categorie', $actualite->categorie);
+            })
+            ->orderBy('epingle', 'desc')
+            ->orderBy('date_publication', 'desc')
+            ->limit(3)
+            ->get();
+
+        return view('pages.actualites.show', [
+            'actualite' => $actualite,
+            'connexes' => $connexes,
+        ]);
     }
 
     public function home()
     {
-        return view('pages.home');
+        $latestActualites = Actualite::publie()
+            ->orderBy('epingle', 'desc')
+            ->orderBy('date_publication', 'desc')
+            ->limit(4)
+            ->get();
+
+        $latestProjects = Projet::query()
+            ->orderBy('created_at', 'desc')
+            ->limit(3)
+            ->get();
+
+        return view('pages.home', [
+            'latestActualites' => $latestActualites,
+            'latestProjects' => $latestProjects,
+        ]);
     }
 
     public function mutuelle()
@@ -389,12 +440,31 @@ class PageController extends Controller
 
     public function chefferie()
     {
-        return view('pages.chefferie');
+        $vieCoutumes = VieCoutume::publie()
+            ->orderBy('date_publication', 'desc')
+            ->get();
+
+        return view('pages.chefferie', [
+            'vieCoutumes' => $vieCoutumes,
+        ]);
     }
 
     public function education()
     {
-        return view('pages.education');
+        $educationEntries = Education::publie()
+            ->orderBy('date_publication', 'desc')
+            ->get();
+
+        $educationNews = Actualite::publie()
+            ->byCategorie('education')
+            ->orderBy('date_publication', 'desc')
+            ->limit(3)
+            ->get();
+
+        return view('pages.education', [
+            'educationEntries' => $educationEntries,
+            'educationNews' => $educationNews,
+        ]);
     }
 
     public function jeunesse()
@@ -446,7 +516,31 @@ class PageController extends Controller
 
     public function actualites()
     {
-        return view('pages.actualites');
+        // Récupérer l'actualité vedette (épinglée ou la plus récente)
+        $vedette = Actualite::publie()
+            ->orderBy('epingle', 'desc')
+            ->orderBy('date_publication', 'desc')
+            ->first();
+
+        // Récupérer les dernières actualités (max 8)
+        $actualites = Actualite::publie()
+            ->orderBy('epingle', 'desc')
+            ->orderBy('date_publication', 'desc')
+            ->limit(8)
+            ->get();
+
+        // Récupérer les actualités avec images pour la galerie (max 5)
+        $galerie = Actualite::publie()
+            ->whereNotNull('image')
+            ->orderBy('date_publication', 'desc')
+            ->limit(5)
+            ->get();
+
+        return view('pages.actualites', [
+            'vedette' => $vedette,
+            'actualites' => $actualites,
+            'galerie' => $galerie,
+        ]);
     }
 
     public function partenaires()

@@ -87,7 +87,7 @@
     box-shadow: var(--shadow-sm); margin-bottom: 32px;
   }
   .une-img { position: relative; }
-  .une-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .une-img img { width: 100%; height: 100%; object-fit: cover; object-position: center center; image-rendering: auto; display: block; }
   .une-img-placeholder { width: 100%; height: 100%; min-height: 240px; background: var(--green-light); display: flex; align-items: center; justify-content: center; color: var(--text-light); font-size: 2.5rem; }
   .une-badge {
     position: absolute; top: 14px; left: 14px;
@@ -142,7 +142,7 @@
   }
   .projet-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
   .projet-img { position: relative; aspect-ratio: 16/10; overflow: hidden; }
-  .projet-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s; }
+  .projet-img img { width: 100%; height: 100%; object-fit: cover; object-position: center center; image-rendering: auto; display: block; transition: transform .4s; }
   .projet-card:hover .projet-img img { transform: scale(1.05); }
   .projet-img-placeholder { width: 100%; height: 100%; min-height: 130px; background: var(--green-light); display: flex; align-items: center; justify-content: center; color: var(--text-light); font-size: 1.8rem; }
   .projet-pct-badge {
@@ -171,7 +171,7 @@
   }
   .realise-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
   .realise-img { position: relative; aspect-ratio: 16/10; overflow: hidden; }
-  .realise-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s; }
+  .realise-img img { width: 100%; height: 100%; object-fit: cover; object-position: center center; image-rendering: auto; display: block; transition: transform .4s; }
   .realise-card:hover .realise-img img { transform: scale(1.05); }
   .realise-img-placeholder { width: 100%; height: 100%; min-height: 130px; background: var(--green-light); display: flex; align-items: center; justify-content: center; color: var(--text-light); font-size: 1.8rem; }
   .realise-badge {

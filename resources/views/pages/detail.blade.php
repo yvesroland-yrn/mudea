@@ -39,7 +39,9 @@
 
     .detail-image {
         position: relative;
-        min-height: min(74vh, 760px);
+        height: clamp(320px, 45vw, 520px);
+        max-height: 520px;
+        min-height: 320px;
         background: #dfe9e0;
     }
 
@@ -47,7 +49,9 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+        object-position: center center;
         display: block;
+        image-rendering: auto;
     }
 
     .detail-image::after {

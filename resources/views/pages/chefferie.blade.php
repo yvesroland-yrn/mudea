@@ -396,156 +396,33 @@
 
 <div class="vc-wrapper">
 
-{{-- 6 CARTES --}}
+{{-- Remplacement par le contenu géré via l'admin (Vie & Coutumes) --}}
 <section class="vc-section">
     <div class="vc-grid">
-
-        {{-- 1. Histoire du Village --}}
-        <div class="vc-card" id="histoire-village">
-            <div class="vc-card-body">
-                <div class="vc-card-head">
-                    <div class="vc-icon ic-vert"><i class="fas fa-book-open"></i></div>
-                    <h3 class="tc-vert">Histoire<br>du Village</h3>
+        @forelse($vieCoutumes as $vie)
+            <div class="vc-card" id="vc-{{ $vie->id }}">
+                <div class="vc-card-body">
+                    <div class="vc-card-head">
+                        <div class="vc-icon ic-vert"><i class="fas fa-book"></i></div>
+                        <h3 class="tc-vert">{{ Illuminate\Support\Str::limit($vie->titre, 40) }}</h3>
+                    </div>
+                    <p>{{ Illuminate\Support\Str::limit(strip_tags($vie->description), 160) }}</p>
+                    <a href="{{ route('chefferie.detail', $vie->id ?? '') }}" class="btn-v">Lire →</a>
                 </div>
-                <p>Découvrez l'histoire d'Andé, ses origines, son évolution et les faits marquants qui ont façonné notre communauté.</p>
-                <a href="{{ route('chefferie.detail', 'histoire-village') }}" class="btn-v">En savoir plus →</a>
-            </div>
-            <div class="vc-card-img">
-                <img src="{{ asset('images/chefferie/2.JPG') }}" alt="Vue du village d'Andé">
-            </div>
-        </div>
-
-        {{-- 2. Valeurs Fondamentales --}}
-        <div class="vc-card" id="valeurs-fondamentales">
-            <div class="vc-card-body">
-                <div class="vc-card-head">
-                    <div class="vc-icon ic-or"><i class="fas fa-users"></i></div>
-                    <h3 class="tc-or">Valeurs<br>Fondamentales</h3>
+                <div class="vc-card-img">
+                    @if(!empty($vie->media))
+                        <img src="{{ asset('storage/' . $vie->media) }}" alt="{{ $vie->titre }}">
+                    @else
+                        <img src="{{ asset('images/chefferie/1.JPG') }}" alt="{{ $vie->titre }}">
+                    @endif
                 </div>
-                <p>Solidarité, respect, honnêteté, entraide et travail bien fait sont les valeurs qui nous unissent et guident nos actions.</p>
-                <a href="{{ route('chefferie.detail', 'valeurs-fondamentales') }}" class="btn-o">Découvrir →</a>
             </div>
-            <div class="vc-card-img">
-                <img src="{{ asset('images/chefferie/3.JPG') }}" alt="Valeurs fondamentales">
-            </div>
-        </div>
-
-        {{-- 3. Us et Coutumes --}}
-        <div class="vc-card" id="us-coutumes">
-            <div class="vc-card-body">
-                <div class="vc-card-head">
-                    <div class="vc-icon ic-vert"><i class="fas fa-trophy"></i></div>
-                    <h3 class="tc-vert">Us et<br>Coutumes</h3>
-                </div>
-                <p>Les pratiques traditionnelles, les rites et les habitudes qui rythment la vie sociale dans notre village.</p>
-                <a href="{{ route('chefferie.detail', 'us-coutumes') }}" class="btn-v">En savoir plus →</a>
-            </div>
-            <div class="vc-card-img">
-                <img src="{{ asset('images/chefferie/4.JPG') }}" alt="Chefs traditionnels">
-            </div>
-        </div>
-
-        {{-- 4. Manifestations Culturelles --}}
-        <div class="vc-card" id="manifestations-culturelles">
-            <div class="vc-card-body">
-                <div class="vc-card-head">
-                    <div class="vc-icon ic-or"><i class="fas fa-calendar-alt"></i></div>
-                    <h3 class="tc-or">Manifestations<br>Culturelles</h3>
-                </div>
-                <p>Fêtes traditionnelles, cérémonies, danses, musiques et autres événements qui célèbrent notre culture.</p>
-                <a href="{{ route('chefferie.detail', 'manifestations-culturelles') }}" class="btn-o">Voir les événements →</a>
-            </div>
-            <div class="vc-card-img">
-                <img src="{{ asset('images/chefferie/5.JPG') }}" alt="Danses traditionnelles">
-            </div>
-        </div>
-
-        {{-- 5. Patrimoine Culturel --}}
-        <div class="vc-card" id="patrimoine-culturel">
-            <div class="vc-card-body">
-                <div class="vc-card-head">
-                    <div class="vc-icon ic-vert"><i class="fas fa-landmark"></i></div>
-                    <h3 class="tc-vert">Patrimoine<br>Culturel</h3>
-                </div>
-                <p>Sites, objets, savoirs et expressions culturelles qui constituent la richesse et l'héritage d'Andé.</p>
-                <a href="{{ route('chefferie.detail', 'patrimoine-culturel') }}" class="btn-v">Découvrir →</a>
-            </div>
-            <div class="vc-card-img">
-                <img src="{{ asset('images/chefferie/6.JPG') }}" alt="Patrimoine culturel">
-            </div>
-        </div>
-
-        {{-- 6. Galerie Culturelle --}}
-        <div class="vc-card" id="galerie-culturelle">
-            <div class="vc-card-body">
-                <div class="vc-card-head">
-                    <div class="vc-icon ic-or"><i class="fas fa-images"></i></div>
-                    <h3 class="tc-or">Galerie<br>Culturelle</h3>
-                </div>
-                <p>Photos et vidéos illustrant la beauté, la diversité et la richesse de notre patrimoine culturel.</p>
-                <a href="{{ route('chefferie.detail', 'galerie-culturelle') }}" class="btn-o">Voir la galerie →</a>
-            </div>
-            <div class="vc-card-img">
-                <img src="{{ asset('images/chefferie/7.JPG') }}" alt="Masque traditionnel">
-            </div>
-        </div>
-
+        @empty
+            <div style="padding:30px;">Aucune entrée Vie &amp; Coutumes publiée pour le moment.</div>
+        @endforelse
     </div>
 </section>
 
-{{-- VALEURS --}}
-<section class="vc-valeurs" id="valeurs-unissent">
-    <h2>Les valeurs qui nous unissent</h2>
-    <div class="val-grid">
-        <div class="val-item">
-            <div class="val-icon"><i class="fas fa-handshake"></i></div>
-            <strong>Solidarité</strong>
-            <span>Se soutenir pour aller plus loin.</span>
-        </div>
-        <div class="val-item">
-            <div class="val-icon ic-green"><i class="fas fa-user-check"></i></div>
-            <strong>Respect</strong>
-            <span>Considérer chacun avec dignité.</span>
-        </div>
-        <div class="val-item">
-            <div class="val-icon"><i class="fas fa-heart"></i></div>
-            <strong>Entraide</strong>
-            <span>S'entraider pour le bien de tous.</span>
-        </div>
-        <div class="val-item">
-            <div class="val-icon ic-green"><i class="fas fa-shield-alt"></i></div>
-            <strong>Honnêteté</strong>
-            <span>Agir avec intégrité et transparence.</span>
-        </div>
-        <div class="val-item">
-            <div class="val-icon ic-green"><i class="fas fa-seedling"></i></div>
-            <strong>Travail</strong>
-            <span>Valoriser l'effort et le travail bien fait.</span>
-        </div>
-    </div>
-</section>
-
-{{-- PATRIMOINE --}}
-<section class="vc-patrimoine" id="patrimoine-culturel-apercu">
-    <h2>Aperçu de notre patrimoine</h2>
-    <div class="gal-grid">
-        <img src="{{ asset('images/chefferie/8.JPG') }}"  alt="Masques traditionnels">
-        <img src="{{ asset('images/chefferie/9.JPG') }}"  alt="Arbre sacré">
-        <img src="{{ asset('images/chefferie/10.JPG') }}" alt="Tambour">
-        <img src="{{ asset('images/chefferie/11.JPG') }}" alt="Statuettes rituelles">
-        <img src="{{ asset('images/chefferie/12.JPG') }}" alt="Case traditionnelle">
-        <img src="{{ asset('images/chefferie/1.JPG') }}"  alt="Poterie">
-    </div>
-    <div class="gal-cta">
-        <a href="{{ route('chefferie.detail', 'galerie-culturelle') }}" class="btn-v">Voir toute la galerie →</a>
-    </div>
-</section>
-
-{{-- CITATION --}}
-<div class="vc-citation">
-    <span class="qm">&ldquo;</span>
-    <p>Connaître ses racines, c'est construire son avenir avec fierté et confiance.</p>
-</div>
 </div>
 
 @endsection

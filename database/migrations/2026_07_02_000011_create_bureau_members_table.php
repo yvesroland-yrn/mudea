@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('bureau_members', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('role_id')->constrained()->onDelete('cascade');
             $table->string('prenom');
             $table->string('nom');
-            $table->string('role');
             $table->string('mandat')->nullable();
             $table->string('photo')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

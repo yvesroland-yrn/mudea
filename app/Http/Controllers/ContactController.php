@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactReceivedMail;
+use App\Mail\NewContactMail;
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 
 class ContactController extends Controller
@@ -41,6 +46,8 @@ class ContactController extends Controller
                 'statut' => 'nouveau',
             ]);
 
+            $this->sendNotifications($message);
+
             return response()->json([
                 'success' => true,
                 'message_id' => $message->id,
@@ -58,28 +65,26 @@ class ContactController extends Controller
         ]);
 
         $documentPath = null;
-        $documentName = null;
 
         if ($request->hasFile('document')) {
             $file = $request->file('document');
-            $documentPath = $file->store('contact-documents', 'public');
-            $documentName = $file->getClientOriginalName();
+            $documentPath = $file->store('messages', 'public');
         }
 
         $messageText = $validated['message'];
-        if ($documentName) {
-            $messageText .= "\n\nDocument joint: " . $documentName;
-        }
 
-        Message::create([
+        $message = Message::create([
             'nom' => $validated['nom'],
             'prenom' => $validated['prenom'],
             'telephone' => $validated['telephone'],
             'email' => $validated['email'],
             'objet' => $validated['objet'],
             'message' => $messageText,
+            'fichier' => $documentPath,
             'statut' => 'nouveau',
         ]);
+
+        $this->sendNotifications($message);
 
         $successMessage = 'Votre message a bien été envoyé. Nous vous répondrons rapidement.';
         if ($documentPath) {
@@ -87,5 +92,44 @@ class ContactController extends Controller
         }
 
         return back()->with('success', $successMessage);
+    }
+
+    private function sendNotifications(Message $message): void
+    {
+        $adminEmails = User::where('role', 'admin')
+            ->whereNotNull('email')
+            ->pluck('email')
+            ->filter()
+            ->unique()
+            ->values()
+            ->toArray();
+
+
+        if (! empty($adminEmails)) {
+            try {
+                Mail::to($adminEmails)->send(new NewContactMail($message));
+            } catch (\Throwable $e) {
+                Log::warning('Erreur d’envoi de l’e-mail aux administrateurs pour un message de contact', [
+                    'message_id' => $message->id,
+                    'error' => $e->getMessage(),
+                ]);
+            }
+        } else {
+            Log::warning('Aucun administrateur avec une adresse e-mail valide trouvé', [
+                'message_id' => $message->id,
+            ]);
+        }
+
+        if (! empty($message->email)) {
+            try {
+                Mail::to($message->email)->send(new ContactReceivedMail($message));
+            } catch (\Throwable $e) {
+                Log::warning('Erreur d’envoi de l’e-mail de confirmation au contact', [
+                    'message_id' => $message->id,
+                    'email' => $message->email,
+                    'error' => $e->getMessage(),
+                ]);
+            }
+        }
     }
 }
