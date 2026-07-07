@@ -17,6 +17,7 @@ class Message extends Model
         'email',
         'objet',
         'message',
+        'fichier',
         'statut',
         'lu_at',
         'traite_at',
