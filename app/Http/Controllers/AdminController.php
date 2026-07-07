@@ -373,6 +373,98 @@ class AdminController extends Controller
 
     public function utilisateurs(Request $request)
     {
+    protected function validateUtilisateur(Request $request, ?User $user = null): array
+    {
+        $isUpdate = $user !== null;
+
+        return $request->validate([
+            'bureau_member_id' => 'nullable|exists:bureau_members,id',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users', 'email')->ignore($user?->id),
+            ],
+            'telephone' => 'nullable|string|max:25',
+            'role' => $isUpdate ? 'required|in:admin,moderateur' : 'required|in:admin,moderateur',
+            'statut' => $isUpdate ? 'required|in:actif,inactif' : 'nullable|in:actif,inactif',
+            'password' => $isUpdate ? 'nullable|string|min:8|confirmed' : 'required|string|min:8|confirmed',
+        ], [
+            'bureau_member_id.exists' => 'Le membre du bureau sélectionné n\'existe pas.',
+            'email.required' => 'L\'email est requis.',
+            'email.email' => 'L\'email doit être une adresse email valide.',
+            'email.unique' => 'Cet email est déjà utilisé.',
+            'role.required' => 'Le rôle est requis.',
+            'statut.required' => 'Le statut est requis.',
+            'password.required' => 'Le mot de passe est requis.',
+            'password.min' => 'Le mot de passe doit contenir au moins 8 caractères.',
+            'password.confirmed' => 'La confirmation du mot de passe ne correspond pas.',
+        ]);
+    }
+
+    public function storeUtilisateur(Request $request)
+    {
+        $validated = $this->validateUtilisateur($request);
+
+        $validated['statut'] = $validated['statut'] ?? 'actif';
+        $validated['password'] = Hash::make($validated['password']);
+
+        // Si un membre du bureau est sélectionné, utiliser son nom complet
+        if (!empty($validated['bureau_member_id'])) {
+            $bureauMember = BureauMember::find($validated['bureau_member_id']);
+            if ($bureauMember) {
+                $validated['nom_complet'] = $bureauMember->nom . ' ' . $bureauMember->prenom;
+            }
+        }
+
+        User::create($validated);
+
+        return redirect()->route('admin.utilisateurs')->with('success', 'Utilisateur créé avec succès.');
+    }
+
+    public function updateUtilisateur(Request $request, int $id)
+    {
+        $user = User::findOrFail($id);
+
+        if ($user->id === Auth::id()) {
+            return redirect()->route('admin.utilisateurs')->with('error', 'Vous ne pouvez pas modifier votre propre compte depuis cette page. Utilisez la page Paramètres.');
+        }
+
+        $validated = $this->validateUtilisateur($request, $user);
+
+        if (!empty($validated['password'])) {
+            $validated['password'] = Hash::make($validated['password']);
+        } else {
+            unset($validated['password']);
+        }
+
+        // Si un membre du bureau est sélectionné, utiliser son nom complet
+        if (!empty($validated['bureau_member_id'])) {
+            $bureauMember = BureauMember::find($validated['bureau_member_id']);
+            if ($bureauMember) {
+                $validated['nom_complet'] = $bureauMember->nom . ' ' . $bureauMember->prenom;
+            }
+        }
+
+        $user->update($validated);
+
+        return redirect()->route('admin.utilisateurs')->with('success', 'Utilisateur modifié avec succès.');
+    }
+
+    public function destroyUtilisateur(int $id)
+    {
+        $user = User::findOrFail($id);
+
+        if ($user->id === Auth::id()) {
+            return redirect()->route('admin.utilisateurs')->with('error', 'Vous ne pouvez pas supprimer votre propre compte.');
+        }
+
+        $user->delete();
+
+        return redirect()->route('admin.utilisateurs')->with('success', 'Utilisateur supprimé avec succès.');
+    }
+
+    public function utilisateurs(Request $request)
+    {
         $query = User::latest();
 
         if ($request->filled('search')) {

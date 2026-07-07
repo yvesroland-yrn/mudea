@@ -259,6 +259,7 @@
             margin-bottom: 8px;
             display: block;
             width: 100%;
+            gap: 16px;
         }
 
         .msg-main-header {
@@ -477,6 +478,7 @@
                     <input class="msg-search" type="text" name="search" placeholder="Rechercher..."
                         value="{{ request('search') }}">
                 </form>
+                <input class="msg-search" type="text" placeholder="Rechercher...">
             </div>
 
             @forelse($messages as $message)
@@ -655,6 +657,36 @@
                                     réponse</button>
                             </div>
                         </form>
+                    </div>
+                    <div class="reply-box">
+                        <label>Actions</label>
+                        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                            @if ($selectedMessage->statut !== 'lu')
+                                <form method="POST" action="{{ route('admin.messages.status', $selectedMessage) }}" style="display:inline;">
+                                    @csrf
+                                    <input type="hidden" name="action" value="read">
+                                    <button type="submit" class="btn-primary"><i class="fas fa-eye"></i> Marquer comme lu</button>
+                                </form>
+                            @endif
+
+                            @if ($selectedMessage->statut !== 'traite')
+                                <form method="POST" action="{{ route('admin.messages.status', $selectedMessage) }}" style="display:inline;">
+                                    @csrf
+                                    <input type="hidden" name="action" value="done">
+                                    <button type="submit" class="btn-primary" style="background:#1565c0;"><i class="fas fa-check"></i> Marquer
+                                        comme traité</button>
+                                </form>
+                            @endif
+
+                            @if ($selectedMessage->statut !== 'archive')
+                                <form method="POST" action="{{ route('admin.messages.status', $selectedMessage) }}" style="display:inline;">
+                                    @csrf
+                                    <input type="hidden" name="action" value="archive">
+                                    <button type="submit" class="btn-primary" style="background:#6a1b9a;"><i class="fas fa-archive"></i>
+                                        Archiver</button>
+                                </form>
+                            @endif
+                        </div>
                     </div>
                 @else
                     <div style="padding:24px;border:1px dashed var(--border);border-radius:12px;color:var(--text-light);">

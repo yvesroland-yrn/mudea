@@ -542,7 +542,7 @@
                 <span class="nav-icon"><i class="fas fa-diagram-project"></i></span>
                 <span>Projets</span>
             </a>
-            <a href="{{ route('admin.messages') }}"
+            {{-- <a href="{{ route('admin.messages') }}"
                 class="nav-item {{ request()->routeIs('admin.messages*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-envelope"></i></span>
                 <span>Messages</span>
@@ -551,6 +551,8 @@
                     <span class="nav-badge">{{ $unreadCount }}</span>
                 @endif
             </a>
+                <span class="nav-badge">46</span>
+            </a> --}}
 
             <div class="nav-separator"></div>
 
@@ -569,6 +571,8 @@
             </a>
 
             <!-- <a href="{{ route('admin.statistiques') }}"
+            
+            <a href="{{ route('admin.statistiques') }}"
                 class="nav-item {{ request()->routeIs('admin.statistiques*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-chart-line"></i></span>
                 <span>Statistiques</span>
@@ -635,6 +639,20 @@
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
                             @csrf
                         </form>
+                <div class="topbar-notif">
+                    <i class="fas fa-bell"></i>
+                    <div class="topbar-notif-badge">2</div>
+                </div>
+                <div class="topbar-user">
+                    <div class="topbar-avatar">
+                        <img src="{{ asset('images/admin/avatar-default.jpg') }}" alt="Photo de profil admin"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="topbar-avatar-placeholder" style="display:none;"><i class="fas fa-user"></i>
+                        </div>
+                    </div>
+                    <div class="topbar-user-info">
+                        <strong>{{ Auth::user()->nom_complet }}</strong>
+                        <span>{{ Auth::user()->role === 'admin' ? 'Administrateur' : Auth::user()->role }}</span>
                     </div>
                 </div>
             </div>
