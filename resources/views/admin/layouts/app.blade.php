@@ -542,7 +542,7 @@
                 <span class="nav-icon"><i class="fas fa-diagram-project"></i></span>
                 <span>Projets</span>
             </a>
-            {{-- <a href="{{ route('admin.messages') }}"
+            <a href="{{ route('admin.messages') }}"
                 class="nav-item {{ request()->routeIs('admin.messages*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-envelope"></i></span>
                 <span>Messages</span>
@@ -551,8 +551,6 @@
                     <span class="nav-badge">{{ $unreadCount }}</span>
                 @endif
             </a>
-                <span class="nav-badge">46</span>
-            </a> --}}
 
             <div class="nav-separator"></div>
 
@@ -570,13 +568,11 @@
                 <span>Paramètres</span>
             </a>
 
-            <!-- <a href="{{ route('admin.statistiques') }}"
-            
-            <a href="{{ route('admin.statistiques') }}"
+            {{-- <a href="{{ route('admin.statistiques') }}"
                 class="nav-item {{ request()->routeIs('admin.statistiques*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-chart-line"></i></span>
                 <span>Statistiques</span>
-            </a> -->
+            </a> --}}
         </nav>
 
         <div class="sidebar-bottom">
@@ -613,6 +609,8 @@
                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
                             <div class="topbar-avatar-placeholder" style="display:none;"><i class="fas fa-user"></i>
                             </div>
+<<<<<<< HEAD
+=======
                         </div>
                         <div class="topbar-user-info">
                             <strong>{{ Auth::user()->nom_complet }}</strong>
@@ -648,12 +646,41 @@
                         <img src="{{ asset('images/admin/avatar-default.jpg') }}" alt="Photo de profil admin"
                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
                         <div class="topbar-avatar-placeholder" style="display:none;"><i class="fas fa-user"></i>
+>>>>>>> origin/main
                         </div>
+                        <div class="topbar-user-info">
+                            <strong>{{ Auth::user()->nom_complet }}</strong>
+                            <span>{{ Auth::user()->role === 'admin' ? 'Administrateur' : Auth::user()->role }}</span>
+                        </div>
+                        <i class="fas fa-chevron-down topbar-chevron"></i>
+                    </button>
+
+                    <div class="profile-dropdown-menu" id="profileMenu">
+                        <a href="{{ route('admin.dashboard') }}" class="dropdown-item">
+                            <i class="fas fa-user-circle"></i>
+                            <span>Mon Profil</span>
+                        </a>
+                        <a href="{{ route('admin.parametres') }}" class="dropdown-item">
+                            <i class="fas fa-sliders"></i>
+                            <span>Paramètres</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="{{ route('logout') }}" class="dropdown-item dropdown-item--logout"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Déconnexion</span>
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
+                            @csrf
+                        </form>
                     </div>
+<<<<<<< HEAD
+=======
                     <div class="topbar-user-info">
                         <strong>{{ Auth::user()->nom_complet }}</strong>
                         <span>{{ Auth::user()->role === 'admin' ? 'Administrateur' : Auth::user()->role }}</span>
                     </div>
+>>>>>>> origin/main
                 </div>
             </div>
         </header>

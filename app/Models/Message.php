@@ -23,7 +23,7 @@ class Message extends Model
         'traite_at',
     ];
 
-     protected $casts = [
+    protected $casts = [
         'lu_at' => 'datetime',
         'traite_at' => 'datetime',
     ];
