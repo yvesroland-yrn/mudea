@@ -568,11 +568,11 @@
                 <span>Paramètres</span>
             </a>
 
-            <a href="{{ route('admin.statistiques') }}"
+            {{-- <a href="{{ route('admin.statistiques') }}"
                 class="nav-item {{ request()->routeIs('admin.statistiques*') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-chart-line"></i></span>
                 <span>Statistiques</span>
-            </a>
+            </a> --}}
         </nav>
 
         <div class="sidebar-bottom">
@@ -609,6 +609,44 @@
                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
                             <div class="topbar-avatar-placeholder" style="display:none;"><i class="fas fa-user"></i>
                             </div>
+<<<<<<< HEAD
+=======
+                        </div>
+                        <div class="topbar-user-info">
+                            <strong>{{ Auth::user()->nom_complet }}</strong>
+                            <span>{{ Auth::user()->role === 'admin' ? 'Administrateur' : Auth::user()->role }}</span>
+                        </div>
+                        <i class="fas fa-chevron-down topbar-chevron"></i>
+                    </button>
+
+                    <div class="profile-dropdown-menu" id="profileMenu">
+                        <a href="{{ route('admin.dashboard') }}" class="dropdown-item">
+                            <i class="fas fa-user-circle"></i>
+                            <span>Mon Profil</span>
+                        </a>
+                        <a href="{{ route('admin.parametres') }}" class="dropdown-item">
+                            <i class="fas fa-sliders"></i>
+                            <span>Paramètres</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="{{ route('logout') }}" class="dropdown-item dropdown-item--logout"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Déconnexion</span>
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
+                            @csrf
+                        </form>
+                <div class="topbar-notif">
+                    <i class="fas fa-bell"></i>
+                    <div class="topbar-notif-badge">2</div>
+                </div>
+                <div class="topbar-user">
+                    <div class="topbar-avatar">
+                        <img src="{{ asset('images/admin/avatar-default.jpg') }}" alt="Photo de profil admin"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="topbar-avatar-placeholder" style="display:none;"><i class="fas fa-user"></i>
+>>>>>>> origin/main
                         </div>
                         <div class="topbar-user-info">
                             <strong>{{ Auth::user()->nom_complet }}</strong>
@@ -636,6 +674,13 @@
                             @csrf
                         </form>
                     </div>
+<<<<<<< HEAD
+=======
+                    <div class="topbar-user-info">
+                        <strong>{{ Auth::user()->nom_complet }}</strong>
+                        <span>{{ Auth::user()->role === 'admin' ? 'Administrateur' : Auth::user()->role }}</span>
+                    </div>
+>>>>>>> origin/main
                 </div>
             </div>
         </header>
