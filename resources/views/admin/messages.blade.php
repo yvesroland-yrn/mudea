@@ -259,7 +259,10 @@
             margin-bottom: 8px;
             display: block;
             width: 100%;
+<<<<<<< HEAD
+=======
             gap: 16px;
+>>>>>>> origin/main
         }
 
         .msg-main-header {
@@ -478,7 +481,10 @@
                     <input class="msg-search" type="text" name="search" placeholder="Rechercher..."
                         value="{{ request('search') }}">
                 </form>
+<<<<<<< HEAD
+=======
                 <input class="msg-search" type="text" placeholder="Rechercher...">
+>>>>>>> origin/main
             </div>
 
             @forelse($messages as $message)
@@ -601,6 +607,8 @@
 
                     <div class="msg-actions">
                         <label>Actions rapides</label>
+<<<<<<< HEAD
+=======
                         <div style="display:flex;gap:10px;flex-wrap:wrap;">
                             @if ($selectedMessage->statut !== 'lu')
                                 <form method="POST" action="{{ route('admin.messages.status', $selectedMessage) }}"
@@ -660,33 +668,63 @@
                     </div>
                     <div class="reply-box">
                         <label>Actions</label>
+>>>>>>> origin/main
                         <div style="display:flex;gap:10px;flex-wrap:wrap;">
                             @if ($selectedMessage->statut !== 'lu')
-                                <form method="POST" action="{{ route('admin.messages.status', $selectedMessage) }}" style="display:inline;">
+                                <form method="POST" action="{{ route('admin.messages.status', $selectedMessage) }}"
+                                    style="display:inline;">
                                     @csrf
                                     <input type="hidden" name="action" value="read">
-                                    <button type="submit" class="btn-primary"><i class="fas fa-eye"></i> Marquer comme lu</button>
+                                    <button type="submit" class="btn-primary" style="background:#1565c0;">
+                                        <i class="fas fa-eye"></i> Marquer comme lu
+                                    </button>
                                 </form>
                             @endif
-
-                            @if ($selectedMessage->statut !== 'traite')
-                                <form method="POST" action="{{ route('admin.messages.status', $selectedMessage) }}" style="display:inline;">
-                                    @csrf
-                                    <input type="hidden" name="action" value="done">
-                                    <button type="submit" class="btn-primary" style="background:#1565c0;"><i class="fas fa-check"></i> Marquer
-                                        comme traité</button>
-                                </form>
-                            @endif
-
                             @if ($selectedMessage->statut !== 'archive')
-                                <form method="POST" action="{{ route('admin.messages.status', $selectedMessage) }}" style="display:inline;">
+                                <form method="POST" action="{{ route('admin.messages.status', $selectedMessage) }}"
+                                    style="display:inline;">
                                     @csrf
                                     <input type="hidden" name="action" value="archive">
-                                    <button type="submit" class="btn-primary" style="background:#6a1b9a;"><i class="fas fa-archive"></i>
-                                        Archiver</button>
+                                    <button type="submit" class="btn-primary" style="background:#6a1b9a;">
+                                        <i class="fas fa-archive"></i> Archiver
+                                    </button>
                                 </form>
                             @endif
+                            <form method="POST" action="{{ route('admin.messages.destroy', $selectedMessage) }}"
+                                style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn-primary" style="background:#e53935;"
+                                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce message ?');">
+                                    <i class="fas fa-trash"></i> Supprimer
+                                </button>
+                            </form>
                         </div>
+                    </div>
+
+                    <div class="reply-box">
+                        <label>Répondre à ce message</label>
+                        <form method="POST" action="{{ route('admin.messages.reply', $selectedMessage) }}"
+                            enctype="multipart/form-data">
+                            @csrf
+                            <textarea name="reply" class="reply-textarea" placeholder="Écrivez votre réponse ici..." required></textarea>
+
+                            <div style="margin-top:12px;">
+                                <label
+                                    style="font-size:.78rem;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;display:block;">
+                                    <i class="fas fa-paperclip"></i> Pièces jointes (optionnel)
+                                </label>
+                                <input type="file" name="attachments[]" multiple
+                                    style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--cream);font-size:.85rem;font-family:'Nunito',sans-serif;">
+                                <p style="font-size:.75rem;color:var(--text-light);margin-top:4px;">Maximum 10 Mo par
+                                    fichier. Plusieurs fichiers acceptés.</p>
+                            </div>
+
+                            <div style="margin-top:12px;">
+                                <button type="submit" class="btn-primary"><i class="fas fa-paper-plane"></i> Envoyer la
+                                    réponse</button>
+                            </div>
+                        </form>
                     </div>
                 @else
                     <div style="padding:24px;border:1px dashed var(--border);border-radius:12px;color:var(--text-light);">

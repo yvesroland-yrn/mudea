@@ -738,7 +738,7 @@
                                 <div class="rubrique-title" style="font-size:1rem; margin: 10px 0 8px; line-height:1.3;">{{ $entry->titre }}</div>
                                 <p class="rubrique-desc">{{ \Illuminate\Support\Str::limit($entry->description, 140) }}</p>
                                 <div class="rubrique-desc" style="font-size:.78rem;color:var(--text-light);margin-top:12px;">
-                                    Publié le {{ $entry->date_publication->format('d F Y') }}
+                                    Publié le {{ $entry->date_publication ? $entry->date_publication->format('d F Y') : '' }}
                                 </div>
                             </div>
                             <div class="rubrique-photo">
@@ -782,7 +782,7 @@
                                 @endif
                             </div>
                             <div>
-                                <div class="actu-date">{{ $news->date_publication->format('d M Y') }}</div>
+                                <div class="actu-date">{{ $news->date_publication ? $news->date_publication->format('d M Y') : '' }}</div>
                                 <a href="{{ route('actualites.detail', $news->slug) }}" class="actu-title-text">{{ $news->titre }}</a>
                                 <div class="actu-excerpt">{{ \Illuminate\Support\Str::limit($news->resume ?? strip_tags($news->contenu), 120) }}</div>
                             </div>
