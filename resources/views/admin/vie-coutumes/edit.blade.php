@@ -598,10 +598,10 @@
                         <div class="form-section-title"><i class="fas fa-image"></i> Média</div>
                         @if ($vieCoutume->media)
                             @if ($vieCoutume->type === 'video')
-                                <video src="{{ asset('storage/' . $vieCoutume->media) }}" class="current-media"
+                                <video src="{{ asset($vieCoutume->media) }}" class="current-media"
                                     controls></video>
                             @else
-                                <img src="{{ asset('storage/' . $vieCoutume->media) }}" class="current-media"
+                                <img src="{{ asset($vieCoutume->media) }}" class="current-media"
                                     alt="Média actuel">
                             @endif
                         @endif

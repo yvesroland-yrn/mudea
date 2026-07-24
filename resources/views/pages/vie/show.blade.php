@@ -19,7 +19,7 @@
     </div>
 
     @if($vie->media)
-        <div class="vie-media"><img src="{{ asset('storage/' . $vie->media) }}" alt="{{ $vie->titre }}"></div>
+        <div class="vie-media"><img src="{{ asset($vie->media) }}" alt="{{ $vie->titre }}"></div>
     @endif
 
     <div class="vie-content">{!! nl2br(e($vie->description)) !!}</div>

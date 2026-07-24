@@ -286,7 +286,7 @@
           <div class="projet-card">
             <div class="projet-img">
               @if($project->media && in_array(strtolower(pathinfo($project->media, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'webp']))
-                <img src="{{ asset('storage/' . $project->media) }}" alt="{{ $project->titre }}"
+                <img src="{{ asset($project->media) }}" alt="{{ $project->titre }}"
                      onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
               @else
                 <img src="{{ asset('images/projets/1.png') }}" alt="{{ $project->titre }}"
@@ -330,7 +330,7 @@
       <div class="une-card">
         <div class="une-img">
           @if($hero && $hero->media && in_array(strtolower(pathinfo($hero->media, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'webp']))
-            <img src="{{ asset('storage/' . $hero->media) }}" alt="{{ $hero->titre }}"
+            <img src="{{ asset($hero->media) }}" alt="{{ $hero->titre }}"
                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
           @else
             <img src="{{ asset('images/projets/1.png') }}" alt="{{ $hero->titre ?? 'Projet' }}"
@@ -414,7 +414,7 @@
             <div class="projet-card">
               <div class="projet-img">
                 @if($project->media && in_array(strtolower(pathinfo($project->media, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'webp']))
-                  <img src="{{ asset('storage/' . $project->media) }}" alt="{{ $project->titre }}"
+                  <img src="{{ asset($project->media) }}" alt="{{ $project->titre }}"
                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
                 @else
                   <img src="{{ asset('images/projets/1.png') }}" alt="{{ $project->titre }}"
@@ -456,7 +456,7 @@
             <div class="realise-card">
               <div class="realise-img">
                 @if($project->media && in_array(strtolower(pathinfo($project->media, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'webp']))
-                  <img src="{{ asset('storage/' . $project->media) }}" alt="{{ $project->titre }}"
+                  <img src="{{ asset($project->media) }}" alt="{{ $project->titre }}"
                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
                 @else
                   <img src="{{ asset('images/projets/1.png') }}" alt="{{ $project->titre }}"

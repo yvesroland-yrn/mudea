@@ -8,6 +8,7 @@ use App\Models\BureauMember;
 use App\Models\Message;
 use App\Models\Projet;
 use App\Models\User;
+use App\Support\PublicUpload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -90,8 +91,7 @@ class AdminController extends Controller
         $validated['featured'] = false;
 
         if ($request->hasFile('media')) {
-            $path = $request->file('media')->store('projets', 'public');
-            $validated['media'] = $path;
+            $validated['media'] = PublicUpload::store($request->file('media'), 'projets');
         }
 
         Projet::create($validated);
@@ -105,8 +105,8 @@ class AdminController extends Controller
         $validated['slug'] = Str::slug($validated['titre']);
 
         if ($request->hasFile('media')) {
-            $path = $request->file('media')->store('projets', 'public');
-            $validated['media'] = $path;
+            PublicUpload::delete($projet->media);
+            $validated['media'] = PublicUpload::store($request->file('media'), 'projets');
         }
 
         $projet->update($validated);
@@ -116,6 +116,7 @@ class AdminController extends Controller
 
     public function destroyProjet(Projet $projet)
     {
+        PublicUpload::delete($projet->media);
         $projet->delete();
 
         return redirect()->route('admin.projets')->with('success', 'Projet supprimé avec succès.');

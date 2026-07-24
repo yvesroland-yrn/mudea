@@ -339,7 +339,7 @@
                         {{-- Image --}}
                         <div class="actualite-image">
                             @if ($actualite->image)
-                                <img src="{{ asset('storage/' . $actualite->image) }}"
+                                <img src="{{ asset($actualite->image) }}"
                                     alt="{{ $actualite->titre }}" onerror="this.style.display='none'">
                             @else
                                 <div style="width:100%;height:100%;background:var(--cream);display:flex;align-items:center;justify-content:center;color:var(--text-light);font-size:3rem;">

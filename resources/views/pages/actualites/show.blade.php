@@ -257,7 +257,7 @@
         {{-- Featured Image --}}
         @if($actualite->image)
             <div class="article-image">
-                <img src="{{ asset('storage/' . $actualite->image) }}" alt="{{ $actualite->titre }}"
+                <img src="{{ asset($actualite->image) }}" alt="{{ $actualite->titre }}"
                     onerror="this.style.display='none'">
             </div>
         @endif
@@ -289,7 +289,7 @@
                     @foreach($connexes as $article)
                         <div class="related-card">
                             @if($article->image)
-                                <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->titre }}"
+                                <img src="{{ asset($article->image) }}" alt="{{ $article->titre }}"
                                     onerror="this.src='{{ asset('images/actualites/reunion.png') }}'">
                             @else
                                 <div style="width:100%;height:150px;background:var(--gris-fond);display:flex;align-items:center;justify-content:center;">

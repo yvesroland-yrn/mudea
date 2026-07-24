@@ -617,7 +617,7 @@
                 <tr data-record='@json($item->toArray())'>
                     <td>
                         @if ($item->image)
-                            <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->titre }}"
+                            <img src="{{ asset($item->image) }}" alt="{{ $item->titre }}"
                                 style="width:60px; height:60px; object-fit:cover; border-radius:8px; border:1px solid var(--border);">
                         @else
                             <div

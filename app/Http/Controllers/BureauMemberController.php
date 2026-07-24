@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\BureauMember;
+use App\Support\PublicUpload;
 use App\Models\Role;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class BureauMemberController extends Controller
 {
@@ -103,7 +103,7 @@ class BureauMemberController extends Controller
         ];
 
         if ($request->hasFile('photo')) {
-            $path = $request->file('photo')->store('bureau', 'public');
+            $path = PublicUpload::store($request->file('photo'), 'bureau');
             $dataToCreate['photo'] = $path;
         }
 
@@ -165,9 +165,9 @@ class BureauMemberController extends Controller
         if ($request->hasFile('photo')) {
             // Suppression de l'ancienne photo
             if ($member->photo) {
-                Storage::disk('public')->delete($member->photo);
+                PublicUpload::delete($member->photo);
             }
-            $dataToUpdate['photo'] = $request->file('photo')->store('bureau', 'public');
+            $dataToUpdate['photo'] = PublicUpload::store($request->file('photo'), 'bureau');
         }
 
         $member->update($dataToUpdate);
@@ -181,7 +181,7 @@ class BureauMemberController extends Controller
 
         // Suppression de la photo
         if ($member->photo) {
-            Storage::disk('public')->delete($member->photo);
+            PublicUpload::delete($member->photo);
         }
 
         $member->delete();

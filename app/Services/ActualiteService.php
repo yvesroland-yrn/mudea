@@ -3,9 +3,9 @@
 namespace App\Services;
 
 use App\Models\Actualite;
+use App\Support\PublicUpload;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ActualiteService
@@ -225,7 +225,7 @@ class ActualiteService
      */
     private function uploadImage(UploadedFile $image): string
     {
-        return $image->store('actualites', 'public');
+        return PublicUpload::store($image, 'actualites');
     }
 
     /**
@@ -233,9 +233,7 @@ class ActualiteService
      */
     private function deleteImage(string $path): void
     {
-        if (Storage::disk('public')->exists($path)) {
-            Storage::disk('public')->delete($path);
-        }
+        PublicUpload::delete($path);
     }
 
     /**

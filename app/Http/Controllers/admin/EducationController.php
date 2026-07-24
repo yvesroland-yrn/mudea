@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Support\PublicUpload;
 use App\Models\Education;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class EducationController extends Controller
 {
@@ -43,7 +43,7 @@ class EducationController extends Controller
 
         // Gestion du média
         if ($request->hasFile('media')) {
-            $data['media'] = $request->file('media')->store('education', 'public');
+            $data['media'] = PublicUpload::store($request->file('media'), 'education');
         }
 
         Education::create($data);
@@ -73,9 +73,9 @@ class EducationController extends Controller
         if ($request->hasFile('media')) {
             // Suppression de l'ancien média
             if ($education->media) {
-                Storage::disk('public')->delete($education->media);
+                PublicUpload::delete($education->media);
             }
-            $data['media'] = $request->file('media')->store('education', 'public');
+            $data['media'] = PublicUpload::store($request->file('media'), 'education');
         }
 
         $education->update($data);
@@ -94,7 +94,7 @@ class EducationController extends Controller
 
         // Suppression du média
         if ($education->media) {
-            Storage::disk('public')->delete($education->media);
+            PublicUpload::delete($education->media);
         }
 
         $education->delete();

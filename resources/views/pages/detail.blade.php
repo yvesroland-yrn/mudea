@@ -156,7 +156,7 @@
             <span class="detail-badge">{{ ucfirst($section) }}</span>
             @if(isset($project))
                 @if($project->media && in_array(strtolower(pathinfo($project->media, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'webp']))
-                    <img src="{{ asset('storage/' . $project->media) }}" alt="{{ $project->titre }}">
+                    <img src="{{ asset($project->media) }}" alt="{{ $project->titre }}">
                 @else
                     <img src="{{ asset('images/projets/1.png') }}" alt="{{ $project->titre }}">
                 @endif

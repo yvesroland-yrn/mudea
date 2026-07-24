@@ -479,7 +479,7 @@
             <div class="vedette-card">
                 <div class="vedette-img">
                     @if($vedette)
-                        <img src="{{ $vedette->image ? asset('storage/' . $vedette->image) : asset('images/actualites/eleve.JPG') }}"
+                        <img src="{{ $vedette->image ? asset($vedette->image) : asset('images/actualites/eleve.JPG') }}"
                             alt="{{ $vedette->titre }}" onerror="this.src='{{ asset('images/actualites/eleve.JPG') }}'">
                     @else
                         <img src="{{ asset('images/actualites/eleve.JPG') }}" alt="Aucune actualité vedette">
@@ -616,7 +616,7 @@
             @foreach($actualites as $actualite)
                 <div class="news-card">
                     @if($actualite->image)
-                        <img src="{{ asset('storage/' . $actualite->image) }}" alt="{{ $actualite->titre }}"
+                        <img src="{{ asset($actualite->image) }}" alt="{{ $actualite->titre }}"
                             onerror="this.src='{{ asset('images/actualites/reunion.png') }}'">
                     @else
                         <div style="width:100%;height:155px;background:var(--gris-fond);display:flex;align-items:center;justify-content:center;color:#ccc;font-size:3rem;">
@@ -668,7 +668,7 @@
         @if($galerie->count() > 0)
             <div class="galerie-grid" id="galerie-photos">
                 @foreach($galerie->take(5) as $photo)
-                    <img src="{{ asset('storage/' . $photo->image) }}" alt="{{ $photo->titre }}"
+                    <img src="{{ asset($photo->image) }}" alt="{{ $photo->titre }}"
                         onerror="this.src='{{ asset('images/actualites/eleve.JPG') }}'">
                 @endforeach
             </div>
@@ -676,7 +676,7 @@
                 <div class="galerie-grid galerie-grid--full">
                     @foreach($galerie as $photo)
                         <div class="galerie-card">
-                            <img src="{{ asset('storage/' . $photo->image) }}" alt="{{ $photo->titre }}"
+                            <img src="{{ asset($photo->image) }}" alt="{{ $photo->titre }}"
                                 onerror="this.src='{{ asset('images/actualites/eleve.JPG') }}'">
                             <span>{{ Illuminate\Support\Str::limit($photo->titre, 30) }}</span>
                         </div>

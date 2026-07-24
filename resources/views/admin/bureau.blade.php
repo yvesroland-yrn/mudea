@@ -562,7 +562,7 @@
                             <div class="member-cell">
                                 <div class="member-avatar">
                                     @if ($member->photo)
-                                        <img src="{{ asset('storage/' . $member->photo) }}"
+                                        <img src="{{ asset($member->photo) }}"
                                             alt="{{ $member->prenom }} {{ $member->nom }}">
                                     @else
                                         {{ $member->initials }}

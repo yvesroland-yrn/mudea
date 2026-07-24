@@ -3,9 +3,9 @@
 namespace App\Services;
 
 use App\Models\VieCoutume;
+use App\Support\PublicUpload;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class VieCoutumeService
@@ -228,10 +228,10 @@ class VieCoutumeService
         $folder = 'vie-coutumes';
         
         if ($type === 'video') {
-            return $media->store($folder . '/videos', 'public');
+            return PublicUpload::store($media, $folder . '/videos');
         }
         
-        return $media->store($folder . '/images', 'public');
+        return PublicUpload::store($media, $folder . '/images');
     }
 
     /**
@@ -239,9 +239,7 @@ class VieCoutumeService
      */
     private function deleteMedia(string $path): void
     {
-        if (Storage::disk('public')->exists($path)) {
-            Storage::disk('public')->delete($path);
-        }
+        PublicUpload::delete($path);
     }
 
     /**

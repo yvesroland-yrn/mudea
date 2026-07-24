@@ -895,7 +895,7 @@
                         <div class="article-title-cell">
                             <div class="article-thumb">
                                 @if ($actualite->image)
-                                    <img src="{{ asset('storage/' . $actualite->image) }}" alt=""
+                                    <img src="{{ asset($actualite->image) }}" alt=""
                                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
                                 @endif
                                 <div class="article-thumb-placeholder"

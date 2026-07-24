@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Support\PublicUpload;
 use App\Models\Communaute;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class CommunauteController extends Controller
 {
@@ -35,7 +35,7 @@ class CommunauteController extends Controller
 
         // Gestion de l'image
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('communautes', 'public');
+            $data['image'] = PublicUpload::store($request->file('image'), 'communautes');
         }
 
         Communaute::create($data);
@@ -65,9 +65,9 @@ class CommunauteController extends Controller
         if ($request->hasFile('image')) {
             // Suppression de l'ancienne image
             if ($communaute->image) {
-                Storage::disk('public')->delete($communaute->image);
+                PublicUpload::delete($communaute->image);
             }
-            $data['image'] = $request->file('image')->store('communautes', 'public');
+            $data['image'] = PublicUpload::store($request->file('image'), 'communautes');
         }
 
         $communaute->update($data);
@@ -86,7 +86,7 @@ class CommunauteController extends Controller
 
         // Suppression de l'image
         if ($communaute->image) {
-            Storage::disk('public')->delete($communaute->image);
+            PublicUpload::delete($communaute->image);
         }
 
         $communaute->delete();

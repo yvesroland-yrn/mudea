@@ -6,6 +6,7 @@ use App\Mail\ContactReceivedMail;
 use App\Mail\NewContactMail;
 use App\Models\Message;
 use App\Models\User;
+use App\Support\PublicUpload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -68,7 +69,7 @@ class ContactController extends Controller
 
         if ($request->hasFile('document')) {
             $file = $request->file('document');
-            $documentPath = $file->store('messages', 'public');
+            $documentPath = PublicUpload::store($file, 'messages');
         }
 
         $messageText = $validated['message'];
