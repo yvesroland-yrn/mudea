@@ -530,7 +530,7 @@
                 <tr data-record='@json($item->toArray())'>
                     <td style="width:80px; padding:8px 12px;">
                         @if($item->media)
-                            <img src="{{ Storage::url($item->media) }}" alt="{{ $item->titre }}"
+                            <img src="{{ asset($item->media) }}" alt="{{ $item->titre }}"
                                 style="width:70px; height:70px; object-fit:cover; border-radius:6px; border:1px solid var(--border); cursor:pointer;"
                                 title="Cliquer pour agrandir" onclick="openEducationRecordModal('view', this); return false;">
                         @else
@@ -740,7 +740,7 @@
             var mediaName = document.getElementById('media-name');
 
             if (record.media) {
-                var mediaPath = '/storage/' + record.media;
+                var mediaPath = '/' + record.media;
                 var ext = record.media.split('.').pop().toLowerCase();
 
                 mediaPreview.innerHTML = '';

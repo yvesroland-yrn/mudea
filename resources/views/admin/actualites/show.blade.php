@@ -252,7 +252,7 @@
 
         <div class="show-body">
             @if ($actualite->image)
-                <img src="{{ asset('storage/' . $actualite->image) }}" alt="{{ $actualite->titre }}" class="show-image">
+                <img src="{{ asset($actualite->image) }}" alt="{{ $actualite->titre }}" class="show-image">
             @endif
 
             <div class="show-section">

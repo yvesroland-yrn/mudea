@@ -1488,7 +1488,7 @@
                     <div class="project-card">
                         <div class="project-img">
                             @if($project->media)
-                                <img src="{{ asset('storage/' . $project->media) }}" alt="{{ $project->titre }}"
+                                <img src="{{ asset($project->media) }}" alt="{{ $project->titre }}"
                                     style="width:100%;height:100%;object-fit:cover;object-position:center center;image-rendering:auto;" onerror="this.parentElement.innerHTML='🖼️'">
                             @else
                                 <div style="width:100%;height:190px;display:flex;align-items:center;justify-content:center;font-size:2rem;">🖼️</div>
@@ -1532,7 +1532,7 @@
                         </div>
                         <div class="news-img">
                             @if($act->image)
-                                <img src="{{ asset('storage/' . $act->image) }}" alt="{{ $act->titre }}"
+                                <img src="{{ asset($act->image) }}" alt="{{ $act->titre }}"
                                     style="width:70px;height:70px;object-fit:cover;border-radius:8px;" onerror="this.parentElement.innerHTML='📰'">
                             @else
                                 <div style="width:70px;height:70px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:var(--off-white);">📰</div>

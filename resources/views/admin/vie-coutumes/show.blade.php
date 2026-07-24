@@ -324,9 +324,9 @@
                         <i class="fas fa-image"></i> Média
                     </div>
                     @if ($vieCoutume->type === 'video')
-                        <video src="{{ asset('storage/' . $vieCoutume->media) }}" class="detail-media" controls></video>
+                        <video src="{{ asset($vieCoutume->media) }}" class="detail-media" controls></video>
                     @else
-                        <img src="{{ asset('storage/' . $vieCoutume->media) }}" class="detail-media" alt="{{ $vieCoutume->titre }}">
+                        <img src="{{ asset($vieCoutume->media) }}" class="detail-media" alt="{{ $vieCoutume->titre }}">
                     @endif
                 </div>
             @endif

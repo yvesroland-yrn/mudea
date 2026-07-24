@@ -743,7 +743,7 @@
                             </div>
                             <div class="rubrique-photo">
                                 @if($entry->media)
-                                    <img src="{{ asset('storage/' . $entry->media) }}" alt="{{ $entry->titre }}"
+                                    <img src="{{ asset($entry->media) }}" alt="{{ $entry->titre }}"
                                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
                                 @else
                                     <div class="rubrique-photo-placeholder"><i class="fas fa-image"></i></div>
@@ -775,7 +775,7 @@
                         <div class="actu-item">
                             <div class="actu-thumb">
                                 @if($news->image)
-                                    <img src="{{ asset('storage/' . $news->image) }}" alt="{{ $news->titre }}"
+                                    <img src="{{ asset($news->image) }}" alt="{{ $news->titre }}"
                                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
                                 @else
                                     <div class="actu-thumb-placeholder"><i class="fas fa-newspaper"></i></div>

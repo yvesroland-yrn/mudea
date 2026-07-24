@@ -411,7 +411,7 @@
                 </div>
                 <div class="vc-card-img">
                     @if(!empty($vie->media))
-                        <img src="{{ asset('storage/' . $vie->media) }}" alt="{{ $vie->titre }}">
+                        <img src="{{ asset($vie->media) }}" alt="{{ $vie->titre }}">
                     @else
                         <img src="{{ asset('images/chefferie/1.JPG') }}" alt="{{ $vie->titre }}">
                     @endif

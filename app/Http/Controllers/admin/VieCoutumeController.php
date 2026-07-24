@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Support\PublicUpload;
 use App\Models\VieCoutume;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class VieCoutumeController extends Controller
 {
@@ -43,7 +43,7 @@ class VieCoutumeController extends Controller
 
         // Gestion du média
         if ($request->hasFile('media')) {
-            $data['media'] = $request->file('media')->store('vie-coutumes', 'public');
+            $data['media'] = PublicUpload::store($request->file('media'), 'vie-coutumes');
         }
 
         VieCoutume::create($data);
@@ -73,9 +73,9 @@ class VieCoutumeController extends Controller
         if ($request->hasFile('media')) {
             // Suppression de l'ancien média
             if ($vieCoutume->media) {
-                Storage::disk('public')->delete($vieCoutume->media);
+                PublicUpload::delete($vieCoutume->media);
             }
-            $data['media'] = $request->file('media')->store('vie-coutumes', 'public');
+            $data['media'] = PublicUpload::store($request->file('media'), 'vie-coutumes');
         }
 
         $vieCoutume->update($data);
@@ -94,7 +94,7 @@ class VieCoutumeController extends Controller
 
         // Suppression du média
         if ($vieCoutume->media) {
-            Storage::disk('public')->delete($vieCoutume->media);
+            PublicUpload::delete($vieCoutume->media);
         }
 
         $vieCoutume->delete();

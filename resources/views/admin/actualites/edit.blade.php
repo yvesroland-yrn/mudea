@@ -650,7 +650,7 @@
                     <div class="form-section">
                         <div class="form-section-title"><i class="fas fa-image"></i> Image à la une</div>
                         @if ($actualite->image)
-                            <img src="{{ asset('storage/' . $actualite->image) }}" class="-current-image"
+                            <img src="{{ asset($actualite->image) }}" class="-current-image"
                                 alt="Image actuelle">
                         @endif
                         <label class="upload-zone" for="image" id="uz-label">
